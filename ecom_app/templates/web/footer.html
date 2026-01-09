@@ -1,0 +1,169 @@
+{% load static %}
+ 
+ <footer class="bg-white">
+        <div class="max-w-8xl mx-auto">
+
+            <!-- Dark rounded card -->
+            <div class="relative rounded-t-[36px] rounded-b-none bg-brownMain text-white overflow-hidden">
+
+                <!-- Main footer content -->
+                <div class="px-8 sm:px-12 py-14">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10">
+
+                        <!-- Brand / Logo (5 cols) -->
+                        <div class="lg:col-span-5">
+                            <img src="{% static 'web/images/logowhite.png' %}" alt="Kanthi Mantra" class="h-20 w-auto object-contain" />
+
+                            <p class="mt-5 text-sm leading-relaxed text-white/75 max-w-md">
+                                Kanthi Mantra blends classical Ayurvedic wisdom with modern clinical care,
+                                offering thoughtful formulations and a calm heritage-led wellness experience.
+                            </p>
+
+                            <!-- Social Icons -->
+                            <div class="mt-6 flex items-center gap-4 text-white/80">
+
+                                <!-- Instagram -->
+                                <a href="#" aria-label="Instagram" class="hover:text-white transition">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="1.8">
+                                        <rect x="3" y="3" width="18" height="18" rx="5" />
+                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" />
+                                        <path d="M17.5 6.5h.01" />
+                                    </svg>
+                                </a>
+
+                                <!-- Facebook -->
+                                <a href="#" aria-label="Facebook" class="hover:text-white transition">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M22 12a10 10 0 1 0-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88
+              1.09 0 2.22.19 2.22.19v2.45h-1.25c-1.23 0-1.61.76-1.61 1.54V12h2.74l-.44 2.88h-2.3v6.99A10 10 0 0 0 22 12Z" />
+                                    </svg>
+                                </a>
+
+                                <!-- LinkedIn -->
+                                <a href="#" aria-label="LinkedIn" class="hover:text-white transition">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.48 1s2.5 1.12 2.5 2.5Z" />
+                                        <path d="M0.5 8.5H4.5V23H0.5V8.5Z" />
+                                        <path d="M8.5 8.5H12.3V10.5h.05c.53-1 1.83-2.06 3.77-2.06
+              4.03 0 4.78 2.65 4.78 6.1V23h-4V15.7c0-1.74-.03-3.98-2.43-3.98
+              -2.43 0-2.8 1.9-2.8 3.86V23h-4V8.5Z" />
+                                    </svg>
+                                </a>
+
+                                <!-- YouTube -->
+                                <a href="#" aria-label="YouTube" class="hover:text-white transition">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M23.5 6.2s-.23-1.64-.95-2.36c-.9-.95-1.9-.96-2.36-1.01C16.9 2.5 12 2.5 12 2.5h-.01
+              s-4.9 0-8.19.33c-.46.05-1.46.06-2.36 1.01C.73 4.56.5 6.2.5 6.2S0 8.13 0 10.06v1.81
+              c0 1.93.5 3.86.5 3.86s.23 1.64.95 2.36c.9.95 2.08.92 2.6 1.02
+              C6.9 19.5 12 19.5 12 19.5s4.9 0 8.19-.33c.46-.05 1.46-.06 2.36-1.01
+              .72-.72.95-2.36.95-2.36s.5-1.93.5-3.86v-1.81c0-1.93-.5-3.86-.5-3.86ZM9.75 14.6V7.9l6.2 3.35-6.2 3.35Z" />
+                                    </svg>
+                                </a>
+
+                                <!-- X -->
+                                <a href="#" aria-label="X" class="hover:text-white transition">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path
+                                            d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.3 22H3.2l7.3-8.4L1 2h6.4l4.4 5.7L18.9 2Zm-1.1 18h1.7L6.5 3.9H4.7L17.8 20Z" />
+                                    </svg>
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <!-- Contact (3 cols) -->
+                        <div class="lg:col-span-3">
+                            <h4 class="text-sm font-semibold text-white/90">Contact</h4>
+
+                            <ul class="mt-5 space-y-4 text-sm text-white/75 leading-relaxed">
+
+                                <!-- Address 1 -->
+                                <li>
+                                    <strong class="text-white/90 font-medium block mb-1">Registered Office</strong>
+                                    62/1238, B Paul Abrao Road,<br>
+                                    Ayyappankavu, North P.O,<br>
+                                    Ernakulam – 682018,<br>
+                                    Kerala, India
+                                </li>
+
+                                <!-- Phone -->
+                                <li>
+                                    <strong class="text-white/90 font-medium block mb-1">Phone</strong>
+
+                                    <div class="flex flex-wrap gap-x-4 gap-y-1">
+                                        <a href="tel:+919995100269" class="hover:text-white whitespace-nowrap">
+                                            +91 99951 00269
+                                        </a>
+                                        <a href="tel:+919995100296" class="hover:text-white whitespace-nowrap">
+                                            +91 99951 00296
+                                        </a>
+                                    </div>
+                                </li>
+
+
+                                <!-- Email -->
+                                <li>
+                                    <strong class="text-white/90 font-medium block mb-1">Email</strong>
+                                    <a href="mailto:navodithahealthcarepvtltd@gmail.com"
+                                        class="hover:text-white block break-all">
+                                        navodithahealthcarepvtltd@gmail.com
+                                    </a>
+                                    <a href="mailto:info@navodithahealthcare.com" class="hover:text-white block">
+                                        info@navodithahealthcare.com
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
+                        <!-- Quick Links (2 cols) -->
+                        <div class="lg:col-span-2">
+                            <h4 class="text-sm font-semibold text-white/90">Quick Links</h4>
+                            <ul class="mt-5 space-y-3 text-sm text-white/75">
+                                <li><a href="about.html" class="hover:text-white">About Us</a></li>
+                                <li><a href="shop.html" class="hover:text-white">Our Shop</a></li>
+                                <li><a href="gallery.html" class="hover:text-white">Gallery</a></li>
+                                <li><a href="blog.html" class="hover:text-white">Blog</a></li>
+                                <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Legal (2 cols) -->
+                        <div class="lg:col-span-2">
+                            <h4 class="text-sm font-semibold text-white/90">Legal</h4>
+                            <ul class="mt-5 space-y-3 text-sm text-white/75">
+                                <li><a href="terms.html" class="hover:text-white">Terms & Conditions</a></li>
+                                <li><a href="privacy.html" class="hover:text-white">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Bottom capsule -->
+                <div class="pb-5">
+                    <div class="mx-auto max-w-4xl px-6">
+                        <div class="rounded-[26px] bg-white text-zinc-800 px-6 py-4
+                   flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+                            <div>
+                                © <span id="year"></span> Kanthi Mantra. All rights reserved.
+                            </div>
+                            <div>
+                                Powered by
+                                <a href="https://cryoflame.in" target="_blank"
+                                    class="font-semibold text-brownMain hover:underline underline-offset-4">
+                                    Cryoflame Technologies
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </footer>

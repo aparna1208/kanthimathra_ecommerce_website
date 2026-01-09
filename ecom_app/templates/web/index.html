@@ -1,0 +1,1775 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- Kathimantra Banner Slider -->
+<section class="relative overflow-hidden banner-wrapper">
+
+    <div class="banner-slider" id="heroSlider">
+
+        <div class="banner-slide active">
+            <img src="{% static 'web/images/homeslider/1.jpg' %}" class="banner-bg">
+        </div>
+
+        <div class="banner-slide">
+            <img src="{% static 'web/images/homeslider/2.jpg' %}" class="banner-bg">
+        </div>
+
+        <div class="banner-slide">
+            <img src="{% static 'web/images/homeslider/3.jpg' %}" class="banner-bg">
+        </div>
+
+        <button class="nav prev" id="heroPrev" onclick="prevSlide()">❮</button>
+        <button class="nav next" id="heroNext" onclick="prevSlide()">❯</button>
+
+    </div>
+</section>
+
+
+<!-- Category Section -->
+<section class="py-16 sm:py-20 bg-white">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Category Card -->
+            <a href="shop.html?category=hair-care" class="group">
+                <div class="relative rounded-3xl overflow-hidden shadow-soft border border-line">
+                    <img src="{% static 'web/images/catogory/1.jpg' %}" alt="Hair Care"
+                        class="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105">
+
+                    <div class="absolute inset-0 flex items-end p-6">
+                        <div class="glass-box px-5 py-3 w-full text-center">
+                            <h3 class="text-lg font-semibold text-white font-rounded">
+                                Hair Care
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Category Card -->
+            <a href="shop.html?category=skin-care" class="group">
+                <div class="relative rounded-3xl overflow-hidden shadow-soft border border-line">
+                    <img src="{% static 'web/images/catogory/2.jpg' %}" alt="Skin Care"
+                        class="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105">
+
+                    <div class="absolute inset-0 flex items-end p-6">
+                        <div class="glass-box px-5 py-3 w-full text-center">
+                            <h3 class="text-lg font-semibold text-white font-rounded">
+                                Skin Care
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Category Card -->
+            <a href="shop.html?category=wellness" class="group">
+                <div class="relative rounded-3xl overflow-hidden shadow-soft border border-line">
+                    <img src="{% static 'web/images/catogory/3.jpg' %}" alt="Wellness"
+                        class="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105">
+
+                    <div class="absolute inset-0 flex items-end p-6">
+                        <div class="glass-box px-5 py-3 w-full text-center">
+                            <h3 class="text-lg font-semibold text-white font-rounded">
+                                Body Care
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Category Card -->
+            <a href="shop.html?category=consultation" class="group">
+                <div class="relative rounded-3xl overflow-hidden shadow-soft border border-line">
+                    <img src="{% static 'web/images/catogory/4.jpg' %}" alt="Consultation"
+                        class="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105">
+
+                    <div class="absolute inset-0 flex items-end p-6">
+                        <div class="glass-box px-5 py-3 w-full text-center">
+                            <h3 class="text-lg font-semibold text-white font-rounded">
+                                Consultation
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<section class="py-20 bg-white border-t border-line">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 reveal reveal-bottom">
+            <div>
+                <span class="text-sm font-medium tracking-wide text-brownMain font-rounded">
+                    Our Trending Products
+                </span>
+                <h2 class="mt-2 text-3xl sm:text-5xl font-[500] tracking-[-0.02em] font-rounded">
+                    Ayurvedic formulations for daily wellness
+                </h2>
+            </div>
+
+            <a href="shop.html" class="inline-flex items-center gap-2 rounded-xl bg-brownMain px-5 py-3 text-sm font-medium text-white
+                hover:bg-brownDark transition font-rounded">
+                View products
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 reveal reveal-bottom">
+
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <!-- Repeat similarly for products 4,5,6 -->
+
+        </div>
+    </div>
+</section>
+
+<!-- Offer Section -->
+<section class="py-16 sm:py-20 border-t border-line">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+        <!-- 6 / 6 Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+
+            <!-- LEFT : 4:3 Images -->
+            <div class="grid grid-cols-1 sm:grid-cols-1 gap-6">
+
+                <!-- Offer Card -->
+                <a href="#" class="group">
+                    <div class="relative rounded-3xl overflow-hidden border border-line shadow-soft aspect-[16/9]">
+                        <img src="{% static 'web/images/catogory/c1.jpg' %}" alt=""
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                    </div>
+                </a>
+
+                <a href="#" class="group">
+                    <div class="relative rounded-3xl overflow-hidden border border-line shadow-soft aspect-[16/9]">
+                        <img src="{% static 'web/images/catogory/c2.jpg' %}" alt=""
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-black/20"></div>
+                    </div>
+                </a>
+
+
+
+            </div>
+
+            <!-- RIGHT : 3:4 Vertical Slider -->
+            <div class="relative overflow-hidden rounded-3xl border border-line shadow-soft">
+
+                <div class="offer-slider-track">
+
+                    <div class="offer-slide aspect-[3/4]">
+                        <img src="{% static 'web/images/catogory/c3.jpg' %}" alt="" class="w-full h-full object-cover">
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="py-20 bg-white border-t border-line">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 reveal reveal-bottom">
+            <div>
+                <span class="text-sm font-medium tracking-wide text-brownMain font-rounded">
+                    Our Trending Products
+                </span>
+                <h2 class="mt-2 text-3xl sm:text-5xl font-[500] tracking-[-0.02em] font-rounded">
+                    Ayurvedic formulations for daily wellness
+                </h2>
+            </div>
+
+            <a href="shop.html" class="inline-flex items-center gap-2 rounded-xl bg-brownMain px-5 py-3 text-sm font-medium text-white
+                hover:bg-brownDark transition font-rounded">
+                View products
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 reveal reveal-bottom">
+
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Card -->
+            <div class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition">
+                <!-- Image -->
+                <div class="relative bg-soft">
+                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Cleanser"
+                        class="w-full aspect-square object-cover" />
+
+                    <!-- Offer badge -->
+                    <div class="absolute top-3 left-3">
+                        <span
+                            class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Top-right icons -->
+                    <div class="absolute top-3 right-3 flex flex-col gap-2">
+                        <!-- Wishlist -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to wishlist">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                            </svg>
+                        </button>
+
+                        <!-- Cart -->
+                        <button
+                            class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                            aria-label="Add to cart">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Content -->
+                <div class="p-5">
+                    <!-- Title -->
+                    <h3 class="text-[20px] font-semibold text-zinc-900 leading-tight">
+                        Herbal Hair Cleanser
+                    </h3>
+
+                    <!-- Rating row (perfectly aligned) -->
+                    <div class="mt-2 flex items-center gap-2">
+                        <div class="flex items-center gap-0.5">
+                            <!-- 4 full stars -->
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+
+                            <!-- 1 empty star -->
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <span class="text-[14px] text-zinc-600 leading-none">
+                            4.0 <span class="text-zinc-400">(128)</span>
+                        </span>
+                    </div>
+
+                    <!-- Price row (aligned baseline) -->
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-[18px] font-semibold text-brownMain">
+                            ₹499
+                        </span>
+
+                        <span class="text-[15px] line-through text-zinc-400">
+                            ₹699
+                        </span>
+
+                        <span class="text-[13px] font-semibold text-green-600">
+                            29% OFF
+                        </span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="mt-4 flex gap-2">
+                        <a href="product-detail.html"
+                            class="flex-1 rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Repeat similarly for products 4,5,6 -->
+
+        </div>
+    </div>
+</section>
+
+
+
+<section class="py-20 bg-white border-t border-line">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+        <!-- Video Wrapper -->
+        <div class="relative rounded-3xl overflow-hidden shadow-soft group reveal reveal-bottom">
+
+            <!-- Poster Image -->
+            <img src="{% static 'web/images/video.jpg' %}" alt="Kanthi Mantra video"
+                class="w-full aspect-[16/9] object-cover" />
+
+            <!-- Dark overlay -->
+            <div class="absolute inset-0 bg-black/20 transition group-hover:bg-black/40"></div>
+
+            <!-- Play Button -->
+            <button id="playVideo" class="absolute inset-0 flex items-center justify-center" aria-label="Play video">
+
+                <span class="h-20 w-20 rounded-full bg-white/90 grid place-items-center
+                     shadow-soft hover:scale-105 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brownMain ml-1" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                    </svg>
+                </span>
+            </button>
+
+            <!-- Video -->
+            <video id="videoEl" class="absolute inset-0 w-full h-full object-cover hidden" controls playsinline
+                preload="metadata">
+                <source src="{% static 'web/images/video.mp4' %}" type="video/mp4">
+            </video>
+
+
+        </div>
+    </div>
+</section>
+<!-- KANTHI MANTRA CATEGORY SECTION -->
+<section class="border-t border-line py-16">
+    <div class="max-w-7xl mx-auto px-4">
+
+        <!-- GRID -->
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+            <!-- Card 1 -->
+            <div class="bg-white p-5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.06)]
+               transition hover:-translate-y-1.5 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]">
+
+                <h3 class="text-xl font-bold text-slate-900 mb-4">
+                    Best Sellers in Ayurveda
+                </h3>
+
+                <div class="w-full overflow-hidden rounded-xl bg-slate-100">
+                    <img src="{% static 'web/images/cat/1.jpg' %}" alt="Best Sellers Ayurveda"
+                        class="w-full aspect-[3/4] object-cover" loading="lazy" />
+                </div>
+
+                <a href="#" class="inline-block mt-4 text-sm font-semibold text-[#6B3F2A] hover:underline">
+                    Explore best sellers
+                </a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white p-5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.06)]
+               transition hover:-translate-y-1.5 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]">
+
+                <h3 class="text-xl font-bold text-slate-900 mb-4">
+                    Daily Wellness Rituals
+                </h3>
+
+                <div class="w-full overflow-hidden rounded-xl bg-slate-100">
+                    <img src="{% static 'web/images/cat/2.jpg' %}" alt="Daily Wellness Rituals"
+                        class="w-full aspect-[3/4] object-cover" loading="lazy" />
+                </div>
+
+                <a href="#" class="inline-block mt-4 text-sm font-semibold text-[#6B3F2A] hover:underline">
+                    View wellness range
+                </a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white p-5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.06)]
+               transition hover:-translate-y-1.5 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]">
+
+                <h3 class="text-xl font-bold text-slate-900 mb-4">
+                    Hair & Skin Care
+                </h3>
+
+                <div class="w-full overflow-hidden rounded-xl bg-slate-100">
+                    <img src="{% static 'web/images/cat/3.jpg' %}" alt="Hair and Skin Care"
+                        class="w-full aspect-[3/4] object-cover" loading="lazy" />
+                </div>
+
+                <a href="#" class="inline-block mt-4 text-sm font-semibold text-[#6B3F2A] hover:underline">
+                    Care collections
+                </a>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white p-5 rounded-2xl shadow-[0_12px_30px_rgba(0,0,0,0.06)]
+               transition hover:-translate-y-1.5 hover:shadow-[0_18px_45px_rgba(0,0,0,0.10)]">
+
+                <h3 class="text-xl font-bold text-slate-900 mb-4">
+                    Traditional Remedies
+                </h3>
+
+                <div class="w-full overflow-hidden rounded-xl bg-slate-100">
+                    <img src="{% static 'web/images/cat/4.jpg' %}" alt="Traditional Remedies"
+                        class="w-full aspect-[3/4] object-cover" loading="lazy" />
+                </div>
+
+                <a href="#" class="inline-block mt-4 text-sm font-semibold text-[#6B3F2A] hover:underline">
+                    Discover remedies
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ====== 16:9 SLIDER BANNER (TAILWIND) ====== -->
+<section class="bg-white border-t border-line py-10">
+    <div class="max-w-7xl mx-auto px-4">
+
+        <div id="kmSlider" class="relative overflow-hidden rounded-2xl bg-black shadow-[0_18px_45px_rgba(0,0,0,0.15)]">
+            <!-- Track -->
+            <div id="kmTrack" class="flex transition-transform duration-700 ease-out will-change-transform">
+
+                <!-- Slide 1 -->
+                <a href="#" class="relative w-full shrink-0">
+                    <div class="relative w-full aspect-[21/9]">
+                        <img src="{% static 'web/images/bbanner/1.jpg' %}" alt="Ayurvedic Wellness"
+                            class="absolute inset-0 h-full w-full object-cover" />
+                        <div class="absolute inset-0">
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Slide 1 -->
+                <a href="#" class="relative w-full shrink-0">
+                    <div class="relative w-full aspect-[21/9]">
+                        <img src="{% static 'web/images/bbanner/2.jpg' %}" alt="Ayurvedic Wellness"
+                            class="absolute inset-0 h-full w-full object-cover" />
+                        <div class="absolute inset-0">
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Slide 1 -->
+                <a href="#" class="relative w-full shrink-0">
+                    <div class="relative w-full aspect-[21/9]">
+                        <img src="{% static 'web/images/bbanner/3.jpg' %}" alt="Ayurvedic Wellness"
+                            class="absolute inset-0 h-full w-full object-cover" />
+                        <div class="absolute inset-0">
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- Prev/Next -->
+            <button id="kmPrev"
+                class="absolute left-3 top-1/2 -translate-y-1/2 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur border border-white/20 text-white hover:bg-white/25 transition"
+                aria-label="Previous slide">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
+            </button>
+
+            <button id="kmNext"
+                class="absolute right-3 top-1/2 -translate-y-1/2 z-10 grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur border border-white/20 text-white hover:bg-white/25 transition"
+                aria-label="Next slide">
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 6l6 6-6 6" />
+                </svg>
+            </button>
+
+            <!-- Dots -->
+            <div id="kmDots" class="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-2"></div>
+        </div>
+
+    </div>
+</section>
+
+<section class="py-20 bg-white border-t border-line">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 reveal reveal-bottom">
+            <div>
+                <span class="text-sm font-medium tracking-wide text-brownMain font-rounded">
+                    Journal
+                </span>
+                <h2 class="mt-2 text-3xl sm:text-5xl font-[500] leading-[1.15] tracking-[-0.02em] font-rounded">
+                    Notes on Ayurveda & daily wellness
+                </h2>
+            </div>
+
+            <a href="blog.html" class="inline-flex items-center gap-2 rounded-xl bg-brownMain px-5 py-3 text-sm font-medium text-white
+                hover:bg-brownDark transition">
+                Shop Now
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                </svg>
+            </a>
+        </div>
+
+        <!-- Cards -->
+        <div class="mt-12 grid gap-6 lg:grid-cols-3 reveal reveal-bottom">
+
+            <!-- Blog Card 1 -->
+            <article class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                <a href="blog-single.html" class="block bg-soft">
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="{% static 'web/images/blog1.jpg' %}" alt="Blog cover"
+                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                </a>
+
+                <div class="p-6">
+                    <div class="text-xs text-zinc-500">Dec 12, 2025 • 4 min read</div>
+                    <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                        Understanding your routine: food, sleep, and consistency
+                    </h3>
+
+                    <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                        Small daily choices shape long-term wellness. Learn how consistent routines support balance
+                        and recovery.
+                    </p>
+
+                    <div class="mt-5">
+                        <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Card 2 -->
+            <article class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                <a href="blog-single.html" class="block bg-soft">
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="{% static 'web/images/blog2.jpg' %}" alt="Blog cover"
+                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                </a>
+
+                <div class="p-6">
+                    <div class="text-xs text-zinc-500">Dec 05, 2025 • 5 min read</div>
+                    <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                        What “clinic-first care” actually means (and why it matters)
+                    </h3>
+
+                    <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                        Why diagnosis should come before products. A simple explanation of our approach and what you
+                        can expect.
+                    </p>
+
+                    <div class="mt-5">
+                        <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Blog Card 3 -->
+            <article class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                <a href="blog-single.html" class="block bg-soft">
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="{% static 'web/images/blog3.jpg' %}" alt="Blog cover"
+                            class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                    </div>
+                </a>
+
+                <div class="p-6">
+                    <div class="text-xs text-zinc-500">Nov 28, 2025 • 6 min read</div>
+                    <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                        Herbs, preparation, and quality: what to look for
+                    </h3>
+
+                    <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                        Not all formulations are the same. Here’s how sourcing, method, and consistency affect
+                        outcomes.
+                    </p>
+
+                    <div class="mt-5">
+                        <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                            Read More
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+{% endblock %}
