@@ -25,33 +25,38 @@
                                                 <h5>Category Information</h5>
                                             </div>
 
-                                          <form action="">
+                                          <form action="{% url 'web:add_category' %}" method="POST" enctype="multipart/form-data">
+                                              {% csrf_token %}
                                               <div class="theme-form theme-form-2 mega-form">
                                                 <div class="mb-4 row align-items-center">
-                                                    <label class="form-label-title col-sm-3 mb-0">Name</label>
+                                                    <label class="form-label-title col-sm-3 mb-0">Category Name</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="text" placeholder="Category Name">
+                                                        <input class="form-control" type="text" name="category_name" placeholder="Enter Category Name" required>
                                                     </div>
                                                 </div>
-                                                 <div class="mb-4 row align-items-center">
+                                                <!-- Short Description -->
+                                                <div class="mb-4 row align-items-center">
                                                     <label class="form-label-title col-sm-3 mb-0">Description</label>
                                                     <div class="col-sm-9">
-                                                        <textarea name="cat_des" class="form-control" id=""></textarea>
+                                                        <textarea name="short_description" class="form-control" placeholder="Enter short description" rows="3"></textarea>
+                                                        <small class="text-muted">Brief description for the category</small>
                                                     </div>
                                                 </div>
 
+                                                <!-- Thumbnail Image -->
                                                 <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">
-                                                        Thumbnail Image</label>
+                                                    <label class="col-sm-3 col-form-label form-label-title">Thumbnail Image</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" id="formFile">
+                                                        <input class="form-control" type="file" name="thumbnail" accept="image/*">
+                                                        <small class="text-muted">Recommended size: 300x300px</small>
                                                     </div>
                                                 </div>
-                                                 <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Category
-                                                        Image</label>
+                                                <!-- Category Image -->
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Category Image</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="file" id="formFile">
+                                                        <input class="form-control" type="file" name="category_image" accept="image/*">
+                                                        <small class="text-muted">Recommended size: 1200x400px</small>
                                                     </div>
                                                 </div>
 

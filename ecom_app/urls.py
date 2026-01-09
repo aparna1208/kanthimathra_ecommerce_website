@@ -15,8 +15,10 @@ urlpatterns = [
 
 
     path('adminpanel/category/add/', views.add_category, name='add_category'),
-    path('adminpanel/all_categories/', views.category_list, name='category_list'),
-    path('adminpanel/view_category/', views.view_category, name='view_category'),
+    path('adminpanel/category/list/', views.category_list, name='category_list'),
+    path('adminpanel/category/<int:category_id>/edit/', views.edit_category, name='edit_category'),
+    path('adminpanel/category/<int:category_id>/delete/', views.delete_category, name='delete_category'),
+    path('adminpanel/category/<int:category_id>/view/', views.view_category, name='view_category'),
     path('adminpanel/product/add/', views.add_product, name='add_product'),
 
 

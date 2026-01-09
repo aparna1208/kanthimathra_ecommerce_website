@@ -1,0 +1,101 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/dropzone.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<!-- Edit Category Start -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-8 m-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-header-2">
+                                <h5>Edit Category</h5>
+                            </div>
+
+                            <form action="{% url 'web:edit_category' category.id %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="theme-form theme-form-2 mega-form">
+                                    
+                                    <!-- Category Name -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="form-label-title col-sm-3 mb-0">Category Name <span class="text-danger">*</span></label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" name="category_name" placeholder="Enter Category Name" value="{{ category.category_name }}" required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Short Description -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="form-label-title col-sm-3 mb-0">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea name="short_description" class="form-control" placeholder="Enter short description" rows="3">{{ category.short_description }}</textarea>
+                                            <small class="text-muted">Brief description for the category</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Thumbnail Image -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">Thumbnail Image</label>
+                                        <div class="col-sm-9">
+                                            {% if category.thumbnail %}
+                                                <div class="mb-3">
+                                                    <p class="text-muted">Current image:</p>
+                                                    <img src="{{ category.thumbnail.url }}" alt="{{ category.category_name }}" class="img-fluid" style="max-width: 200px; height: auto;">
+                                                </div>
+                                            {% endif %}
+                                            <input class="form-control" type="file" name="thumbnail" accept="image/*">
+                                            <small class="text-muted">Recommended size: 300x300px (Leave blank to keep current)</small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Category Image -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">Category Image</label>
+                                        <div class="col-sm-9">
+                                            {% if category.category_image %}
+                                                <div class="mb-3">
+                                                    <p class="text-muted">Current image:</p>
+                                                    <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}" class="img-fluid" style="max-width: 400px; height: auto;">
+                                                </div>
+                                            {% endif %}
+                                            <input class="form-control" type="file" name="category_image" accept="image/*">
+                                            <small class="text-muted">Recommended size: 1200x400px (Leave blank to keep current)</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-submit-button d-flex justify-content-between">
+                            <a href="{% url 'web:category_list' %}" class="btn btn-secondary">Cancel</a>
+                            <button class="btn btn-animation ms-auto" type="submit">Update Category</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+<script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+{% endblock %}
+
+<!-- Edit Category End -->
+{% endblock %}

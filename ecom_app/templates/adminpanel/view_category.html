@@ -31,20 +31,27 @@
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-3 mb-0">Name</label>
                                     <div class="col-sm-9">
-                                        <input class="form-control" type="text" placeholder="Category Name" readonly>
+                                        <input class="form-control" type="text" value="{{ category.category_name }}" readonly>
                                     </div>
                                 </div>
 
                                 <div class="mb-4 row align-items-center">
                                     <label class="form-label-title col-sm-3 mb-0">Description</label>
                                     <div class="col-sm-9">
-                                        <textarea name="cat_des" class="form-control" readonly></textarea>
+                                        <textarea name="cat_des" class="form-control" readonly>{{ category.short_description }}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="mb-4 row align-items-center">
                                     <label class="col-sm-3 col-form-label form-label-title">Thumbnail Image</label>
                                     <div class="col-sm-9">
+                                        {% if category.thumbnail %}
+                                            <div class="mb-3">
+                                                <img src="{{ category.thumbnail.url }}" alt="{{ category.category_name }} Thumbnail" class="img-fluid" style="max-width: 200px; height: auto;">
+                                            </div>
+                                        {% else %}
+                                            <p class="text-muted">No thumbnail image</p>
+                                        {% endif %}
                                         <input class="form-control" type="file" id="formFile" disabled>
                                     </div>
                                 </div>
@@ -52,6 +59,13 @@
                                 <div class="mb-4 row align-items-center">
                                     <label class="col-sm-3 col-form-label form-label-title">Category Image</label>
                                     <div class="col-sm-9">
+                                        {% if category.category_image %}
+                                            <div class="mb-3">
+                                                <img src="{{ category.category_image.url }}" alt="{{ category.category_name }} Image" class="img-fluid" style="max-width: 400px; height: auto;">
+                                            </div>
+                                        {% else %}
+                                            <p class="text-muted">No category image</p>
+                                        {% endif %}
                                         <input class="form-control" type="file" id="formFile" disabled>
                                     </div>
                                 </div>
@@ -59,9 +73,8 @@
                             </div>
 
                             <div class="card-submit-button d-flex justify-content-end gap-2">
-                                <button class="btn btn-animation" type="submit">Edit</button>
-
-                                <button class="btn btn-animation" type="submit">All Categories</button>
+                                <a href="{% url 'web:edit_category' category.id %}" class="btn btn-animation">Edit</a>
+                                <a href="{% url 'web:category_list' %}" class="btn btn-animation">All Categories</a>
                             </div>
 
 

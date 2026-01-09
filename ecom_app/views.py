@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
-from .models import PendingRegistration, EmailOTP
+from .models import PendingRegistration, EmailOTP, Category, Product
 
 
 
@@ -150,18 +150,92 @@ def login_view(request):
 #------------------------------------------------#
 
 
-# Add category
+
 def admin_dashboard(request):
     return render(request, 'adminpanel/dashboard.html')
 
+
+# Category list
+def category_list(request):
+    """List all categories."""
+    categories = Category.objects.all()
+    return render(request, 'adminpanel/category_list.html', {'categories': categories})
+
+# Add category
 def add_category(request):
+    if request.method == 'POST':
+        category_name = request.POST.get('category_name')
+        short_description = request.POST.get('short_description')
+        thumbnail = request.FILES.get('thumbnail')
+        category_image = request.FILES.get('category_image')
+
+        if not category_name:
+            messages.error(request, 'Category name is required')
+            return redirect('web:add_category')
+
+        if Category.objects.filter(category_name=category_name).exists():
+            messages.error(request, 'Category already exists')
+            return redirect('web:add_category')
+
+        category = Category.objects.create(
+            category_name=category_name,
+            short_description=short_description,
+            thumbnail=thumbnail,
+            category_image=category_image
+        )
+        messages.success(request, f'Category "{category_name}" added successfully')
+        return redirect('web:category_list')
+
     return render(request, 'adminpanel/add_category.html')
 
-def category_list(request):
-    return render(request, 'adminpanel/category_list.html')
+# Edit category
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
 
-def view_category(request):
-    return render(request, 'adminpanel/view_category.html')
+    if request.method == 'POST':
+        category_name = request.POST.get('category_name')
+        short_description = request.POST.get('short_description')
+        thumbnail = request.FILES.get('thumbnail')
+        category_image = request.FILES.get('category_image')
+
+        if not category_name:
+            messages.error(request, 'Category name is required')
+            return redirect('web:edit_category', category_id=category_id)
+
+        if Category.objects.filter(category_name=category_name).exclude(id=category_id).exists():
+            messages.error(request, 'Category name already exists')
+            return redirect('web:edit_category', category_id=category_id)
+
+        category.category_name = category_name
+        category.short_description = short_description
+
+        if thumbnail:
+            category.thumbnail = thumbnail
+        if category_image:
+            category.category_image = category_image
+
+        category.save()
+        messages.success(request, 'Category updated successfully')
+        return redirect('web:category_list')
+
+    return render(request, 'adminpanel/edit_category.html', {'category': category})
+
+# Delete category
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        category_name = category.category_name
+        category.delete()
+        messages.success(request, f'Category "{category_name}" deleted successfully')
+        return redirect('web:category_list')
+
+    return render(request, 'adminpanel/delete_category.html', {'category': category})
+
+# View category
+def view_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    return render(request, 'adminpanel/view_category.html', {'category': category})
 
 def add_product(request):
     return render(request, 'adminpanel/add_product.html')

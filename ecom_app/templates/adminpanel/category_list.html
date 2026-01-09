@@ -14,9 +14,9 @@
             <div class="card card-table">
                 <div class="card-body">
                     <div class="title-header option-title">
-                        <h5>All Category</h5>
+                        <h5>All Categories</h5>
                         <form class="d-inline-flex">
-                            <a href="add-new-category.html" class="align-items-center btn btn-theme d-flex">
+                            <a href="{% url 'web:add_category' %}" class="align-items-center btn btn-theme d-flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="feather feather-plus-square">
@@ -53,52 +53,57 @@
                                     </thead>
 
                                     <tbody>
-
-                                        <tr class="odd">
-                                             <td>
-                                                <div class="category-icon">
-                                                    <img src="{% static 'assets/images/product/1.png' %}" class="img-fluid" alt="">
-                                                </div>
-                                            </td>
-                                            <td>Aata Buscuit</td>
-
-                                            <td>26-12-2021</td>
-
-                                            <td>
-                                                <div class="table-image">
-                                                    <img src="{% static 'assets/images/product/1.png' %}" class="img-fluid" alt="">
-                                                </div>
-                                            </td>
-
-                                           
-
-                                            <td>buscuit...</td>
-
-                                            <td>
-                                                <ul>
-                                                    <li>
-                                                        <a href="{% url 'web:view_category' %}">
-                                                            <i class="ri-eye-line"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="javascript:void(0)">
-                                                            <i class="ri-pencil-line"></i>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModalToggle">
-                                                            <i class="ri-delete-bin-line"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                       
-                                      
+                                        {% if categories %}
+                                            {% for category in categories %}
+                                                <tr>
+                                                    <td>
+                                                        <div class="category-icon">
+                                                            {% if category.thumbnail %}
+                                                                <img src="{{ category.thumbnail.url }}" class="img-fluid" alt="{{ category.category_name }}">
+                                                            {% else %}
+                                                                <img src="{% static 'assets/images/product/placeholder.png' %}" class="img-fluid" alt="No image">
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ category.category_name }}</td>
+                                                    <td>{{ category.created_at|date:"d-m-Y" }}</td>
+                                                    <td>
+                                                        <div class="table-image">
+                                                            {% if category.category_image %}
+                                                                <img src="{{ category.category_image.url }}" class="img-fluid" alt="{{ category.category_name }}">
+                                                            {% else %}
+                                                                <img src="{% static 'assets/images/product/placeholder.png' %}" class="img-fluid" alt="No image">
+                                                            {% endif %}
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ category.short_description|truncatewords:10 }}</td>
+                                                    <td>
+                                                        <ul>
+                                                            <li>
+                                                                <a href="{% url 'web:view_category' category.id %}">
+                                                                    <i class="ri-eye-line"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{% url 'web:edit_category' category.id %}">
+                                                                    <i class="ri-pencil-line"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:void(0)" data-bs-toggle="modal"
+                                                                    data-bs-target="#deleteModal{{ category.id }}" data-category-id="{{ category.id }}">
+                                                                    <i class="ri-delete-bin-line"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">No categories found</td>
+                                            </tr>
+                                        {% endif %}
                                     </tbody>
                                 </table>
                             </div>
@@ -110,56 +115,33 @@
     </div>
 </div>
 <!-- Delete Modal Box Start -->
-    <div class="modal fade theme-modal remove-coupon" id="exampleModalToggle" aria-hidden="true" tabindex="-1">
+    {% for category in categories %}
+    <div class="modal fade theme-modal remove-coupon" id="deleteModal{{ category.id }}" aria-hidden="true" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header d-block text-center">
-                    <h5 class="modal-title w-100" id="exampleModalLabel22">Are You Sure ?</h5>
+                    <h5 class="modal-title w-100">Are You Sure?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="remove-box">
-                        <p>Are you sure you want to delete this category?</p>
+                        <p>Are you sure you want to delete the category <strong>{{ category.category_name }}</strong>?</p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-dismiss="modal">No</button>
-                    <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-target="#exampleModalToggle2"
-                        data-bs-toggle="modal" data-bs-dismiss="modal">Yes</button>
+                    <form method="POST" action="{% url 'web:delete_category' category.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-animation btn-md fw-bold">Yes, Delete</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade theme-modal remove-coupon" id="exampleModalToggle2" aria-hidden="true" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalLabel12">Done!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="remove-box text-center">
-                        <div class="wrapper">
-                            <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                                <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
-                                <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
-                            </svg>
-                        </div>
-                        <h4 class="text-content">It's Removed.</h4>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Delete Modal Box End -->
+    {% endfor %}
+<!-- Delete Modal Box End -->
 
 <!-- Category List End -->
 {% endblock %}
