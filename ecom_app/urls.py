@@ -7,6 +7,11 @@ urlpatterns = [
     
     #----WEB FRONTEND URLS----#
     path('', views.index, name='index'),
+    path('about/', views.about, name='about'),
+    path('category/', views.category, name='category'),
+    path('shop/', views.shop, name='shop'),
+    path('account/', views.account, name='account'),
+    path('product_detail/', views.product_detail, name='product_detail'),
 
 
 
@@ -20,16 +25,16 @@ urlpatterns = [
     path('adminpanel/category/<int:category_id>/delete/', views.delete_category, name='delete_category'),
     path('adminpanel/category/<int:category_id>/view/', views.view_category, name='view_category'),
     # product URLs
-    path('adminpanel/product/add/', views.add_product, name='add_product'),
+    # path('adminpanel/product/add/', views.add_product, name='add_product'),
 
 #     path('adminpanel/all_products/', views.product_list, name='product_list'),
 #     path('adminpanel/edit_product/', views.edit_product, name='edit_product'),
 #     path('adminpanel/view_product/', views.view_product, name='view_product'),
-# =======
+
 #     path('adminpanel/product/list/', views.product_list, name='product_list'),
 #     path('adminpanel/product/<int:product_id>/edit/', views.edit_product, name='edit_product'),
 #     path('adminpanel/product/<int:product_id>/delete/', views.delete_product, name='delete_product'),
-# >>>>>>> e246235 ( product functionality)
+
 
 
  ]

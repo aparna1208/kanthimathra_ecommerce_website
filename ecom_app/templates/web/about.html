@@ -1,0 +1,508 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+    <!-- PAGE HEADER -->
+    <section class="relative border-b border-line min-h-[40vh] sm:min-h-[60vh] flex items-center">
+
+        <!-- Background image -->
+        <div class="absolute inset-0 bg-cover bg-center pagebanner"></div>
+
+        <!-- Overlay for readability -->
+        <div class="absolute inset-0 bg-white/80"></div>
+
+        <!-- Content -->
+        <div class="relative px-6 w-full">
+            <div class="max-w-8xl mx-auto py-12 sm:py-16">
+
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                        <div class="text-sm sm:text-lg text-brownMain font-medium">
+                            About Us
+                        </div>
+
+                        <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                            Rooted in Ayurveda, practiced with intention
+                        </h1>
+
+                        <p class="mt-3 text-zinc-700">
+                            Kanthi Mantra is built on classical Ayurvedic principles, careful diagnosis, and a calm,
+                            methodical approach to long-term wellness.
+                        </p>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About section -->
+    <section class="py-20 bg-white overflow-hidden border-t border-line">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6">
+            <div class="grid gap-14 lg:grid-cols-2 items-center">
+
+                <div class="reveal reveal-left">
+                    <div class="relative">
+                        <img src="{% static 'web/images/about.jpg' %}" alt="Kanthi Mantra Ayurveda"
+                            class="w-full h-[420px] sm:h-[520px] object-cover rounded-3xl" />
+                        <div
+                            class="absolute inset-0 rounded-3xl bg-gradient-to-t from-black/10 via-transparent to-transparent">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal reveal-right">
+                    <span class="inline-block text-sm font-medium tracking-wide text-brownMain">About
+                        Kanthi Mantra</span>
+
+                    <h2 class="mt-4 text-3xl sm:text-5xl font-[500] leading-[1.15] tracking-[-0.02em]">
+                        Rooted in Ayurveda.<br class="hidden sm:block">
+                        Practiced with precision.
+                    </h2>
+
+                    <p class="mt-6 text-zinc-600 text-base sm:text-lg leading-relaxed">
+                        Kanthi Mantra is an Ayurvedic wellness practice built on classical principles,
+                        careful diagnosis, and personalised formulations. We combine time-tested
+                        Ayurvedic knowledge with a modern, methodical approach to care.
+                    </p>
+
+                    <div class="mt-8 space-y-6">
+                        <div>
+                            <h3 class="flex items-center gap-3 text-lg font-semibold text-zinc-900">
+                                <img src="{% static 'web/images/icon.png' %}" alt="" class="h-7 w-7 object-contain opacity-80" />
+                                Clinical Approach
+                            </h3>
+                            <p class="mt-2 text-zinc-600 leading-relaxed">
+                                Every consultation begins with a detailed assessment. Treatments and formulations are
+                                customised
+                                based on individual constitution and condition.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h3 class="flex items-center gap-3 text-lg font-semibold text-zinc-900">
+                                <img src="{% static 'web/images/icon.png' %}" alt="" class="h-7 w-7 object-contain opacity-80" />
+                                Heritage Experience
+                            </h3>
+                            <p class="mt-2 text-zinc-600 leading-relaxed">
+                                The Kanthi Mantra space is designed for quiet restoration — where heritage, environment,
+                                and care
+                                work together to support healing.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-20 bg-white border-t border-line">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Section Header -->
+            <div class="text-center max-w-4xl mx-auto reveal reveal-bottom">
+                <div class="text-sm sm:text-lg text-brownMain font-medium">
+                    Our Foundation
+                </div>
+                <h2 class="mt-3 text-3xl sm:text-5xl font-[500] leading-[1.15] tracking-[-0.02em]">
+                    Guided by purpose, practiced with care
+                </h2>
+                <p class="mt-4 text-zinc-600">
+                    Every decision at Kanthi Mantra is shaped by clarity, responsibility,
+                    and respect for classical Ayurveda.
+                </p>
+            </div>
+
+            <!-- Cards -->
+            <div class="mt-14 grid gap-8 lg:grid-cols-3 reveal reveal-bottom">
+
+                <!-- Mission -->
+                <div class="group relative rounded-3xl border border-line overflow-hidden bg-white
+         transition-all duration-500 hover:shadow-soft">
+
+                    <!-- Soft background image -->
+                    <div class="absolute inset-0 opacity-[0.15]
+           transition-transform duration-700 ease-out
+           group-hover:scale-105">
+                        <img src="{% static 'web/images/g1.jpg' %}" alt="" class="w-full h-full object-cover" />
+                    </div>
+
+                    <!-- Content -->
+                    <div class="relative p-8 text-center">
+
+                        <!-- Icon -->
+                        <img src="{% static 'web/images/icon.png' %}" alt="Mission" class="h-16 w-16 mx-auto object-contain
+             transition-transform duration-500 ease-out
+             group-hover:-translate-y-1 group-hover:scale-105" />
+
+                        <h3 class="mt-6 text-xl font-semibold text-zinc-900">
+                            Our Mission
+                        </h3>
+
+                        <p class="mt-3 text-zinc-600 leading-relaxed">
+                            To provide responsible Ayurvedic care through accurate diagnosis,
+                            thoughtful formulations, and consistent follow-up.
+                        </p>
+
+                    </div>
+                </div>
+
+                <!-- vision -->
+                <div class="group relative rounded-3xl border border-line overflow-hidden bg-white
+         transition-all duration-500 hover:shadow-soft">
+
+                    <!-- Soft background image -->
+                    <div class="absolute inset-0 opacity-[0.15]
+           transition-transform duration-700 ease-out
+           group-hover:scale-105">
+                        <img src="{% static 'web/images/g1.jpg' %}" alt="" class="w-full h-full object-cover" />
+                    </div>
+
+                    <!-- Content -->
+                    <div class="relative p-8 text-center">
+
+                        <img src="{% static 'web/images/icon.png' %}" alt="Our Vision" class="h-16 w-16 mx-auto object-contain
+             transition-all duration-500 ease-out
+             group-hover:-translate-y-1 group-hover:scale-105
+             group-hover:drop-shadow-[0_10px_20px_rgba(107,63,42,0.15)]" />
+
+                        <h3 class="mt-6 text-xl font-semibold text-zinc-900">
+                            Our Vision
+                        </h3>
+
+                        <p class="mt-3 text-zinc-600 leading-relaxed">
+                            To become a trusted Ayurvedic institution where clinical integrity,
+                            heritage wisdom, and modern care coexist.
+                        </p>
+
+                    </div>
+                </div>
+
+
+                <!-- Values -->
+                <div class="group relative rounded-3xl border border-line overflow-hidden bg-white
+         transition-all duration-500 hover:shadow-soft">
+
+                    <!-- Soft background image -->
+                    <div class="absolute inset-0 opacity-[0.15]
+           transition-transform duration-700 ease-out
+           group-hover:scale-105">
+                        <img src="{% static 'web/images/g1.jpg' %}" alt="" class="w-full h-full object-cover" />
+                    </div>
+
+                    <!-- Content -->
+                    <div class="relative p-8 text-center">
+
+                        <img src="{% static 'web/images/icon.png' %}" alt="Our Values" class="h-16 w-16 mx-auto object-contain
+             transition-all duration-500 ease-out
+             group-hover:-translate-y-1 group-hover:scale-105
+             group-hover:drop-shadow-[0_10px_20px_rgba(107,63,42,0.15)]" />
+
+                        <h3 class="mt-6 text-xl font-semibold text-zinc-900">
+                            Our Values
+                        </h3>
+
+                        <p class="mt-3 text-zinc-600 leading-relaxed">
+                            Integrity in diagnosis, discipline in follow-up, respect for tradition,
+                            and honesty in every formulation.
+                        </p>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="py-20 bg-white border-t border-line">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Header -->
+            <div class="max-w-5xl reveal reveal-bottom">
+                <div class="text-sm sm:text-lg text-brownMain font-medium">
+                    Brand Journey
+                </div>
+
+                <h2 class="mt-3 text-3xl sm:text-5xl font-[500] leading-[1.15] tracking-[-0.02em]">
+                    From heritage roots to modern clinical practice
+                </h2>
+
+                <p class="mt-4 text-zinc-600">
+                    A simple timeline of how Kanthi Mantra evolved—focused on process, discipline, and long-term care.
+                </p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="mt-12 grid gap-6 lg:grid-cols-2">
+
+                <!-- LEFT: Timeline cards -->
+                <div class="relative">
+
+                    <!-- vertical line -->
+                    <div class="absolute left-5 top-0 bottom-0 w-px bg-line reveal reveal-left"></div>
+
+                    <!-- Item 1 -->
+                    <div class="group relative pl-14 pb-8 reveal reveal-left">
+                        <div class="absolute left-[14px] top-1.5 h-3 w-3 rounded-full bg-brownMain"></div>
+
+                        <div class="rounded-3xl border border-line bg-white p-6 hover:shadow-soft transition">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="inline-flex items-center gap-2 text-xs font-medium text-brownMain">
+                                    <img src="{% static 'web/images/j4.png' %}" alt="" class="h-10 w-10 object-contain opacity-90">
+                                    The Beginning
+                                </div>
+                                <div class="text-xs text-zinc-500">Phase 01</div>
+                            </div>
+
+                            <h3 class="mt-3 text-lg font-semibold text-zinc-900">
+                                Classical roots and study-led practice
+                            </h3>
+                            <p class="mt-2 text-sm text-zinc-600 leading-relaxed">
+                                Grounded in classical Ayurvedic principles, with emphasis on understanding constitution,
+                                imbalance,
+                                and the discipline of routine.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="group relative pl-14 pb-8 reveal reveal-left">
+                        <div class="absolute left-[14px] top-1.5 h-3 w-3 rounded-full bg-brownMain"></div>
+
+                        <div class="rounded-3xl border border-line bg-white p-6 hover:shadow-soft transition">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="inline-flex items-center gap-2 text-xs font-medium text-brownMain">
+                                    <img src="{% static 'web/images/j3.png' %}" alt="" class="h-10 w-10 object-contain opacity-90">
+                                    Clinical Focus
+                                </div>
+                                <div class="text-xs text-zinc-500">Phase 02</div>
+                            </div>
+
+                            <h3 class="mt-3 text-lg font-semibold text-zinc-900">
+                                Diagnosis-first, not product-first
+                            </h3>
+                            <p class="mt-2 text-sm text-zinc-600 leading-relaxed">
+                                A clinic-first method—consultation, observation, and reasoning before recommending
+                                products or plans.
+                                Consistency is treated as part of therapy.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="group relative pl-14 pb-8 reveal reveal-left">
+                        <div class="absolute left-[14px] top-1.5 h-3 w-3 rounded-full bg-brownMain"></div>
+
+                        <div class="rounded-3xl border border-line bg-white p-6 hover:shadow-soft transition">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="inline-flex items-center gap-2 text-xs font-medium text-brownMain">
+                                    <img src="{% static 'web/images/j2.png' %}" alt="" class="h-10 w-10 object-contain opacity-90">
+                                    Thoughtful Formulation
+                                </div>
+                                <div class="text-xs text-zinc-500">Phase 03</div>
+                            </div>
+
+                            <h3 class="mt-3 text-lg font-semibold text-zinc-900">
+                                Formulations built with care and checks
+                            </h3>
+                            <p class="mt-2 text-sm text-zinc-600 leading-relaxed">
+                                Ingredients, preparation, and suitability matter. Formulations are aligned to the
+                                person,
+                                not trends—supported by quality habits and process.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="group relative pl-14 reveal reveal-left">
+                        <div class="absolute left-[14px] top-1.5 h-3 w-3 rounded-full bg-brownMain"></div>
+
+                        <div class="rounded-3xl border border-line bg-white p-6 hover:shadow-soft transition">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="inline-flex items-center gap-2 text-xs font-medium text-brownMain">
+                                    <img src="{% static 'web/images/j1.png' %}" alt="" class="h-10 w-10 object-contain opacity-90">
+                                    Heritage Experience
+                                </div>
+                                <div class="text-xs text-zinc-500">Phase 04</div>
+                            </div>
+
+                            <h3 class="mt-3 text-lg font-semibold text-zinc-900">
+                                A calm space designed for recovery
+                            </h3>
+                            <p class="mt-2 text-sm text-zinc-600 leading-relaxed">
+                                The environment supports the work—quiet, minimal, and heritage-led—so routines feel
+                                sustainable
+                                and care feels intentional.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT: Visual panel -->
+                <div class="lg:pl-10">
+                    <div class="rounded-3xl border border-line bg-soft overflow-hidden reveal reveal-right">
+                        <div class="aspect-[4/5]">
+                            <img src="{% static 'web/images/brandjourney.jpg' %}" alt="Kanthi Mantra Journey"
+                                class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+
+                    <div class="mt-6 rounded-3xl border border-line bg-white p-6 reveal reveal-right">
+                        <div class="flex items-start gap-3">
+                            <img src="{% static 'web/images/icon.png' %}" alt="Kanthi Mantra" class="h-16 w-auto object-contain">
+                            <div>
+                                <div class="text-sm font-semibold text-zinc-900">Our promise</div>
+                                <p class="mt-1 text-sm text-zinc-600 leading-relaxed">
+                                    We don’t chase quick fixes. We build care around diagnosis, routine, and
+                                    follow-up—so results stay stable.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="py-20 bg-soft">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Section Header -->
+            <div class="max-w-5xl reveal reveal-bottom">
+                <div class="text-sm sm:text-lg text-brownMain font-medium">
+                    Our Leadership
+                </div>
+
+                <h2 class="mt-2 text-3xl sm:text-5xl font-[500] leading-[1.15] tracking-[-0.02em]">
+                    Experience guiding every decision
+                </h2>
+
+                <p class="mt-3 text-zinc-600">
+                    A leadership team combining decades of expertise across Ayurveda, operations, finance, and strategy.
+                </p>
+            </div>
+
+            <!-- Team Grid -->
+            <div class="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 reveal reveal-bottom">
+
+                <!-- Member 1 -->
+                <div class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+
+                    <!-- Image -->
+                    <div class="bg-soft">
+                        <div class="aspect-[1/1] overflow-hidden">
+                            <img src="{% static 'web/images/assif.webp' %}" alt="Mohammed Assif"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-zinc-900">
+                            Mohammed Assif
+                        </h3>
+
+                        <div class="mt-1 text-sm text-brownMain font-medium">
+                            Managing Director of Navoditha
+                        </div>
+
+                        <p class="mt-4 text-sm text-zinc-600 leading-relaxed">
+                            A seasoned professional with 30 years of experience, including 19 years in Ayurveda
+                            manufacturing
+                            and marketing. Strong background in advertising, marketing, film production, and social
+                            work.
+                            As CEO of ADZ 360, successfully produced one feature film and three mega serials.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+
+                    <!-- Image -->
+                    <div class="bg-soft">
+                        <div class="aspect-[1/1] overflow-hidden">
+                            <img src="{% static 'web/images/ashkar.webp' %}" alt="Ashkar Sha. A."
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-zinc-900">
+                            Ashkar Sha. A.
+                        </h3>
+
+                        <div class="mt-1 text-sm text-brownMain font-medium">
+                            CEO of Navoditha
+                        </div>
+
+                        <p class="mt-4 text-sm text-zinc-600 leading-relaxed">
+                            A strategic professional with 5 years of experience in logistics and operations management.
+                            Proven expertise in optimizing warehouse operations and administrative systems.
+                            Previously worked as Operations Manager, Administrative Staff, Warehouse Assistant,
+                            and Warehouse Supervisor.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+
+                    <!-- Image -->
+                    <div class="bg-soft">
+                        <div class="aspect-[1/1] overflow-hidden">
+                            <img src="{% static 'web/images/anwar.webp' %}" alt="Anwar Sha A"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-zinc-900">
+                            Anwar Sha A
+                        </h3>
+
+                        <div class="mt-1 text-sm text-brownMain font-medium">
+                            Managing Partner of Navoditha
+                        </div>
+
+                        <p class="mt-4 text-sm text-zinc-600 leading-relaxed">
+                            An accounts payable professional with hands-on experience in invoice processing,
+                            vendor payments, employee reimbursements, and financial reconciliations.
+                            Skilled in SAP ERP, SAP Ariba, AIPIP, with strong expertise in month-end closing
+                            and audit support. Previously worked as Associate in Finance & Accounts.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+   

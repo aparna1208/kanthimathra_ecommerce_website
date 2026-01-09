@@ -1,0 +1,825 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+    <!-- PRODUCT DETAIL (Flipkart-style, White + Brown theme) -->
+    <section class="bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+
+            <!-- TOP: Image left + Info right -->
+            <div class="grid gap-8 lg:grid-cols-12">
+
+                <!-- LEFT: IMAGE AREA -->
+                <div class="lg:col-span-5">
+                    <div class="grid grid-cols-12 gap-4">
+
+                        <!-- Thumbnails -->
+                        <div class="col-span-2 hidden sm:flex flex-col gap-3">
+                            <button class="thumbBtn border-2 border-brownMain rounded-lg overflow-hidden bg-white"
+                                data-img="{% static 'web/images/products/clencer/p1.jpg' %}" aria-label="Thumbnail 1">
+                                <img src="{% static 'web/images/products/clencer/p1.jpg' %}" class="w-full aspect-square object-cover"
+                                    alt="">
+                            </button>
+
+                            <button
+                                class="thumbBtn border border-line rounded-lg overflow-hidden bg-white hover:border-brownMain/40 transition"
+                                data-img="{% static 'web/images/products/clencer/p2.jpg' %}" aria-label="Thumbnail 2">
+                                <img src="{% static 'web/images/products/clencer/p2.jpg' %}" class="w-full aspect-square object-cover"
+                                    alt="">
+                            </button>
+
+                            <button
+                                class="thumbBtn border border-line rounded-lg overflow-hidden bg-white hover:border-brownMain/40 transition"
+                                data-img="{% static 'web/images/products/clencer/p3.jpg' %}" aria-label="Thumbnail 3">
+                                <img src="{% static 'web/images/products/clencer/p3.jpg' %}" class="w-full aspect-square object-cover"
+                                    alt="">
+                            </button>
+
+                            <button
+                                class="thumbBtn border border-line rounded-lg overflow-hidden bg-white hover:border-brownMain/40 transition"
+                                data-img="{% static 'web/images/products/clencer/p1.jpg' %}" aria-label="Thumbnail 4">
+                                <img src="{% static 'web/images/products/clencer/p1.jpg' %}" class="w-full aspect-square object-cover"
+                                    alt="">
+                            </button>
+
+                            <button
+                                class="thumbBtn border border-line rounded-lg overflow-hidden bg-white hover:border-brownMain/40 transition"
+                                data-img="{% static 'web/images/products/clencer/p2.jpg' %}" aria-label="Thumbnail 5">
+                                <img src="{% static 'web/images/products/clencer/p2.jpg' %}" class="w-full aspect-square object-cover"
+                                    alt="">
+                            </button>
+                        </div>
+
+                        <!-- Main Image -->
+                        <div class="col-span-12 sm:col-span-10">
+                            <div class="relative border border-line rounded-lg overflow-hidden bg-white">
+
+                                <!-- Wishlist -->
+                                <button class="absolute top-3 right-3 z-10 h-10 w-10 rounded-full bg-white border border-line shadow-sm
+                       grid place-items-center hover:bg-soft transition" aria-label="Add to wishlist">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brownMain"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5
+                       c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1
+                       l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                                    </svg>
+                                </button>
+
+                                <!-- Main Image Wrapper -->
+                                <div id="zoomContainer"
+                                    class="relative overflow-hidden rounded-2xl border border-line bg-white cursor-zoom-in">
+                                    <img id="mainImage" src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Product Image"
+                                        class="w-full h-full object-contain transition-transform duration-200 ease-out" />
+                                </div>
+
+                            </div>
+
+                            <!-- Mobile thumbnails row -->
+                            <div class="mt-4 sm:hidden flex gap-3 overflow-x-auto pb-1">
+                                <button
+                                    class="thumbBtnM border-2 border-brownMain rounded-lg overflow-hidden shrink-0 w-20"
+                                    data-img="{% static 'web/images/products/clencer/p1.jpg' %}">
+                                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" class="w-full aspect-square object-cover"
+                                        alt="">
+                                </button>
+
+                                <button class="thumbBtnM border border-line rounded-lg overflow-hidden shrink-0 w-20"
+                                    data-img="{% static 'web/images/products/clencer/p2.jpg' %}">
+                                    <img src="{% static 'web/images/products/clencer/p2.jpg' %}" class="w-full aspect-square object-cover"
+                                        alt="">
+                                </button>
+
+                                <button class="thumbBtnM border border-line rounded-lg overflow-hidden shrink-0 w-20"
+                                    data-img="{% static 'web/images/products/clencer/p3.jpg' %}">
+                                    <img src="{% static 'web/images/products/clencer/p3.jpg' %}" class="w-full aspect-square object-cover"
+                                        alt="">
+                                </button>
+
+                                <button class="thumbBtnM border border-line rounded-lg overflow-hidden shrink-0 w-20"
+                                    data-img="{% static 'web/images/products/clencer/p1.jpg' %}">
+                                    <img src="{% static 'web/images/products/clencer/p1.jpg' %}" class="w-full aspect-square object-cover"
+                                        alt="">
+                                </button>
+
+                                <button class="thumbBtnM border border-line rounded-lg overflow-hidden shrink-0 w-20"
+                                    data-img="{% static 'web/images/products/clencer/p2.jpg' %}">
+                                    <img src="{% static 'web/images/products/clencer/p2.jpg' %}" class="w-full aspect-square object-cover"
+                                        alt="">
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- RIGHT: PRODUCT INFO + BUTTONS -->
+                <div class="lg:col-span-7">
+
+                    <h1 class="text-xl sm:text-2xl font-medium text-zinc-900 leading-snug">
+                        Herbal Hair Cleanser (Ayurvedic, Gentle Cleanse) – 200ml
+                    </h1>
+
+                    <!-- Ratings line + Stars (aligned) -->
+                    <div class="mt-2 flex flex-wrap items-center gap-3 text-sm">
+                        <!-- Badge rating -->
+                        <div
+                            class="inline-flex items-center gap-1 rounded bg-brownMain text-white px-2 py-0.5 font-semibold leading-none">
+                            4.3
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24"
+                                fill="currentColor">
+                                <path
+                                    d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                            </svg>
+                        </div>
+
+                        <!-- Stars (visual proof) -->
+                        <div class="flex items-center gap-0.5">
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                            <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                <use href="#star"></use>
+                            </svg>
+                        </div>
+
+                        <div class="text-zinc-600">1,248 Ratings & 210 Reviews</div>
+                        <span class="text-brownMain font-medium">Clinic-guided</span>
+                    </div>
+
+                    <!-- Price (Offer) -->
+                    <div class="mt-4 flex flex-wrap items-baseline gap-3">
+                        <div class="text-3xl font-semibold text-zinc-900">₹699</div>
+                        <div class="text-sm text-zinc-500 line-through">₹899</div>
+                        <div class="text-sm font-semibold text-green-600">22% OFF</div>
+                    </div>
+
+                    <div class="mt-2 text-sm text-zinc-600">
+                        Inclusive of taxes
+                    </div>
+
+                    <!-- Product Highlights -->
+                    <div class="mt-6">
+                        <div class="text-sm font-semibold text-zinc-900 mb-3">
+                            Product Highlights
+                        </div>
+
+                        <ul class="space-y-2 text-sm text-zinc-700">
+                            <li class="flex gap-3">
+                                <span class="mt-1.5 h-2 w-2 rounded-full bg-brownMain"></span>
+                                <span>Prepared using classical Ayurvedic formulation methods</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1.5 h-2 w-2 rounded-full bg-brownMain"></span>
+                                <span>Clinic-first approach with practitioner-backed formulation</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1.5 h-2 w-2 rounded-full bg-brownMain"></span>
+                                <span>No added artificial colours, fragrances, or parabens</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1.5 h-2 w-2 rounded-full bg-brownMain"></span>
+                                <span>Suitable for long-term, routine-based use</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span class="mt-1.5 h-2 w-2 rounded-full bg-brownMain"></span>
+                                <span>Manufactured under hygienic, quality-controlled conditions</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="mt-6 grid grid-cols-2 gap-3">
+                        <button
+                            class="h-12 rounded-md border-2 border-brownMain text-brownMain font-semibold hover:bg-soft transition">
+                            ADD TO CART
+                        </button>
+                        <button
+                            class="h-12 rounded-md bg-brownMain text-white font-semibold hover:bg-brownDark transition">
+                            BUY NOW
+                        </button>
+                    </div>
+
+                    <div class="mt-4 text-xs text-zinc-500">
+                        *Clinic-guided use recommended for best results.
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BOTTOM: FULL WIDTH DESCRIPTION / SPECS -->
+            <div class="mt-10 border-t border-line pt-10">
+                <div class="grid gap-6 lg:grid-cols-12">
+
+                    <!-- Description -->
+                    <div class="lg:col-span-8 rounded-2xl border border-line bg-white p-6">
+                        <h2 class="text-sm font-semibold text-zinc-900">Description</h2>
+                        <p class="mt-3 text-sm text-zinc-700 leading-relaxed">
+                            A gentle Ayurvedic hair cleanser prepared with traditional herbs for scalp comfort and
+                            long-term care.
+                            Designed for consistent routines and clinic-guided use, without harsh detergents or
+                            unnecessary additives.
+                        </p>
+
+                        <div class="mt-5">
+                            <h3 class="text-sm font-semibold text-zinc-900">How to use</h3>
+                            <ul class="mt-3 space-y-2 text-sm text-zinc-700 list-disc pl-5">
+                                <li>Wet hair and apply a small amount to scalp.</li>
+                                <li>Massage gently for 60 seconds.</li>
+                                <li>Rinse thoroughly. Repeat if needed.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Specs -->
+                    <div class="lg:col-span-4 rounded-2xl border border-line bg-white p-6">
+                        <h2 class="text-sm font-semibold text-zinc-900">Specifications</h2>
+
+                        <div class="mt-4 space-y-3 text-sm">
+                            <div class="flex justify-between gap-4">
+                                <span class="text-zinc-500">Net Quantity</span>
+                                <span class="text-zinc-900 font-medium">200 ml</span>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <span class="text-zinc-500">Category</span>
+                                <span class="text-zinc-900 font-medium">Hair Care</span>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <span class="text-zinc-500">Shelf Life</span>
+                                <span class="text-zinc-900 font-medium">24 Months</span>
+                            </div>
+                            <div class="flex justify-between gap-4">
+                                <span class="text-zinc-500">Country</span>
+                                <span class="text-zinc-900 font-medium">India</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- REVIEWS SECTION -->
+            <div class="mt-10 border-t border-line pt-10">
+                <div class="grid gap-6 lg:grid-cols-12">
+
+                    <!-- LEFT: Summary + Breakdown -->
+                    <div class="lg:col-span-12 rounded-2xl border border-line bg-white p-6">
+                        <h2 class="text-sm font-semibold text-zinc-900">Customer Reviews</h2>
+
+                        <div class="mt-4 flex items-end gap-3">
+                            <div class="text-4xl font-semibold text-zinc-900 leading-none">4.3</div>
+                            <div class="pb-1">
+                                <div class="flex items-center gap-0.5">
+                                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                        <use href="#star"></use>
+                                    </svg>
+                                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                        <use href="#star"></use>
+                                    </svg>
+                                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                        <use href="#star"></use>
+                                    </svg>
+                                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                        <use href="#star"></use>
+                                    </svg>
+                                    <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                        <use href="#star"></use>
+                                    </svg>
+                                </div>
+                                <div class="mt-1 text-xs text-zinc-500">1,248 Ratings • 210 Reviews</div>
+                            </div>
+                        </div>
+
+                        <!-- Rating bars -->
+                        <div class="mt-6 space-y-3 text-sm">
+                            <!-- Row -->
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 text-zinc-600">5★</span>
+                                <div class="h-2 flex-1 rounded-full bg-zinc-100 overflow-hidden">
+                                    <div class="h-full w-[62%] bg-brownMain"></div>
+                                </div>
+                                <span class="w-10 text-right text-zinc-500">62%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 text-zinc-600">4★</span>
+                                <div class="h-2 flex-1 rounded-full bg-zinc-100 overflow-hidden">
+                                    <div class="h-full w-[22%] bg-brownMain/80"></div>
+                                </div>
+                                <span class="w-10 text-right text-zinc-500">22%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 text-zinc-600">3★</span>
+                                <div class="h-2 flex-1 rounded-full bg-zinc-100 overflow-hidden">
+                                    <div class="h-full w-[9%] bg-brownMain/60"></div>
+                                </div>
+                                <span class="w-10 text-right text-zinc-500">9%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 text-zinc-600">2★</span>
+                                <div class="h-2 flex-1 rounded-full bg-zinc-100 overflow-hidden">
+                                    <div class="h-full w-[4%] bg-brownMain/40"></div>
+                                </div>
+                                <span class="w-10 text-right text-zinc-500">4%</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 text-zinc-600">1★</span>
+                                <div class="h-2 flex-1 rounded-full bg-zinc-100 overflow-hidden">
+                                    <div class="h-full w-[3%] bg-brownMain/30"></div>
+                                </div>
+                                <span class="w-10 text-right text-zinc-500">3%</span>
+                            </div>
+                        </div>
+
+                        <!-- Write review CTA -->
+                        <a href="#write">
+                            <button
+                                class="mt-6 w-full h-11 rounded-md border-2 border-brownMain text-brownMain font-semibold hover:bg-soft transition">
+                                WRITE A REVIEW
+                            </button>
+                        </a>
+                    </div>
+
+                    <!-- RIGHT: Reviews list + Form -->
+                    <div class="lg:col-span-12 space-y-6">
+
+                        <!-- Review cards -->
+                        <div class="rounded-2xl border border-line bg-white p-6">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <div
+                                            class="inline-flex items-center gap-1 rounded bg-brownMain text-white px-2 py-0.5 text-xs font-semibold">
+                                            5
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-sm font-semibold text-zinc-900">Super gentle, no dryness</h3>
+                                    </div>
+                                    <p class="mt-2 text-sm text-zinc-700 leading-relaxed">
+                                        I switched from regular shampoo and this feels much softer on the scalp. No
+                                        itching and hair feels clean.
+                                    </p>
+                                </div>
+                                <div class="text-xs text-zinc-500 whitespace-nowrap">2 days ago</div>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between text-xs text-zinc-500">
+                                <span>Arjun K • Verified Purchase</span>
+                            </div>
+                        </div>
+
+                        <div class="rounded-2xl border border-line bg-white p-6">
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <div
+                                            class="inline-flex items-center gap-1 rounded bg-brownMain text-white px-2 py-0.5 text-xs font-semibold">
+                                            4
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-sm font-semibold text-zinc-900">Good, but needs more quantity
+                                        </h3>
+                                    </div>
+                                    <p class="mt-2 text-sm text-zinc-700 leading-relaxed">
+                                        Works well but for my long hair I need a bit more product. Overall happy with
+                                        the result.
+                                    </p>
+                                </div>
+                                <div class="text-xs text-zinc-500 whitespace-nowrap">1 week ago</div>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between text-xs text-zinc-500">
+                                <span>Aiswarya R • Verified Purchase</span>
+                            </div>
+                        </div>
+
+                        <!-- Write Review Form -->
+                        <div class="rounded-2xl border border-line bg-white p-6" id="write">
+                            <h3 class="text-sm font-semibold text-zinc-900">Write a review</h3>
+
+                            <form class="mt-4 grid gap-4">
+                                <div class="grid gap-4 sm:grid-cols-2">
+                                    <div>
+                                        <label class="text-xs font-medium text-zinc-700">Name</label>
+                                        <input type="text"
+                                            class="mt-1 w-full h-11 rounded-md border border-line px-3 text-sm outline-none focus:border-brownMain"
+                                            placeholder="Your name">
+                                    </div>
+                                    <div>
+                                        <label class="text-xs font-medium text-zinc-700">Email</label>
+                                        <input type="email"
+                                            class="mt-1 w-full h-11 rounded-md border border-line px-3 text-sm outline-none focus:border-brownMain"
+                                            placeholder="you@example.com">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-medium text-zinc-700">Rating</label>
+                                    <select
+                                        class="mt-1 w-full h-11 rounded-md border border-line px-3 text-sm outline-none focus:border-brownMain">
+                                        <option>5 - Excellent</option>
+                                        <option>4 - Good</option>
+                                        <option>3 - Average</option>
+                                        <option>2 - Poor</option>
+                                        <option>1 - Bad</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="text-xs font-medium text-zinc-700">Review</label>
+                                    <textarea rows="4"
+                                        class="mt-1 w-full rounded-md border border-line px-3 py-2 text-sm outline-none focus:border-brownMain"
+                                        placeholder="Share your experience..."></textarea>
+                                </div>
+
+                                <button type="button"
+                                    class="h-11 rounded-md bg-brownMain text-white font-semibold hover:bg-brownDark transition">
+                                    SUBMIT REVIEW
+                                </button>
+
+                                <p class="text-xs text-zinc-500">
+                                    Note: On real sites, you should validate + store reviews in DB (don’t just collect
+                                    and throw away).
+                                </p>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- RELATED PRODUCTS -->
+            <div class="mt-10 border-t border-line pt-10">
+                <div class="flex items-end justify-between gap-4">
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-medium text-zinc-900 leading-snug">Related Products</h1>
+                        <p class="mt-1 text-sm text-zinc-600">Similar items you may like</p>
+                    </div>
+
+                    <a href="products.html" class="text-sm font-semibold text-brownMain hover:underline">
+                        View all
+                    </a>
+                </div>
+
+                <!-- Desktop grid / Mobile horizontal scroll -->
+                <div class="mt-6 -mx-4 px-4 sm:mx-0 sm:px-0">
+                    <div
+                        class="flex gap-4 overflow-x-auto pb-2 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 sm:overflow-visible">
+
+                        <!-- Card 1 -->
+                        <div
+                            class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition shrink-0 w-[78%] sm:w-auto">
+                            <!-- Image -->
+                            <div class="relative bg-soft">
+                                <img src="{% static 'web/images/products/clencer/p2.jpg' %}" alt="Herbal Hair Cleanser"
+                                    class="w-full aspect-square object-cover" />
+
+                                <!-- Offer badge -->
+                                <div class="absolute top-3 left-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                                        18% OFF
+                                    </span>
+                                </div>
+
+                                <!-- Top-right icons -->
+                                <div class="absolute top-3 right-3 flex flex-col gap-2">
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to wishlist">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                                        </svg>
+                                    </button>
+
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z
+                     M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Content -->
+                            <div class="p-5">
+                                <h3 class="text-[18px] font-semibold text-zinc-900 leading-tight">
+                                    Herbal Hair Cleanser
+                                </h3>
+
+                                <!-- Stars -->
+                                <div class="mt-2 flex items-center gap-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm text-zinc-600 leading-none">4.0 <span
+                                            class="text-zinc-400">(128)</span></span>
+                                </div>
+
+                                <!-- Price -->
+                                <div class="mt-3 flex items-baseline gap-2">
+                                    <span class="text-[18px] font-semibold text-brownMain">₹599</span>
+                                    <span class="text-[14px] line-through text-zinc-400">₹729</span>
+                                    <span class="text-[12px] font-semibold text-green-600">18% OFF</span>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="product-detail.html"
+                                        class="block w-full rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                                        Shop Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div
+                            class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition shrink-0 w-[78%] sm:w-auto">
+                            <div class="relative bg-soft">
+                                <img src="{% static 'web/images/products/clencer/p3.jpg' %}" alt="Herbal Scalp Tonic"
+                                    class="w-full aspect-square object-cover" />
+                                <div class="absolute top-3 left-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                                        25% OFF
+                                    </span>
+                                </div>
+                                <div class="absolute top-3 right-3 flex flex-col gap-2">
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to wishlist">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="text-[18px] font-semibold text-zinc-900 leading-tight">
+                                    Herbal Scalp Tonic
+                                </h3>
+
+                                <div class="mt-2 flex items-center gap-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm text-zinc-600 leading-none">4.1 <span
+                                            class="text-zinc-400">(86)</span></span>
+                                </div>
+
+                                <div class="mt-3 flex items-baseline gap-2">
+                                    <span class="text-[18px] font-semibold text-brownMain">₹449</span>
+                                    <span class="text-[14px] line-through text-zinc-400">₹599</span>
+                                    <span class="text-[12px] font-semibold text-green-600">25% OFF</span>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="product-detail.html"
+                                        class="block w-full rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                                        Shop Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div
+                            class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition shrink-0 w-[78%] sm:w-auto">
+                            <div class="relative bg-soft">
+                                <img src="{% static 'web/images/products/clencer/p1.jpg' %}" alt="Herbal Hair Oil"
+                                    class="w-full aspect-square object-cover" />
+                                <div class="absolute top-3 left-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                                        15% OFF
+                                    </span>
+                                </div>
+                                <div class="absolute top-3 right-3 flex flex-col gap-2">
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to wishlist">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="text-[18px] font-semibold text-zinc-900 leading-tight">
+                                    Herbal Hair Oil
+                                </h3>
+
+                                <div class="mt-2 flex items-center gap-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm text-zinc-600 leading-none">4.2 <span
+                                            class="text-zinc-400">(52)</span></span>
+                                </div>
+
+                                <div class="mt-3 flex items-baseline gap-2">
+                                    <span class="text-[18px] font-semibold text-brownMain">₹799</span>
+                                    <span class="text-[14px] line-through text-zinc-400">₹939</span>
+                                    <span class="text-[12px] font-semibold text-green-600">15% OFF</span>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="product-detail.html"
+                                        class="block w-full rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                                        Shop Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div
+                            class="group border border-line rounded-2xl overflow-hidden bg-white hover:shadow-soft transition shrink-0 w-[78%] sm:w-auto">
+                            <div class="relative bg-soft">
+                                <img src="{% static 'web/images/products/clencer/p2.jpg' %}" alt="Herbal Conditioner"
+                                    class="w-full aspect-square object-cover" />
+                                <div class="absolute top-3 left-3">
+                                    <span
+                                        class="inline-flex items-center rounded-full bg-brownMain text-white text-xs font-semibold px-3 py-1">
+                                        20% OFF
+                                    </span>
+                                </div>
+                                <div class="absolute top-3 right-3 flex flex-col gap-2">
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to wishlist">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M20.8 4.6c-1.8-1.7-4.7-1.5-6.3.4L12 7.6 9.5 5c-1.6-1.9-4.5-2.1-6.3-.4-2 1.9-2 5.2 0 7.1l8.8 8.5 8.8-8.5c2-1.9 2-5.2 0-7.1z" />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        class="h-9 w-9 rounded-full bg-white border border-line grid place-items-center hover:bg-soft transition"
+                                        aria-label="Add to cart">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 6h15l-1.5 8.5a2 2 0 0 1-2 1.7H9a2 2 0 0 1-2-1.6L5 3H2" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M17.5 21a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="p-5">
+                                <h3 class="text-[18px] font-semibold text-zinc-900 leading-tight">
+                                    Herbal Conditioner
+                                </h3>
+
+                                <div class="mt-2 flex items-center gap-2">
+                                    <div class="flex items-center gap-0.5">
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                        <svg class="w-4 h-4 text-zinc-300 fill-current" viewBox="0 0 20 20">
+                                            <use href="#star"></use>
+                                        </svg>
+                                    </div>
+                                    <span class="text-sm text-zinc-600 leading-none">4.0 <span
+                                            class="text-zinc-400">(34)</span></span>
+                                </div>
+
+                                <div class="mt-3 flex items-baseline gap-2">
+                                    <span class="text-[18px] font-semibold text-brownMain">₹399</span>
+                                    <span class="text-[14px] line-through text-zinc-400">₹499</span>
+                                    <span class="text-[12px] font-semibold text-green-600">20% OFF</span>
+                                </div>
+
+                                <div class="mt-4">
+                                    <a href="product-detail.html"
+                                        class="block w-full rounded-xl border border-brownMain text-brownMain py-2 text-sm text-center hover:bg-soft transition">
+                                        Shop Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Nice mobile scroll hint -->
+                <div class="mt-3 text-xs text-zinc-500 sm:hidden">
+                    Swipe to see more →
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reusable SVG symbol (keep once per page) -->
+    <svg class="hidden" aria-hidden="true">
+        <symbol id="star" viewBox="0 0 20 20">
+            <path
+                d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.561-.954L10 0l2.951 5.956 6.561.954-4.756 4.635 1.122 6.545z" />
+        </symbol>
+    </svg>
+
+{% endblock %}
+

@@ -143,6 +143,21 @@ def login_view(request):
 
 
 
+def about(request):
+    return render(request, 'web/about.html')
+
+def category(request):
+    return render(request, 'web/category.html')
+
+def shop(request):
+    return render(request, 'web/shop.html')
+
+def account(request):
+    return render(request, 'web/account.html')
+
+def product_detail(request):
+    return render(request, 'web/product_details.html')
+
 
 
 #------------------------------------------------#
