@@ -1,0 +1,494 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <!-- meta data -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Fastkart admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
+    <meta name="keywords"
+        content="admin template, Fastkart admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="pixelstrap">
+    <link rel="icon" href="{% static 'adminpanel/Images/icon.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'adminpanel/images/icon.png' %}" type="image/x-icon">
+    <title>KanthiMantra - Dashboard</title>
+
+    <!-- Google font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Linear Icon css -->
+    <link rel="stylesheet" href="{% static 'adminpanel/css/linearicon.css' %}">
+
+    <!-- Fontawesome css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/font-awesome.css' %}">
+
+    <!-- Themify icon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/themify.css' %}">
+
+    <!--Dropzon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/dropzone.css' %}">
+
+    <!-- Feather icon css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/feather-icon.css' %}">
+
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/remixicon.css' %}">
+
+    <!-- Select2 css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+
+    <!-- Plugins css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/scrollbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap.css' %}">
+    <!-- Bootstrap-tag input css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+
+    <!-- App css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/style.css' %}">
+</head>
+
+<body>
+    <!-- tap on top start -->
+    <div class="tap-top">
+        <span class="lnr lnr-chevron-up"></span>
+    </div>
+    <!-- tap on tap end -->
+
+    <!-- page-wrapper start -->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <!-- Page Header Start-->
+         {% include 'adminpanel/header.html' %}
+        <!-- Page Header Ends-->
+
+        <!-- Page Body start -->
+        <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+             {% include 'adminpanel/sidebar.html' %}
+            <!-- Page Sidebar Ends-->
+
+            <div class="page-body">
+
+                <!-- New Product Add Start -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-8 m-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-header-2">
+                                                <h5>Product Information</h5>
+                                            </div>
+
+                                            <form class="theme-form theme-form-2 mega-form">
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="form-label-title col-sm-3 mb-0">Product
+                                                        Name</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text"
+                                                            placeholder="Product Name">
+                                                    </div>
+                                                </div>
+
+                                                <!-- Category -->
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Category</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="js-example-basic-single w-100" name="category" required>
+                                                            <option value="" disabled selected>Select category</option>
+                                                            {% for category in categories %}
+                                                            <option value="{{ category.id }}"
+                                                                {% if product.category and product.category.id == category.id %}selected{% endif %}>
+                                                                {{ category.name }}
+                                                            </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                  <!-- Brand -->
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Brand</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="js-example-basic-single w-100" name="brand">
+                                                            <option value="">Select Brand</option>
+                                                            <option value="Kanthimantra" {% if product.brand == 'Kanthimantra' %}selected{% endif %}>
+                                                                Kanthimantra
+                                                            </option>
+                                                            <!-- Add more brands if needed -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Country</label>
+                                                    <div class="col-sm-9">
+                                                        <select class="js-example-basic-single w-100" name="country">
+                                                            <option value="">Select Country</option>
+                                                            <option value="India" {% if product.country == 'India' %}selected{% endif %}>
+                                                                India
+                                                            </option>
+                                                            <!-- Add more countries if needed -->
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                
+                                                <!-- Description -->
+                                                <div class="card-header-2"><h5>Description</h5></div>
+                                                <div class="mb-4">
+                                                    <textarea class="form-control" name="description" rows="5"
+                                                              placeholder="Product Description">{{ product.description|default:'' }}</textarea>
+                                                </div>
+
+                                                <!-- Product Images -->
+                                                <div class="card-header-2"><h5>Product Images</h5></div>
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Images</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control form-choose" type="file"
+                                                               id="productImages" name="product_images" multiple accept="image/*">
+
+                                                        <button type="button" id="addMoreImages"
+                                                                class="btn btn-outline-secondary btn-sm mt-2">
+                                                            + Add More Images
+                                                        </button>
+
+                                                        <small class="text-muted d-block mt-2">
+                                                            You can upload multiple images (Ctrl/Cmd + click)
+                                                        </small>
+
+                                                        <!-- Existing Images (Edit Mode) -->
+                                                        {% if product %}
+                                                        <div class="row mt-4">
+                                                            {% for img in product.images.all %}
+                                                            <div class="col-md-4 mb-4 position-relative existing-image" data-id="{{ img.id }}">
+                                                                <img src="{{ img.image.url }}"
+                                                                     class="img-fluid rounded border shadow-sm"
+                                                                     style="height:180px; width:100%; object-fit:cover;">
+                                                                <button type="button"
+                                                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle delete-existing">
+                                                                    &times;
+                                                                </button>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        {% endif %}
+
+                                                        <!-- New Images Preview -->
+                                                        <div id="imagePreview" class="d-flex flex-wrap gap-3 mt-4"></div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Thumbnail -->
+                                                <div class="card-header-2"><h5>Thumbnail Image</h5></div>
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Thumbnail</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control form-choose" type="file"
+                                                               id="thumbnailInput" name="thumbnail" accept="image/*">
+                                                        {% if product.thumbnail %}
+                                                        <div class="mt-3">
+                                                            <img src="{{ product.thumbnail.url }}"
+                                                                 class="border rounded shadow-sm"
+                                                                 style="width:150px; height:150px; object-fit:cover;">
+                                                        </div>
+                                                        {% else %}
+                                                        <img id="thumbnailPreview" src="" class="d-none border rounded shadow-sm mt-3"
+                                                             style="width:150px; height:150px; object-fit:cover;">
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+
+                                                <!-- Video -->
+                                                <div class="card-header-2"><h5>Product Video</h5></div>
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Video</label>
+                                                    <div class="col-sm-9">
+                                                        {% if product.video %}
+                                                        <div class="mb-3">
+                                                            <video width="300" controls class="rounded border shadow-sm">
+                                                                <source src="{{ product.video.url }}" type="video/mp4">
+                                                                Your browser does not support the video tag.
+                                                            </video>
+                                                        </div>
+                                                        {% endif %}
+
+                                                        <input class="form-control" type="file" id="productVideoInput"
+                                                               name="product_video" accept="video/*">
+
+                                                        <small class="text-muted">Recommended: MP4, WebM, OGG</small>
+
+                                                        <div class="mt-3">
+                                                            <video id="productVideoPreview" controls class="d-none rounded border shadow-sm" width="300"></video>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 form-label-title">Quantity</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="number" name="quantity"
+                                                                placeholder="0" step="0.01" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 form-label-title">Shelf life</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="number" name="shelf_life"
+                                                                placeholder="0" step="0.01" required>
+                                                    </div>
+                                                </div>
+
+                                                 <!-- Price -->
+                                                <div class="card-header-2"><h5>Product Price</h5></div>
+
+                                                    <div class="mb-4 row align-items-center">
+                                                        <label class="col-sm-3 form-label-title">Original Price</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="number" id="original_price"
+                                                                name="original_price" placeholder="0" step="0.01" required>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-4 row align-items-center">
+                                                        <label class="col-sm-3 form-label-title">Discount (%)</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="number" id="discount"
+                                                                name="discount" placeholder="0" step="0.01">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mb-4 row align-items-center">
+                                                        <label class="col-sm-3 form-label-title">Offer Price</label>
+                                                        <div class="col-sm-9">
+                                                            <input class="form-control" type="number" id="offer_price"
+                                                                name="offer_price" placeholder="0" step="0.01" readonly>
+                                                        </div>
+                                                    </div>
+
+
+                                                <!-- Inventory -->
+                                                <div class="card-header-2"><h5>Product Inventory</h5></div>
+
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Stock Status</label>
+                                                    <div class="col-sm-9">
+                                                        <select id="stock_status" class="js-example-basic-single w-100" name="state">
+                                                            <option value="In Stock" {% if product.stock_status != 'Out Of Stock' %}selected{% endif %}>In Stock</option>
+                                                            <option value="Out Of Stock" {% if product.stock_status == 'Out Of Stock' %}selected{% endif %}>Out Of Stock</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div id="quantity_group" class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Quantity</label>
+                                                    <div class="col-sm-9">
+                                                        <input id="quantity_input" class="form-control" type="number" name="quantity"
+                                                               value="{{ product.quantity|default:'0' }}" min="0" required>
+                                                    </div>
+                                                </div>
+
+                                               <div class="card mt-4 row align-items-center">
+                                                                        <div class="card-body">
+                                                                            <div class="card-header-2">
+                                                                                <h5>Product Highlights</h5>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="form-label-title col-sm-3 mb-0">
+                                                                                    Highlights (one per line)
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea class="form-control"
+                                                                                            name="highlights"
+                                                                                            rows="5"
+                                                                                            placeholder="Eg:Lightweight design
+                                                                                                            Water resistant
+                                                                                                            1 year warranty"
+                                                                  >{{ product.highlights|default:'' }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                </div>
+                                                <div class="card mt-4 row align-items-center">
+                                                                        <div class="card-body">
+                                                                            <div class="card-header-2">
+                                                                                <h5>How to use </h5>
+                                                                            </div>
+
+                                                                            <div class="row">
+                                                                                <label class="form-label-title col-sm-3 mb-0">
+                                                                                    How to use (one per line)
+                                                                                </label>
+                                                                                <div class="col-sm-9">
+                                                                                    <textarea class="form-control"
+                                                                                            name="how_to_use"
+                                                                                            rows="5"
+                                                                                            placeholder="Eg:Lightweight design
+                                                                                                            Water resistant
+                                                                                                            1 year warranty"
+                                                                  >{{ product.how_to_use|default:'' }}</textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                </div>
+
+                                                 <div class="card-header-2"><h5>Search engine listing</h5></div>
+                                                 <div class="mb-4 row align-items-center">
+                                                    <label class="form-label-title col-sm-3 mb-0">Page title</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="search"
+                                                            placeholder="Fresh Fruits">
+                                                    </div>
+                                                </div>
+                                                  <div class="mb-4 row">
+                                                    <label class="form-label-title col-sm-3 mb-0">Meta
+                                                        Keywords</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+
+
+                                                
+
+                                                <div class="mb-4 row">
+                                                    <label class="form-label-title col-sm-3 mb-0">Meta
+                                                        description</label>
+                                                    <div class="col-sm-9">
+                                                        <textarea class="form-control" rows="3"></textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <label class="form-label-title col-sm-3 mb-0">URL handle</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="search"
+                                                            placeholder="https://fastkart.com/fresh-veggies">
+                                                    </div>
+                                                </div>
+
+
+
+                                                <!-- Submit Button -->
+                                                <div class="card-submit-button text-end mt-4">
+                                                    <button class="btn btn-animation btn-primary px-5" type="submit">
+                                                     Add Product
+                                                    </button>
+                                                    </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+                                 
+
+                                 
+
+                                  
+                                    
+
+                               
+
+                                 
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product Add End -->
+
+                <!-- footer Start -->
+                  <!-- FOOTER -->
+                {% include 'adminpanel/footer.html' %}
+                <!-- footer End-->
+
+                <!-- footer En -->
+            </div>
+            <!-- Container-fluid End -->
+        </div>
+        <!-- Page Body End -->
+    </div>
+    <!-- page-wrapper End -->
+
+    <!-- Modal Start -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="modal-title" id="staticBackdropLabel">Logging Out</h5>
+                    <p>Are you sure you want to log out?</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="button-box">
+                        <button type="button" class="btn btn--no" data-bs-dismiss="modal">No</button>
+                        <button type="button" onclick="location.href = 'login.html';"
+                            class="btn  btn--yes btn-primary">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
+
+    <!-- latest js -->
+    <script src="{% static 'adminpanel/js/jquery-3.6.0.min.js' %}"></script>
+
+    <!-- Bootstrap js -->
+    <script src="{% static 'adminpanel/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- feather icon js -->
+    <script src="{% static 'adminpanel/js/icons/feather-icon/feather.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/icons/feather-icon/feather-icon.js' %}"></script>
+    <!-- scrollbar simplebar js -->
+    <script src="{% static 'adminpanel/js/scrollbar/simplebar.js' %}"></script>
+    <script src="{% static 'adminpanel/js/scrollbar/custom.js' %}"></script>
+
+    <!-- Sidebar js -->
+    <script src="{% static 'adminpanel/js/config.js' %}"></script>
+
+    <!-- bootstrap tag-input js -->
+    <script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/sidebar-menu.js' %}"></script>
+    <!-- customizer js -->
+    <script src="{% static 'adminpanel/js/customizer.js' %}"></script>
+
+    <!--Dropzon js -->
+    <script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+
+    <!-- Plugins js -->
+    <script src="{% static 'adminpanel/js/notify/bootstrap-notify.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/notify/index.js' %}"></script>
+
+    <!-- ck editor js -->
+    <script src="{% static 'adminpanel/js/ckeditor.js' %}"></script>
+    <script src="{% static 'adminpanel/js/ckeditor-custom.js' %}"></script>
+    <!-- select2 js -->
+    <script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+
+    <!-- sidebar effect -->
+    <script src="{% static 'adminpanel/js/sidebareffect.js' %}"></script>
+    <!-- Theme js -->
+    <script src="{% static 'adminpanel/js/script.js' %}"></script>
+
+        <!-- Your custom JS files -->
+    <script src="{% static 'adminpanel/js/adminpanel.js' %}"></script>
+
+    <!-- NEW: Separate stock toggle script -->
+    <script src="{% static 'adminpanel/js/product-stock.js' %}"></script>
+    <script src="{% static 'adminpanel/js/product_price.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/dropzone.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<!-- New Product Add Start -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-8 m-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-header-2">
+                                <h5>Category Information</h5>
+                            </div>
+
+
+
+                            <div class="theme-form theme-form-2 mega-form">
+
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-3 mb-0">Name</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text" placeholder="Category Name" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-3 mb-0">Description</label>
+                                    <div class="col-sm-9">
+                                        <textarea name="cat_des" class="form-control" readonly></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4 row align-items-center">
+                                    <label class="col-sm-3 col-form-label form-label-title">Thumbnail Image</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="file" id="formFile" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4 row align-items-center">
+                                    <label class="col-sm-3 col-form-label form-label-title">Category Image</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="file" id="formFile" disabled>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-submit-button d-flex justify-content-end gap-2">
+                                <button class="btn btn-animation" type="submit">Edit</button>
+
+                                <button class="btn btn-animation" type="submit">All Categories</button>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block extra_js %}
+
+    <script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+    <script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+    <script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+
+    {% endblock %}
+
+
+
+    <!-- New Product Add End -->
+    {% endblock %}

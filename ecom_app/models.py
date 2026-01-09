@@ -55,6 +55,7 @@ class Product(models.Model):
     thumbnail = models.ImageField(upload_to='product_thumbnail/')
     quantity = models.IntegerField(validators=[MinValueValidator(0)])
     stock = models.CharField(max_length=15, choices=STOCK_CHOICES, default='instock')
+    brand = models.CharField(max_length=255, default="Kanthimantra")
     # SEO Fields
     page_title = models.CharField(max_length=60, blank=True, null=True, help_text="SEO page title (60 chars max)")
     meta_description = models.CharField(max_length=160, blank=True, null=True, help_text="SEO meta description (160 chars max)")
@@ -65,8 +66,8 @@ class Product(models.Model):
     discount_percentage = models.FloatField(validators=[MinValueValidator(0), MaxValueValidator(100)], default=0)
     offer_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], default=0)
     product_highlight = models.CharField(max_length=1000, blank=True, help_text="Enter highlights separated by commas (max 5-6 points)")
-    description = models.TextField(blank=True, null=True)
-    how_to_use = models.TextField(blank=True, null=True)
+    description = models.TextField(max_length=300,blank=True, null=True)
+    how_to_use = models.TextField(max_length=100,blank=True, null=True)
     shelf_life = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -188,3 +189,4 @@ class ReviewRating(models.Model):
     
     def __str__(self):
         return f"Review by {self.user.user.first_name} for {self.product.product_name}"
+

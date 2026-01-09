@@ -150,3 +150,18 @@ def login_view(request):
 #------------------------------------------------#
 
 
+# Add category
+def admin_dashboard(request):
+    return render(request, 'adminpanel/dashboard.html')
+
+def add_category(request):
+    return render(request, 'adminpanel/add_category.html')
+
+def category_list(request):
+    return render(request, 'adminpanel/category_list.html')
+
+def view_category(request):
+    return render(request, 'adminpanel/view_category.html')
+
+def add_product(request):
+    return render(request, 'adminpanel/add_product.html')
