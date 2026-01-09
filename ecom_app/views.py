@@ -165,3 +165,12 @@ def view_category(request):
 
 def add_product(request):
     return render(request, 'adminpanel/add_product.html')
+
+def product_list(request):
+    return render(request, 'adminpanel/product_list.html')
+
+def edit_product(request):
+    return render(request, 'adminpanel/edit_product.html')
+
+def view_product(request):
+    return render(request, 'adminpanel/view_product.html')

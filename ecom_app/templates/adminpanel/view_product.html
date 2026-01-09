@@ -1,0 +1,462 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <!-- meta data -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Fastkart admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
+    <meta name="keywords"
+        content="admin template, Fastkart admin template, dashboard template, flat admin template, responsive admin template, web app">
+    <meta name="author" content="pixelstrap">
+    <link rel="icon" href="{% static 'adminpanel/Images/icon.png' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'adminpanel/images/icon.png' %}" type="image/x-icon">
+    <title>KanthiMantra - Dashboard</title>
+
+    <!-- Google font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+    <!-- Linear Icon css -->
+    <link rel="stylesheet" href="{% static 'adminpanel/css/linearicon.css' %}">
+
+    <!-- Fontawesome css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/font-awesome.css' %}">
+
+    <!-- Themify icon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/themify.css' %}">
+
+    <!--Dropzon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/dropzone.css' %}">
+
+    <!-- Feather icon css-->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/feather-icon.css' %}">
+
+    <!-- remixicon css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/remixicon.css' %}">
+
+    <!-- Select2 css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+
+    <!-- Plugins css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/scrollbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/animate.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+
+    <!-- Bootstrap css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap.css' %}">
+    <!-- Bootstrap-tag input css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+
+    <!-- App css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/style.css' %}">
+    <style>
+        .view-box {
+            background: #f8f9fa;
+            border: 1px solid #e2e5ec;
+            border-radius: 6px;
+            padding: 10px 14px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+
+        .view-box-textarea {
+            min-height: 120px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- tap on top start -->
+    <div class="tap-top">
+        <span class="lnr lnr-chevron-up"></span>
+    </div>
+    <!-- tap on tap end -->
+
+    <!-- page-wrapper start -->
+    <div class="page-wrapper compact-wrapper" id="pageWrapper">
+        <!-- Page Header Start-->
+        {% include 'adminpanel/header.html' %}
+        <!-- Page Header Ends-->
+
+        <!-- Page Body start -->
+        <div class="page-body-wrapper">
+            <!-- Page Sidebar Start-->
+            {% include 'adminpanel/sidebar.html' %}
+            <!-- Page Sidebar Ends-->
+
+            <div class="page-body">
+
+                <!-- New Product Add Start -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-8 m-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-header-2">
+                                                <h5>Product Information</h5>
+                                            </div>
+
+                                            <form class="theme-form theme-form-2 mega-form">
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Product Name</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.name }}</div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Category -->
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Category</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.category.name }}</div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Brand -->
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Brand</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.brand }}</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Country</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.country }}</div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <!-- Description -->
+
+                                                <div class="card-header-2">
+                                                    <h5>Description</h5>
+                                                </div>
+
+                                                <div class="mb-4">
+                                                    <div class="view-box view-box-textarea">
+                                                        {{ product.description }}
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Product Images -->
+
+                                                <div class="card-header-2">
+                                                    <h5>Product Images</h5>
+                                                </div>
+
+                                                <div class="d-flex flex-wrap gap-3 mt-3">
+                                                    {% if product.images.all %}
+                                                    {% for img in product.images.all %}
+                                                    <img src="{{ img.image.url }}" width="90" height="90"
+                                                        class="border rounded shadow-sm" style="object-fit:cover;">
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <p class="text-muted">No images available</p>
+                                                    {% endif %}
+                                                </div>
+
+
+                                                <!-- Thumbnail -->
+
+                                                <div class="card-header-2 mt-4">
+                                                    <h5>Thumbnail Image</h5>
+                                                </div>
+
+                                                {% if product.thumbnail %}
+                                                <img src="{{ product.thumbnail.url }}" width="120" height="120"
+                                                    class="border rounded shadow-sm" style="object-fit:cover;">
+                                                {% else %}
+                                                <p class="text-muted">No thumbnail available</p>
+                                                {% endif %}
+
+                                                <!-- Video -->
+                                                <div class="card-header-2 mt-4">
+                                                    <h5>Product Video</h5>
+                                                </div>
+
+                                                {% if product.video %}
+                                                <video width="260" controls class="rounded shadow-sm border">
+                                                    <source src="{{ product.video.url }}">
+                                                </video>
+                                                {% else %}
+                                                <p class="text-muted">No video available</p>
+                                                {% endif %}
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Quantity</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">
+                                                            {{ product.quantity }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Shelf life</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">
+                                                            {{ product.shelf_life }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Price -->
+                                                <div class="card-header-2 mt-4">
+                                                    <h5>Price</h5>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Original Price</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">₹ {{ product.original_price }}</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Discount</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.discount }}%</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Offer Price</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">₹ {{ product.offer_price }}</div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <!-- Inventory -->
+                                                <div class="card-header-2">
+                                                    <h5>Product Inventory</h5>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Stock Status</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.stock_status }}</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Quantity</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.quantity }}</div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card mt-4 row align-items-center">
+                                                    <div class="card-body">
+                                                        <div class="card-header-2">
+                                                            <h5>Product Highlights</h5>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="form-label-title col-sm-3 mb-0">
+                                                                Highlights
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <div class="view-box view-box-textarea">
+                                                                    {{ product.highlights|default:"N/A" }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card mt-4 row align-items-center">
+                                                    <div class="card-body">
+                                                        <div class="card-header-2">
+                                                            <h5>How to Use</h5>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <label class="form-label-title col-sm-3 mb-0">
+                                                                How to use
+                                                            </label>
+                                                            <div class="col-sm-9">
+                                                                <div class="view-box view-box-textarea">
+                                                                    {{ product.how_to_use|default:"N/A" }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="card-header-2">
+                                                    <h5>Search Engine Listing</h5>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="form-label-title col-sm-3 mb-0">Page Title</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">
+                                                            {{ product.page_title|default:"N/A" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="form-label-title col-sm-3 mb-0">Meta Keywords</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box view-box-textarea">
+                                                            {{ product.meta_keywords|default:"N/A" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="form-label-title col-sm-3 mb-0">Meta
+                                                        Description</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box view-box-textarea">
+                                                            {{ product.meta_description|default:"N/A" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <label class="form-label-title col-sm-3 mb-0">URL Handle</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">
+                                                            {{ product.slug|default:"N/A" }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+                                                <div class="card-submit-button d-flex justify-content-end gap-2">
+                                <button class="btn btn-animation" type="submit">Edit</button>
+
+                                <button class="btn btn-animation" type="submit">All Products</button>
+                            </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Product Add End -->
+
+                <!-- footer Start -->
+                <!-- FOOTER -->
+                {% include 'adminpanel/footer.html' %}
+                <!-- footer End-->
+
+                <!-- footer En -->
+            </div>
+            <!-- Container-fluid End -->
+        </div>
+        <!-- Page Body End -->
+    </div>
+    <!-- page-wrapper End -->
+
+    <!-- Modal Start -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="modal-title" id="staticBackdropLabel">Logging Out</h5>
+                    <p>Are you sure you want to log out?</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="button-box">
+                        <button type="button" class="btn btn--no" data-bs-dismiss="modal">No</button>
+                        <button type="button" onclick="location.href = 'login.html';"
+                            class="btn  btn--yes btn-primary">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
+
+    <!-- latest js -->
+    <script src="{% static 'adminpanel/js/jquery-3.6.0.min.js' %}"></script>
+
+    <!-- Bootstrap js -->
+    <script src="{% static 'adminpanel/js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+
+    <!-- feather icon js -->
+    <script src="{% static 'adminpanel/js/icons/feather-icon/feather.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/icons/feather-icon/feather-icon.js' %}"></script>
+    <!-- scrollbar simplebar js -->
+    <script src="{% static 'adminpanel/js/scrollbar/simplebar.js' %}"></script>
+    <script src="{% static 'adminpanel/js/scrollbar/custom.js' %}"></script>
+
+    <!-- Sidebar js -->
+    <script src="{% static 'adminpanel/js/config.js' %}"></script>
+
+    <!-- bootstrap tag-input js -->
+    <script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/sidebar-menu.js' %}"></script>
+    <!-- customizer js -->
+    <script src="{% static 'adminpanel/js/customizer.js' %}"></script>
+
+    <!--Dropzon js -->
+    <script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+
+    <!-- Plugins js -->
+    <script src="{% static 'adminpanel/js/notify/bootstrap-notify.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/notify/index.js' %}"></script>
+
+    <!-- ck editor js -->
+    <script src="{% static 'adminpanel/js/ckeditor.js' %}"></script>
+    <script src="{% static 'adminpanel/js/ckeditor-custom.js' %}"></script>
+    <!-- select2 js -->
+    <script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+
+    <!-- sidebar effect -->
+    <script src="{% static 'adminpanel/js/sidebareffect.js' %}"></script>
+    <!-- Theme js -->
+    <script src="{% static 'adminpanel/js/script.js' %}"></script>
+
+    <!-- Your custom JS files -->
+    <script src="{% static 'adminpanel/js/adminpanel.js' %}"></script>
+
+    <!-- NEW: Separate stock toggle script -->
+    <script src="{% static 'adminpanel/js/product-stock.js' %}"></script>
+    <script src="{% static 'adminpanel/js/product_price.js' %}"></script>
+</body>
+
+</html>

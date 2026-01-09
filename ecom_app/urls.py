@@ -18,6 +18,9 @@ urlpatterns = [
     path('adminpanel/all_categories/', views.category_list, name='category_list'),
     path('adminpanel/view_category/', views.view_category, name='view_category'),
     path('adminpanel/product/add/', views.add_product, name='add_product'),
+    path('adminpanel/all_products/', views.product_list, name='product_list'),
+    path('adminpanel/edit_product/', views.edit_product, name='edit_product'),
+    path('adminpanel/view_product/', views.view_product, name='view_product'),
 
 
 ]
