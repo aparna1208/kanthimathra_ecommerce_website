@@ -1,0 +1,206 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+{% if messages %}
+    <div class="max-w-xl mx-auto mb-6">
+        {% for message in messages %}
+            <div class="rounded-lg px-4 py-3 text-sm
+                {% if message.tags == 'error' %}
+                    bg-red-50 text-red-700 border border-red-200
+                {% elif message.tags == 'success' %}
+                    bg-green-50 text-green-700 border border-green-200
+                {% else %}
+                    bg-gray-50 text-gray-700 border border-gray-200
+                {% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+    <section class="py-20 px-4 bg-white">
+        <div class="max-w-xl mx-auto">
+
+            <!-- Heading -->
+            <div class="text-center mb-10">
+                <div class="text-sm sm:text-lg text-brownMain font-medium">Verify OTP</div>
+
+                <h1 class="mt-2 text-3xl sm:text-5xl font-[500] leading-tight tracking-[-0.02em]">
+                    Enter the code we sent you
+                </h1>
+
+                <p class="mt-3 text-zinc-600 max-w-md mx-auto">
+                    We’ve sent a 6-digit OTP to <span class="font-medium text-zinc-900">your email/phone</span>.
+                    Enter it below to continue.
+                </p>
+            </div>
+
+            <!-- Card -->
+            <div class="rounded-3xl border border-line bg-white p-8 shadow-soft">
+
+                <form id="otpForm" class="space-y-6" method="post"
+      action="{% if request.session.reset_email %}{% url 'web:verify_reset_otp' %}{% else %}{% url 'web:verify_otp' %}{% endif %}">
+                    {% csrf_token %}
+
+                    <!-- OTP Boxes -->
+                    <div>
+                        <label class="text-sm font-medium text-zinc-900 block mb-3">OTP Code</label>
+
+                        <div id="otpWrap" class="flex items-center justify-between gap-2 sm:gap-3">
+                            <input type="text" class="otpBox" inputmode="numeric" maxlength="1" />
+                            <input type="text" class="otpBox" inputmode="numeric" maxlength="1" />
+                            <input type="text" class="otpBox" inputmode="numeric" maxlength="1" />
+                            <input type="text" class="otpBox" inputmode="numeric" maxlength="1" />
+                            <input type="text" class="otpBox" inputmode="numeric" maxlength="1" />
+                            <input type="text" class="otpBox" inputmode="numeric" maxlength="1" />
+                        </div>
+
+                        <!-- Hidden full OTP -->
+                        <input type="hidden" id="otpValue" name="otp" />
+
+                        <div id="otpError" class="mt-3 text-sm text-red-600 hidden">
+                            Please enter the full 6-digit OTP.
+                        </div>
+                    </div>
+
+                    <!-- Verify -->
+                    <button id="verifyBtn" type="submit" class="w-full rounded-full bg-brownMain text-white py-4 text-sm font-semibold
+                 hover:bg-brownDark transition disabled:opacity-60 disabled:cursor-not-allowed">
+                        Verify OTP
+                    </button>
+
+                    <!-- Resend -->
+                    <div class="flex items-center justify-between text-sm text-zinc-600">
+                        <a href="forgot-password.html" class="text-brownMain font-medium hover:underline">
+                            Change email/phone
+                        </a>
+
+                        <button id="resendBtn" type="button"
+                            class="text-brownMain font-medium hover:underline disabled:text-zinc-400 disabled:no-underline"
+                            disabled>
+                            Resend OTP <span id="timer">(2:00)</span>
+                        </button>
+                    </div>
+
+                </form>
+
+                <!-- Success state (hidden) -->
+                <div id="otpSuccess" class="hidden text-center py-8">
+                    <div
+                        class="mx-auto mb-4 h-14 w-14 rounded-full bg-emerald-50 grid place-items-center text-emerald-600">
+                        ✓
+                    </div>
+                    <h3 class="text-lg font-semibold text-zinc-900">Verified</h3>
+                    <p class="mt-2 text-sm text-zinc-600">
+                        OTP verified successfully. Redirecting…
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+<script>
+    const boxes = document.querySelectorAll(".otpBox");
+    const hiddenInput = document.getElementById("otpValue");
+    const errorBox = document.getElementById("otpError");
+
+    boxes.forEach((box, idx) => {
+        box.addEventListener("input", () => {
+            if (box.value.length === 1 && idx < boxes.length - 1) {
+                boxes[idx + 1].focus();
+            }
+            collectOTP();
+        });
+
+        box.addEventListener("keydown", (e) => {
+            if (e.key === "Backspace" && !box.value && idx > 0) {
+                boxes[idx - 1].focus();
+            }
+        });
+    });
+
+    function collectOTP() {
+        let otp = "";
+        boxes.forEach(box => otp += box.value);
+        hiddenInput.value = otp;
+
+        if (otp.length === 6) {
+            errorBox.classList.add("hidden");
+        }
+    }
+
+    document.getElementById("otpForm").addEventListener("submit", function (e) {
+        if (hiddenInput.value.length !== 6) {
+            e.preventDefault();
+            errorBox.classList.remove("hidden");
+        }
+    });
+</script>
+<script>
+    let timeLeft = 120;
+    let timerInterval;
+
+    const timerSpan = document.getElementById("timer");
+    const resendBtn = document.getElementById("resendBtn");
+
+    const otpExpiredFromBackend = {{ otp_expired|yesno:"true,false" }};
+
+    function startOtpTimer() {
+        resendBtn.disabled = true;
+
+        timerInterval = setInterval(() => {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+
+            timerSpan.textContent =
+                `(${minutes}:${seconds.toString().padStart(2, "0")})`;
+
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                timerSpan.textContent = "(Expired)";
+                resendBtn.disabled = false;
+            }
+        }, 1000);
+    }
+
+    // ✅ ONLY start timer if OTP is NOT expired
+    if (!otpExpiredFromBackend) {
+        startOtpTimer();
+    } else {
+        timerSpan.textContent = "(Expired)";
+        resendBtn.disabled = false;
+    }
+
+    resendBtn.addEventListener("click", function () {
+        resendBtn.disabled = true;
+        timerSpan.textContent = "(Sending...)";
+
+        fetch("{% url 'web:resend_otp' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "success") {
+                timeLeft = 120;
+                startOtpTimer();
+                alert("New OTP sent to your email");
+            } else {
+                timerSpan.textContent = "(Error)";
+            }
+        })
+        .catch(() => {
+            timerSpan.textContent = "(Failed)";
+        });
+    });
+</script>
+
+
+{% endblock %}

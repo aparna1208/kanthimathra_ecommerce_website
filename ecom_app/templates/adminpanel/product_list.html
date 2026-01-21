@@ -105,12 +105,19 @@
                                                         <th class="sorting_disabled" rowspan="1" colspan="1"
                                                             style="width: 170px;">Category</th>
                                                         <th class="sorting_disabled" rowspan="1" colspan="1"
+                                                            style="width: 170px;">Sub Category</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"
                                                             style="width: 170px;">date</th>
 
                                                         <th class="sorting_disabled" rowspan="1" colspan="1"
                                                             style="width: 170px;">Current Qty</th>
                                                         <th class="sorting_disabled" rowspan="1" colspan="1"
-                                                            style="width: 170px;">Price</th>
+                                                            style="width: 170px;">Original Price</th>
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"
+                                                            style="width: 170px;">Discount %</th>
+                                                            
+                                                        <th class="sorting_disabled" rowspan="1" colspan="1"
+                                                            style="width: 170px;">Offer Price</th>
                                                         <th class="sorting_disabled" rowspan="1" colspan="1"
                                                             style="width: 170px;">Stock</th>
                                                         <th class="sorting_disabled" rowspan="1" colspan="1"
@@ -119,52 +126,84 @@
                                                 </thead>
 
                                                 <tbody>
-
-                                                    <tr class="odd">
+                                                    {% for product in products %}
+                                                    <tr class="{% cycle 'odd' 'even' %}">
                                                         <td>
                                                             <div class="table-image">
-                                                                <img src="{% static 'adminpanel/images/product/1.png' %}" class="img-fluid"
-                                                                    alt="">
+                                                                {% if product.thumbnail %}
+                                                                    <img src="{{ product.thumbnail.url }}" class="img-fluid" alt="{{ product.product_name }}">
+                                                                {% else %}
+                                                                    <img src="{% static 'adminpanel/images/product/1.png' %}" class="img-fluid" alt="">
+                                                                {% endif %}
                                                             </div>
                                                         </td>
 
-                                                        <td>Face Cream</td>
+                                                        <td>{{ product.product_name }}</td>
 
-                                                        <td>Face care</td>
-                                                        <td>01-01-2024</td>
+                                                        <td>{{ product.category.category_name }}</td>
+                                                        <td>{{ product.subcategory.sub_category_name }}</td>
+                                                        <td>{{ product.created_at|date:"d-m-Y" }}</td>
 
-                                                        <td>12</td>
+                                                        <td>{{ product.quantity }}</td>
+                                                        <td>{{ product.original_price }}</td>
+                                                        <td>{{ product.discount_percentage }}</td>
 
-                                                        <td class="td-price">$95.97</td>
+                                                        <td class="td-price">{{ product.offer_price }}</td>
 
-                                                        <td class="status-danger">
-                                                            <span>Pending</span>
+                                                        <td class="{% if product.stock == 'instock' %}status-close{% else %}status-danger{% endif %}">
+                                                            <span>{% if product.stock == 'instock' %}In Stock{% else %}Out Of Stock{% endif %}</span>
                                                         </td>
 
                                                         <td>
                                                             <ul>
                                                                 <li>
-                                                                    <a href="{% url 'web:view_product' %}">
+                                                                    <a href="{% url 'web:view_product' product.id %}">
                                                                         <i class="ri-eye-line"></i>
                                                                     </a>
                                                                 </li>
 
                                                                 <li>
-                                                                <a href="{% url 'web:edit_product' %}">
+                                                                    <a href="{% url 'web:edit_product' product.id %}">
                                                                         <i class="ri-pencil-line"></i>
                                                                     </a>
                                                                 </li>
 
                                                                 <li>
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModalToggle">
+                                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#deleteProductModal{{ product.id }}">
                                                                         <i class="ri-delete-bin-line"></i>
                                                                     </a>
                                                                 </li>
                                                             </ul>
+
+                                                            <!-- Delete modal for this product -->
+                                                            <div class="modal fade theme-modal remove-coupon" id="deleteProductModal{{ product.id }}" aria-hidden="true" tabindex="-1">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header d-block text-center">
+                                                                            <h5 class="modal-title w-100">Are You Sure ?</h5>
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p>Do you really want to delete "{{ product.product_name }}"?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-dismiss="modal">No</button>
+                                                                            <form method="post" action="{% url 'web:delete_product' product.id %}">
+                                                                                {% csrf_token %}
+                                                                                <button type="submit" class="btn btn-animation btn-md fw-bold">Yes</button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
                                                         </td>
                                                     </tr>
-                                                    
+                                                    {% empty %}
+                                                    <tr>
+                                                        <td colspan="8" class="text-center">No products found.</td>
+                                                    </tr>
+                                                    {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>

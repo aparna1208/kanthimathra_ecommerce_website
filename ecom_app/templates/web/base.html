@@ -125,6 +125,23 @@
     <script src="{% static 'web/js/shop.js' %}"></script>
     <script src="{% static 'web/js/thank.js' %}"></script>
 
+    <script src="{% static 'web/js/wishlist.js' %}"></script>
+   <script>
+    window.ADD_TO_CART_URL = "{% url 'web:add_to_cart' %}";
+    window.CART_PAGE_URL = "{% url 'web:cart' %}";
+   </script>
+
+   <script>
+    window.UPDATE_CART_URL = "{% url 'web:update_cart_item' %}";
+    window.REMOVE_CART_URL = "{% url 'web:remove_cart_item' %}";
+</script>
+
+
+    <script src="{% static 'web/js/cart.js' %}"></script>
+
+
+
+
 
 
 

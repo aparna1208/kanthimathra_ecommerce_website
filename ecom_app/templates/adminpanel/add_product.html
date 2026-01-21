@@ -91,31 +91,87 @@
                                                 <h5>Product Information</h5>
                                             </div>
 
-                                            <form class="theme-form theme-form-2 mega-form">
+                                            <form id="addProductForm" class="theme-form theme-form-2 mega-form" method="post" enctype="multipart/form-data" >
+                                                {% csrf_token %}
                                                 <div class="mb-4 row align-items-center">
-                                                    <label class="form-label-title col-sm-3 mb-0">Product
-                                                        Name</label>
+                                                    <label class="form-label-title col-sm-3 mb-0">Product Name</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="text"
-                                                            placeholder="Product Name">
-                                                    </div>
+                                                    <input class="form-control" type="text" name="product_name" required>                                                    </div>
                                                 </div>
 
                                                 <!-- Category -->
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Category</label>
+                                              <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">
+                                                        Category
+                                                    </label>
+
                                                     <div class="col-sm-9">
-                                                        <select class="js-example-basic-single w-100" name="category" required>
-                                                            <option value="" disabled selected>Select category</option>
-                                                            {% for category in categories %}
-                                                            <option value="{{ category.id }}"
-                                                                {% if product.category and product.category.id == category.id %}selected{% endif %}>
-                                                                {{ category.name }}
-                                                            </option>
-                                                            {% endfor %}
-                                                        </select>
+                                                        <div class="d-flex align-items-center gap-2">
+
+                                                            <!-- Category Select -->
+                                                            <select id="category_select"
+                                                                    class="js-example-basic-single w-100"
+                                                                    name="category"
+                                                                    required>
+                                                                <option value="" disabled selected>Select category</option>
+                                                                {% for category in categories %}
+                                                                <option value="{{ category.id }}"
+                                                                    {% if product.category and product.category.id == category.id %}selected{% endif %}>
+                                                                    {{ category.category_name }}
+                                                                </option>
+                                                                {% endfor %}
+                                                            </select>
+
+                                                            <!-- ➕ Add Category button -->
+                                                            <a href="{% url 'web:add_category' %}"
+                                                            class="btn btn-outline-primary btn-sm"
+                                                            title="Add new category"
+                                                            >
+                                                                <i class="fa fa-plus"></i>
+                                                            </a>
+
+                                                        </div>
                                                     </div>
                                                 </div>
+
+                                                 <!-- Sub Category -->
+                                                <!-- Sub Category -->
+                                                            <div class="mb-4 row align-items-center">
+                                                                <label class="col-sm-3 col-form-label form-label-title">
+                                                                    Sub Category
+                                                                </label>
+
+                                                                <div class="col-sm-9">
+                                                                    <div class="d-flex align-items-center gap-2">
+
+                                                                        <!-- Sub Category Select -->
+                                                                        <select id="subcategory_select"
+                                                                                class="js-example-basic-single w-100"
+                                                                                name="subcategory"
+                                                                                required>
+                                                                            <option value="" disabled selected>Select subcategory</option>
+
+                                                                            {% for subcategory in subcategories %}
+                                                                            <option value="{{ subcategory.id }}"
+                                                                                    data-category="{{ subcategory.category.id }}"
+                                                                                    hidden>
+                                                                                {{ subcategory.sub_category_name }}
+                                                                            </option>
+                                                                            {% endfor %}
+                                                                        </select>
+
+                                                                        <!-- ➕ Add Sub Category button -->
+                                                                        <a href="{% url 'web:add_sub_category' %}"
+                                                                        class="btn btn-outline-primary btn-sm"
+                                                                        title="Add new sub category"
+                                                                        >
+                                                                            <i class="fa fa-plus"></i>
+                                                                        </a>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
 
                                                   <!-- Brand -->
                                                 <div class="mb-4 row align-items-center">
@@ -123,7 +179,8 @@
                                                     <div class="col-sm-9">
                                                         <select class="js-example-basic-single w-100" name="brand">
                                                             <option value="">Select Brand</option>
-                                                            <option value="Kanthimantra" {% if product.brand == 'Kanthimantra' %}selected{% endif %}>
+                                                            <option value="Kanthimantra"
+                                                              {% if product.brand == 'Kanthimantra' %}selected{% endif %}>
                                                                 Kanthimantra
                                                             </option>
                                                             <!-- Add more brands if needed -->
@@ -135,7 +192,8 @@
                                                     <div class="col-sm-9">
                                                         <select class="js-example-basic-single w-100" name="country">
                                                             <option value="">Select Country</option>
-                                                            <option value="India" {% if product.country == 'India' %}selected{% endif %}>
+                                                            <option value="India" 
+                                                            {% if product.country == 'India' %}selected{% endif %}>
                                                                 India
                                                             </option>
                                                             <!-- Add more countries if needed -->
@@ -237,14 +295,14 @@
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 form-label-title">Quantity</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="number" name="quantity"
-                                                                placeholder="0" step="0.01" required>
+                                                        <input class="form-control" type="text" name="quantity"
+                                                                placeholder="0"  required>
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 form-label-title">Shelf life</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="number" name="shelf_life"
+                                                        <input class="form-control" type="number" name="shelf_life" 
                                                                 placeholder="0" step="0.01" required>
                                                     </div>
                                                 </div>
@@ -255,7 +313,7 @@
                                                     <div class="mb-4 row align-items-center">
                                                         <label class="col-sm-3 form-label-title">Original Price</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number" id="original_price"
+                                                            <input class="form-control" type="number" id="original_price"  
                                                                 name="original_price" placeholder="0" step="0.01" required>
                                                         </div>
                                                     </div>
@@ -264,15 +322,15 @@
                                                         <label class="col-sm-3 form-label-title">Discount (%)</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number" id="discount"
-                                                                name="discount" placeholder="0" step="0.01">
+                                                             name="discount_percentage" value="0"  min="0" max="100" placeholder="Enter discount percentage" >
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-4 row align-items-center">
                                                         <label class="col-sm-3 form-label-title">Offer Price</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number" id="offer_price"
-                                                                name="offer_price" placeholder="0" step="0.01" readonly>
+                                                            <input class="form-control" type="number" id="offer_price" name="offer_price"
+                                                                placeholder="0"  readonly>
                                                         </div>
                                                     </div>
 
@@ -280,23 +338,36 @@
                                                 <!-- Inventory -->
                                                 <div class="card-header-2"><h5>Product Inventory</h5></div>
 
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Stock Status</label>
-                                                    <div class="col-sm-9">
-                                                        <select id="stock_status" class="js-example-basic-single w-100" name="state">
-                                                            <option value="In Stock" {% if product.stock_status != 'Out Of Stock' %}selected{% endif %}>In Stock</option>
-                                                            <option value="Out Of Stock" {% if product.stock_status == 'Out Of Stock' %}selected{% endif %}>Out Of Stock</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 col-form-label form-label-title">Stock Status</label>
+                                                <div class="col-sm-9">
+                                                    <select id="stock_status"
+                                                        class="js-example-basic-single w-100"
+                                                        name="stock_status">
 
-                                                <div id="quantity_group" class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Quantity</label>
-                                                    <div class="col-sm-9">
-                                                        <input id="quantity_input" class="form-control" type="number" name="quantity"
-                                                               value="{{ product.quantity|default:'0' }}" min="0" required>
-                                                    </div>
+                                                    <option value="instock" selected>In Stock</option>
+                                                    <option value="outofstock">Out Of Stock</option>
+
+                                                </select>
+
                                                 </div>
+                                            </div>
+
+                                            <!-- Quantity / Stock Count -->
+                                            <div class="mb-4 row align-items-center" id="quantity_group">
+                                                <label class="col-sm-3 col-form-label form-label-title">Stock Count</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number"
+                                                        id="quantity_input"
+                                                        name="stock_quantity"
+                                                        class="form-control"
+                                                        min="0"
+                                                        value="{{ product.stock_quantity|default:0 }}">
+                                                </div>
+                                            </div>
+
+
+                                               
 
                                                <div class="card mt-4 row align-items-center">
                                                                         <div class="card-body">
@@ -314,8 +385,7 @@
                                                                                             rows="5"
                                                                                             placeholder="Eg:Clinic-first approach with practitioner-backed formulation
                                                                                                             No added artificial colours, fragrances, or parabens
-                                                                                                            Suitable for long-term, routine-based use"
-                                                                  >{{ product.highlights|default:'' }}</textarea>
+                                                                                                            Suitable for long-term, routine-based use"></textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -337,7 +407,7 @@
                                                                                             placeholder="Eg:Wet hair and apply a small amount to scalp.
                                                                                                             Massage gently for 60 seconds.
                                                                                                             Rinse thoroughly. Repeat if needed."
-                                                                  >{{ product.how_to_use|default:'' }}</textarea>
+                                                                  ></textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -347,7 +417,7 @@
                                                  <div class="mb-4 row align-items-center">
                                                     <label class="form-label-title col-sm-3 mb-0">Page title</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="search"
+                                                        <input class="form-control" type="search"  name="page_title"
                                                             placeholder="Face Oil">
                                                     </div>
                                                 </div>
@@ -355,10 +425,9 @@
                                                     <label class="form-label-title col-sm-3 mb-0">Meta
                                                         Keywords</label>
                                                     <div class="col-sm-9">
-                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <textarea class="form-control" rows="3"  name="meta_keywords"></textarea>
                                                     </div>
                                                 </div>
-
 
                                                 
 
@@ -366,14 +435,14 @@
                                                     <label class="form-label-title col-sm-3 mb-0">Meta
                                                         description</label>
                                                     <div class="col-sm-9">
-                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <textarea class="form-control" name="meta_description" rows="3"></textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <label class="form-label-title col-sm-3 mb-0">URL handle</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="search"
+                                                        <input class="form-control" type="search"  name="canonical_url"
                                                             placeholder="https://kanthimantra.com/face_oil">
                                                     </div>
                                                 </div>
@@ -432,6 +501,32 @@
     </div>
     <!-- Modal End -->
 
+
+<script>
+    document.getElementById("discount").addEventListener("input", function () {
+        const price = parseFloat(document.getElementById("original_price").value) || 0;
+        const discount = parseFloat(this.value) || 0;
+        document.getElementById("offer_price").value =
+            price - (price * discount / 100);
+    });
+
+    const stockSelect = document.getElementById("stock_status");
+    const countGroup = document.getElementById("count_group");
+    const countInput = document.getElementById("count_input");
+
+    function toggleCount() {
+        if (stockSelect.value === "Out Of Stock") {
+            countGroup.style.display = "none";
+            countInput.value = 0;
+        } else {
+            countGroup.style.display = "flex";
+        }
+    }
+
+    stockSelect.addEventListener("change", toggleCount);
+    toggleCount();
+</script>
+
     <!-- latest js -->
     <script src="{% static 'adminpanel/js/jquery-3.6.0.min.js' %}"></script>
 
@@ -478,8 +573,113 @@
     <script src="{% static 'adminpanel/js/adminpanel.js' %}"></script>
 
     <!-- NEW: Separate stock toggle script -->
-    <script src="{% static 'adminpanel/js/product-stock.js' %}"></script>
+    <script src="{% static 'adminpanel/js/stock.js' %}"></script>
     <script src="{% static 'adminpanel/js/product_price.js' %}"></script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const stockStatus = document.getElementById("stock_status");
+    const quantityInput = document.getElementById("quantity_input");
+    const quantityGroup = document.getElementById("quantity_group");
+
+    if (!stockStatus || !quantityInput || !quantityGroup) return;
+
+    function handleStock() {
+        // ✅ ALWAYS KEEP IT VISIBLE
+        quantityGroup.style.display = "";
+
+        if (stockStatus.value === "outofstock") {
+            quantityInput.value = 0;
+            quantityInput.readOnly = true;
+            quantityInput.disabled = true;
+        } else {
+            quantityInput.disabled = false;
+            quantityInput.readOnly = false;
+        }
+    }
+
+    handleStock();
+
+    stockStatus.addEventListener("change", handleStock);
+
+    if (window.jQuery && jQuery.fn.select2) {
+        jQuery(stockStatus).on("select2:select", handleStock);
+    }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Get both selects
+    const categorySelect = document.getElementById("category_select");
+    const subcategorySelect = document.getElementById("subcategory_select");
+
+    if (!categorySelect || !subcategorySelect) return;
+
+    // Store all subcategory options for later filtering
+    const allSubOptions = Array.from(subcategorySelect.querySelectorAll("option"));
+
+    // Make sure initially subcategory is disabled + empty
+    subcategorySelect.disabled = true;
+    subcategorySelect.innerHTML = '<option value="" disabled selected>Select subcategory</option>';
+
+    function updateSubcategories() {
+        const selectedCategoryId = categorySelect.value;
+
+        // Clear current options (except placeholder)
+        subcategorySelect.innerHTML = '<option value="" disabled selected>Select subcategory</option>';
+
+        if (!selectedCategoryId) {
+            // No category selected → disable & show only placeholder
+            subcategorySelect.disabled = true;
+            return;
+        }
+
+        // Enable subcategory select
+        subcategorySelect.disabled = false;
+
+        // Filter and add only matching subcategories
+        allSubOptions.forEach(option => {
+            if (option.value === "") return; // skip placeholder
+
+            const belongsToCategory = option.dataset.category === selectedCategoryId;
+
+            if (belongsToCategory) {
+                // Clone the original option and add it
+                const newOption = option.cloneNode(true);
+                newOption.hidden = false; // make sure it's visible
+                subcategorySelect.appendChild(newOption);
+            }
+        });
+
+        // If using Select2 → refresh it
+        if (jQuery && jQuery.fn.select2) {
+            jQuery(subcategorySelect).trigger('change.select2');
+        }
+    }
+
+    // Listen to category change (native + Select2)
+    categorySelect.addEventListener("change", updateSubcategories);
+
+    // Support Select2 change event
+    if (window.jQuery && jQuery.fn.select2) {
+        jQuery(categorySelect).on("select2:select", function (e) {
+            updateSubcategories();
+        });
+
+        // Optional: trigger once after Select2 is fully initialized
+        setTimeout(updateSubcategories, 100);
+    }
+
+    // Run once on page load (important for edit mode)
+    updateSubcategories();
+});
+</script>
+
+
+
 </body>
 
 </html>

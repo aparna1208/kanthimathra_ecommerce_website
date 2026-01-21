@@ -1,0 +1,264 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <!-- PAGE HEADER -->
+    <section class="relative border-b border-line min-h-[40vh] sm:min-h-[60vh] flex items-center">
+
+        <!-- Background image -->
+        <div class="absolute inset-0 bg-cover bg-center pagebanner"></div>
+
+        <!-- Overlay for readability -->
+        <div class="absolute inset-0 bg-white/80"></div>
+
+        <!-- Content -->
+        <div class="relative px-6 w-full">
+            <div class="max-w-8xl mx-auto py-12 sm:py-16">
+
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                        <div class="text-sm sm:text-lg text-brownMain font-medium">
+                            Your Cart
+                        </div>
+
+                        <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                            Review your selected essentials
+                        </h1>
+
+                        <p class="mt-3 text-zinc-700 max-w-2xl">
+                            Check quantities, update your selections, and make sure everything is right before moving to
+                            checkout.
+                        </p>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- CART SECTION -->
+    <section class="py-10 sm:py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+
+            <!-- Main grid -->
+          <div class="mt-8 grid gap-8 lg:grid-cols-12 items-start">
+
+    <!-- Left: Cart table -->
+    <div class="lg:col-span-8">
+        <div class="rounded-2xl border border-line overflow-hidden bg-white">
+
+            <!-- Header row -->
+            <div
+                class="hidden md:grid grid-cols-12 gap-6 bg-soft px-8 py-4 text-sm font-semibold text-zinc-800">
+                <div class="col-span-5">Product</div>
+                <div class="col-span-2 whitespace-nowrap">Price</div>
+                <div class="col-span-2">Quantity</div>
+                <div class="col-span-3 text-right whitespace-nowrap">Total price</div>
+            </div>
+
+            <!-- Item rows -->
+            <div id="cartItems">
+                {% if cart_items %}
+                {% for item in cart_items %}
+                <div class="cart-row grid grid-cols-12 gap-6 px-6 sm:px-8 py-6 border-t border-line items-center"
+                    data-id="{% if is_authenticated %}{{ item.product.id }}{% else %}{{ item.product_id }}{% endif %}"
+                    data-price="{{ item.price|floatformat:0 }}"
+                    data-original-price="{% if is_authenticated %}{{ item.product.original_price|floatformat:0 }}{% else %}{{ item.original_price|floatformat:0 }}{% endif %}">
+
+
+                    <!-- Product -->
+                    <div class="col-span-12 md:col-span-5 flex items-center gap-4">
+                        <div class="h-20 w-20 rounded-xl bg-soft border border-line overflow-hidden flex-shrink-0">
+                            <img
+                                src="{% if is_authenticated %}{{ item.thumbnail.url }}{% else %}{{ item.image }}{% endif %}"
+                                alt="{% if is_authenticated %}{{ item.product.product_name }}{% else %}{{ item.name }}{% endif %}"
+                                class="h-full w-full object-cover">
+                        </div>
+
+                        <div class="min-w-0">
+                            <div class="font-semibold text-zinc-900 truncate">
+                                {% if is_authenticated %}
+                                    {{ item.product.product_name }}
+                                {% else %}
+                                    {{ item.name }}
+                                {% endif %}
+                            </div>
+                            <div class="mt-1 text-sm text-zinc-500">
+                                Variant: {{ item.quantity }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="col-span-6 md:col-span-2 text-sm text-zinc-700 whitespace-nowrap">
+                        <span class="md:hidden text-xs text-zinc-500 block mb-1">Price</span>
+
+                        <!-- Offer price -->
+                        ₹ <span class="tabular-nums whitespace-nowrap">{{ item.price|floatformat:0 }}</span>
+
+                        {% if item.discount_percent > 0 %}
+                            <div class="mt-1 text-sm text-zinc-500">
+                                <span class="text-[15px] line-through text-zinc-400">
+                                    ₹{% if is_authenticated %}
+                                        {{ item.product.original_price|floatformat:0 }}
+                                    {% else %}
+                                        {{ item.original_price|floatformat:0 }}
+                                    {% endif %}
+                                </span>
+
+                                <span class="text-[13px] font-semibold text-green-600 ml-1">
+                                    {{ item.discount_percent|floatformat:0 }}% OFF
+                                </span>
+                            </div>
+                        {% endif %}
+                    </div>
+
+
+                    <!-- Quantity -->
+                    <div class="col-span-6 md:col-span-2">
+                        <span class="md:hidden text-xs text-zinc-500 block mb-1">Quantity</span>
+                        <div class="inline-flex items-center rounded-full border border-line bg-white overflow-hidden">
+                            <button class="qty-minus px-4 py-2 text-zinc-800 hover:bg-soft"
+                                    type="button"
+                                    data-product="{% if is_authenticated %}{{ item.product.id }}{% else %}{{ item.product_id }}{% endif %}"
+                                    data-quantity="{{ item.quantity }}">
+                                −
+                            </button>
+
+                            <div class="w-10 text-center text-sm font-semibold tabular-nums qty-val">
+                                {{ item.count }}
+                            </div>
+
+                            <button class="qty-plus px-4 py-2 text-zinc-800 hover:bg-soft"
+                                    type="button"
+                                    data-product="{% if is_authenticated %}{{ item.product.id }}{% else %}{{ item.product_id }}{% endif %}"
+                                    data-quantity="{{ item.quantity }}">
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Total + Remove -->
+                    <div
+                        class="col-span-12 md:col-span-3 flex items-center justify-between md:justify-end gap-4 whitespace-nowrap">
+                        <div class="text-sm text-zinc-700 md:text-right">
+                            <span class="md:hidden text-xs text-zinc-500 block mb-1">Total</span>
+                            ₹ <span class="row-total tabular-nums whitespace-nowrap">
+                                {{ item.subtotal|floatformat:0 }}
+                            </span>
+                        </div>
+
+                        <button class="remove-btn h-10 w-10 rounded-full border border-line hover:bg-soft grid place-items-center"
+                                type="button"
+                                data-product="{% if is_authenticated %}{{ item.product.id }}{% else %}{{ item.product_id }}{% endif %}"
+                                data-quantity="{{ item.quantity }}">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-center py-12 text-zinc-500">Your cart is empty</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Right: Order summary (UNCHANGED) -->
+    <aside class="lg:col-span-4 lg:sticky lg:top-24">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-soft">
+            <h3 class="text-xl font-semibold text-zinc-900">Order Summary</h3>
+
+            <div class="mt-6 space-y-4 text-sm">
+              <div class="flex items-center justify-between">
+                <div class="text-zinc-700">MRP</div>
+                <div class="font-medium text-zinc-900">
+                    ₹ <span id="mrpTotal">{{ mrp_total|floatformat:0 }}</span>
+                </div>
+            </div>
+
+
+                <div class="flex items-center justify-between">
+                    <div class="text-zinc-700">Discounts</div>
+                    <div class="font-medium text-zinc-900">
+                        - ₹ <span id="discount">{{ discount|floatformat:0 }}</span>
+                    </div>
+                </div>
+
+
+                <div class="border-t border-line pt-4">
+                    <div class="text-sm font-semibold text-zinc-900">Shipping</div>
+
+                    <div class="mt-3 space-y-2 text-sm text-zinc-700">
+                        <label class="flex items-center justify-between gap-3 cursor-pointer">
+                            <span class="flex items-center gap-2">
+                                <input type="radio" name="ship" value="0" class="accent-brownMain" checked>
+                                Free Shipping
+                            </span>
+                            <span class="text-zinc-900 font-medium">₹ 0</span>
+                        </label>
+
+                        <label class="flex items-center justify-between gap-3 cursor-pointer">
+                            <span class="flex items-center gap-2">
+                                <input type="radio" name="ship" value="60" class="accent-brownMain">
+                                Local
+                            </span>
+                            <span class="text-zinc-900 font-medium">₹ 60</span>
+                        </label>
+
+                        <label class="flex items-center justify-between gap-3 cursor-pointer">
+                            <span class="flex items-center gap-2">
+                                <input type="radio" name="ship" value="90" class="accent-brownMain">
+                                Flat Rate
+                            </span>
+                            <span class="text-zinc-900 font-medium">₹ 90</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="border-t border-line pt-4 flex items-center justify-between">
+                    <div class="text-base font-semibold text-zinc-900">Total</div>
+                    <div class="text-base font-semibold text-zinc-900">
+                        ₹ <span id="grandTotal">{{ grand_total|floatformat:0  }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-6 space-y-3">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'web:checkout' %}"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-brownMain text-white py-3 font-semibold hover:bg-brownDark transition">
+                        Process to checkout →
+                    </a>
+                {% else %}
+                    <a href="{% url 'web:login' %}?next={% url 'web:cart' %}"
+                    class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-brownMain text-white py-3 font-semibold hover:bg-brownDark transition">
+                        Process to checkout →
+                    </a>
+                {% endif %}
+
+
+                <a href="shop.html"
+                   class="w-full inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white py-3 font-semibold text-zinc-900 hover:bg-soft transition">
+                    Continue shopping →
+                </a>
+            </div>
+        </div>
+    </aside>
+
+</div>
+
+
+        </div>
+    </section>
+{% endblock %}
+
+
+    

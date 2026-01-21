@@ -1,0 +1,293 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- PAGE HEADER -->
+    <section class="relative border-b border-line min-h-[40vh] sm:min-h-[60vh] flex items-center">
+
+        <!-- Background image -->
+        <div class="absolute inset-0 bg-cover bg-center pagebanner"></div>
+
+        <!-- Overlay for readability -->
+        <div class="absolute inset-0 bg-white/80"></div>
+
+        <!-- Content -->
+        <div class="relative px-6 w-full">
+            <div class="max-w-8xl mx-auto py-12 sm:py-16">
+
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                        <div class="text-sm sm:text-lg text-brownMain font-medium">
+                            Checkout
+                        </div>
+
+                        <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                            Complete your order with confidence
+                        </h1>
+
+                        <p class="mt-3 text-zinc-700 max-w-2xl">
+                            Review your items, confirm delivery details, and choose a secure payment method to complete
+                            your Ayurvedic purchase.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- CHECKOUT SECTION (White + Brown theme) -->
+    <section class="bg-white">
+        <div class="px-6 sm:px-10 lg:px-16 py-12 sm:py-16">
+            <div class="max-w-7xl mx-auto">
+
+                <!-- Heading -->
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                        <div class="text-sm sm:text-lg text-brownMain font-medium">Checkout</div>
+                        <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                            Confirm your order details
+                        </h1>
+                        <p class="mt-3 text-zinc-700 max-w-2xl">
+                            Review items, add delivery details, and place your order securely in minutes.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Layout -->
+                <div class="mt-10 grid gap-8 lg:grid-cols-12 items-start">
+
+                    <!-- LEFT: Forms -->
+                    <div class="lg:col-span-8 space-y-6">
+
+                        <!-- Contact -->
+                        <div class="rounded-3xl border border-line bg-white p-6">
+                            <div class="flex items-center justify-between gap-3">
+                                <h2 class="text-lg font-semibold text-zinc-900">Contact details</h2>
+                                <span class="text-xs text-zinc-500">* Required</span>
+                            </div>
+
+                            <form method="post">
+                                 {% csrf_token %}
+
+                            <div class="mt-5 grid gap-4 sm:grid-cols-2">
+                                <div class="sm:col-span-2">
+                                    <label class="text-xs text-zinc-600">Email *</label>
+                                    <input type="email" name="email" required
+                                        value="{{ user.email }}"
+                                        class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+
+                                </div>
+                                <div>
+                                    <label class="text-xs text-zinc-600">Phone *</label>
+                                    <input type="tel" name="phone" required
+                                        value="{{ account.phone }}"
+                                        class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+
+                                </div>
+                                <div>
+                                    <label class="text-xs text-zinc-600">Full name *</label>
+                                    <input type="text" name="full_name" required
+                                            value="{{ user.get_full_name }}"
+                                            class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Shipping Address -->
+                        <div class="rounded-3xl border border-line bg-white p-6">
+                            <h2 class="text-lg font-semibold text-zinc-900">Delivery address</h2>
+
+                            <div class="mt-5 grid gap-4 sm:grid-cols-2">
+
+                        <div class="sm:col-span-2">
+                            <label class="text-xs text-zinc-600">Address line *</label>
+                            <input type="text"
+                                name="address"
+                                required
+                                value="{{ account.address }}"
+                                class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+                        </div>
+
+                        <div>
+                            <label class="text-xs text-zinc-600">City *</label>
+                            <input type="text"
+                                name="city"
+                                required
+                                value="{{ account.city }}"
+                                class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+                        </div>
+
+                        <div>
+                            <label class="text-xs text-zinc-600">State *</label>
+                            <input type="text"
+                                name="state"
+                                required
+                                value="{{ account.state }}"
+                                class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+                        </div>
+
+                        <div>
+                            <label class="text-xs text-zinc-600">Pincode *</label>
+                            <input type="text"
+                                name="pincode"
+                                required
+                                value="{{ account.pincode }}"
+                                class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm">
+                        </div>
+
+                        <div>
+                            <label class="text-xs text-zinc-600">Country *</label>
+                            <input type="text"
+                                name="country"
+                                required
+                                value="India"
+                                class="mt-1 w-full rounded-2xl border border-line bg-soft px-4 py-3 text-sm">
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="text-xs text-zinc-600">Notes (optional)</label>
+                            <textarea name="notes"
+                                    rows="3"
+                                    placeholder="Landmark / delivery instructions"
+                                    class="mt-1 w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm"></textarea>
+                        </div>
+
+                    </div>
+
+                        </div>
+
+                        <!-- Delivery + Payment -->
+                        <div class="grid gap-6">
+                            <!-- Delivery -->
+                            <div class="rounded-3xl border border-line bg-white p-6">
+                                <h2 class="text-lg font-semibold text-zinc-900">Delivery method</h2>
+
+                                <div class="mt-4 space-y-3 text-sm text-zinc-700">
+                                    <label
+                                        class="flex items-start gap-3 rounded-2xl border border-line p-4 hover:bg-soft cursor-pointer">
+                                        <input type="radio" name="ship" class="mt-1 accent-brownMain" checked />
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-zinc-900">Standard delivery</div>
+                                            <div class="text-zinc-600">2–5 business days</div>
+                                        </div>
+                                        <div class="font-semibold text-zinc-900">₹0</div>
+                                    </label>
+
+                                    <label
+                                        class="flex items-start gap-3 rounded-2xl border border-line p-4 hover:bg-soft cursor-pointer">
+                                        <input type="radio" name="ship" class="mt-1 accent-brownMain" />
+                                        <div class="flex-1">
+                                            <div class="font-semibold text-zinc-900">Express delivery</div>
+                                            <div class="text-zinc-600">1–2 business days</div>
+                                        </div>
+                                        <div class="font-semibold text-zinc-900">₹99</div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Payment -->
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT: Order Summary -->
+                    <aside class="lg:col-span-4 lg:sticky lg:top-24">
+                        <div class="rounded-3xl border border-line bg-white overflow-hidden">
+                            <div class="px-6 py-5 bg-soft border-b border-line">
+                                <h2 class="text-lg font-semibold text-zinc-900">Order summary</h2>
+                                <p class="text-sm text-zinc-600 mt-1">{{ total_items }} item{{ total_items|pluralize }} in your cart</p>
+                            </div>
+
+                            <!-- Items -->
+                            <div class="p-6 space-y-4">
+                           {% for item in cart_items %}
+<div class="flex gap-4">
+    <div class="h-16 w-16 rounded-2xl border border-line bg-soft overflow-hidden flex-shrink-0">
+        <img src="{{ item.thumbnail.url }}" class="h-full w-full object-cover">
+    </div>
+
+    <div class="flex-1">
+        <div class="font-semibold text-zinc-900 leading-snug">
+            {{ item.product.product_name }}
+        </div>
+        <div class="text-sm text-zinc-500">
+            {{ item.quantity }} • Qty: {{ item.count }}
+        </div>
+    </div>
+
+    <div class="text-sm font-semibold text-zinc-900">
+        ₹{{ item.subtotal|floatformat:0  }}
+    </div>
+</div>
+{% endfor %}
+
+
+                                <!-- Coupon -->
+                                <div class="pt-2">
+                                    <label class="text-xs text-zinc-600">Coupon code</label>
+                                    <div class="mt-2 flex gap-2">
+                                        <input type="text" placeholder="Enter code"
+                                            class="flex-1 rounded-2xl border border-line bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-brownMain/20" />
+                                        <button type="button"
+                                            class="rounded-2xl border border-brownMain text-brownMain px-4 py-3 text-sm font-semibold hover:bg-soft transition">
+                                            Apply
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Totals -->
+                                <div class="pt-4 border-t border-line space-y-2 text-sm">
+                                    <!-- MRP -->
+    <div class="flex items-center justify-between text-zinc-700">
+        <span>MRP</span>
+        <span>₹{{  mrp_total|floatformat:0 }}</span>
+    </div>
+
+    <!-- Delivery -->
+    <div class="flex items-center justify-between text-zinc-700">
+        <span>Delivery</span>
+        <span id="shipCost">₹0</span>
+    </div>
+
+    <!-- Discount -->
+    <div class="flex items-center justify-between text-zinc-700">
+        <span>Discount</span>
+        <span class="text-green-600">- ₹{{ discount|floatformat:0 }}</span>
+    </div>
+
+    <!-- Total -->
+    <div class="pt-3 flex items-center justify-between text-zinc-900 font-semibold">
+        <span>Total</span>
+        <span>₹{{ payable_total|floatformat:0 }}</span>
+    </div>
+
+                                </div>
+
+                                <!-- Place order -->
+                                <button type="submit"
+                                            class="mt-4 w-full rounded-2xl bg-brownMain text-white py-3.5 text-sm font-semibold hover:bg-brownDark transition">
+                                            Pay Now
+                                        </button>
+
+                                <p class="text-xs text-zinc-500 leading-relaxed">
+                                    By placing your order, you agree to our Terms & Conditions and Privacy Policy.
+                                </p>
+                            </div>
+                        </div>
+                    </aside>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+ 

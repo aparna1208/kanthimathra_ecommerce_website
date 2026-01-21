@@ -1,0 +1,413 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+    <!-- PAGE HEADER -->
+    <section class="relative border-b border-line min-h-[40vh] sm:min-h-[60vh] flex items-center">
+
+        <!-- Background image -->
+        <div class="absolute inset-0 bg-cover bg-center pagebanner"></div>
+
+        <!-- Overlay for readability -->
+        <div class="absolute inset-0 bg-white/80"></div>
+
+        <!-- Content -->
+        <div class="relative px-6 w-full">
+            <div class="max-w-8xl mx-auto py-12 sm:py-16">
+
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                        <div class="text-sm sm:text-lg text-brownMain font-medium">
+                            My Account
+                        </div>
+
+                        <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                            Manage your orders and profile
+                        </h1>
+
+                        <p class="mt-3 text-zinc-700">
+                            View recent orders, track deliveries, update your details, and manage your saved addresses.
+                        </p>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ACCOUNT DASHBOARD -->
+    <section class="bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+            <div class="grid gap-8 lg:grid-cols-12 items-start">
+
+                <!-- SIDEBAR -->
+                <aside class="lg:col-span-4">
+                    <!-- Mobile toggle -->
+                    <button id="accMenuBtn"
+                        class="lg:hidden w-full rounded-2xl border border-line bg-white px-4 py-3 text-sm font-medium flex items-center justify-between">
+                        Account Menu
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-zinc-700" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+
+                    <div id="accSidebar" class="mt-4 lg:mt-0 hidden lg:block">
+                        <div class="rounded-3xl border border-line bg-white p-6">
+
+                            <!-- Profile -->
+                            <div class="flex flex-col items-center text-center">
+                                <div class="relative">
+                                    <div class="h-28 w-28 rounded-full bg-zinc-200 overflow-hidden border border-line">
+                                        <!-- Replace with user image -->
+                                        <img src="{% static 'web/images/user.jpg' %}" alt="User" class="h-full w-full object-cover" />
+                                    </div>
+
+                                    <!-- Small camera button -->
+                                    <button
+                                        class="absolute -top-1 -right-1 h-9 w-9 rounded-full bg-brownMain text-white grid place-items-center shadow-soft"
+                                        aria-label="Change photo">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                                            fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2-2h6l2 2h4a2 2 0 0 1 2 2z" />
+                                            <circle cx="12" cy="13" r="4" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="mt-4 text-lg font-semibold text-zinc-900">Navoditha User</div>
+                                <div class="mt-1 text-sm text-zinc-600">info@navodithahealthcare.com</div>
+                            </div>
+
+                            <!-- Menu -->
+                            <nav class="mt-6 space-y-2">
+                                <a href="{% url 'web:account' %}"
+                                    class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
+                                    <span
+                                        class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 12l9-9 9 9M4 10v10a1 1 0 0 0 1 1h5v-7h4v7h5a1 1 0 0 0 1-1V10" />
+                                        </svg>
+                                    </span>
+                                    Dashboard
+                                </a>
+
+                                <a href="{% url 'web:account_orders' %}"
+                                    class="flex items-center gap-3 rounded-2xl px-4 py-3 bg-soft border border-line text-brownMain font-medium">
+                                    <span
+                                        class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 17h6M9 13h6M7 21h10a2 2 0 0 0 2-2V7l-4-4H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z" />
+                                        </svg>
+                                    </span>
+                                    Orders
+                                </a>
+
+                                <a href="{% url 'web:account_address' %}"
+                                    class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
+                                    <span
+                                        class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M21 10c0 6-9 12-9 12S3 16 3 10a9 9 0 0 1 18 0z" />
+                                            <circle cx="12" cy="10" r="3" />
+                                        </svg>
+                                    </span>
+                                    My Address
+                                </a>
+
+                                <a href="{% url 'web:account_settings' %}"
+                                    class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
+                                    <span
+                                        class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.06.06a2.2 2.2 0 0 1-1.56 3.76h-.2a1.8 1.8 0 0 0-1.7 1.23 2.2 2.2 0 0 1-4.18 0 1.8 1.8 0 0 0-1.7-1.23h-.2A2.2 2.2 0 0 1 5.1 17l.06-.06A1.8 1.8 0 0 0 5.52 15a1.8 1.8 0 0 0-1.23-1.7 2.2 2.2 0 0 1 0-4.18 1.8 1.8 0 0 0 1.23-1.7 1.8 1.8 0 0 0-.42-1.98l-.06-.06A2.2 2.2 0 0 1 6.64 1.6h.2A1.8 1.8 0 0 0 8.54.37a2.2 2.2 0 0 1 4.18 0 1.8 1.8 0 0 0 1.7 1.23h.2a2.2 2.2 0 0 1 1.56 3.76l-.06.06A1.8 1.8 0 0 0 19.4 9.3a1.8 1.8 0 0 0 1.23 1.7 2.2 2.2 0 0 1 0 4.18A1.8 1.8 0 0 0 19.4 15z" />
+                                        </svg>
+                                    </span>
+                                    Settings
+                                </a>
+
+                                <a href="{% url 'web:logout' %}"
+                                    class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
+                                    <span
+                                        class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brownMain"
+                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16 17l5-5-5-5" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12H9" />
+                                        </svg>
+                                    </span>
+                                    Log out
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- MAIN CONTENT -->
+                <div class="lg:col-span-8">
+                    <!-- Stat cards -->
+
+                    <!-- Recent Orders -->
+                    <div class="mt-8">
+                        <h2 class="text-2xl sm:text-3xl font-[500] tracking-[-0.02em] text-zinc-900">
+                            All Purchased Orders
+                        </h2>
+
+                        <div class="mt-5 rounded-3xl border border-line bg-white overflow-hidden">
+                            <!-- Table header -->
+                            <div class="grid grid-cols-12 gap-3 bg-soft px-6 py-4 text-sm font-semibold text-zinc-800">
+                                <div class="col-span-3">Order</div>
+                                <div class="col-span-5">Products</div>
+                                <div class="col-span-2">Pricing</div>
+                                <div class="col-span-2">Status</div>
+                            </div>
+
+                            <!-- Row 1 -->
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12840629</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/hair-oil.jpg' %}" alt="Herbal Hair Oil"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Herbal Hair Nourishing Oil
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Hair Care • 200 ml</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 699</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-semibold">
+                                        Completed
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Row 2 -->
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870127</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/skin-cleanser.jpg' %}" alt="Herbal Skin Cleanser"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Ayurvedic Skin Cleansing Powder
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Skin Care • 100 g</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 499</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-3 py-1 text-xs font-semibold">
+                                        Processing
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870127</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/skin-cleanser.jpg' %}" alt="Herbal Skin Cleanser"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Ayurvedic Skin Cleansing Powder
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Skin Care • 100 g</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 499</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-3 py-1 text-xs font-semibold">
+                                        Processing
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870127</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/skin-cleanser.jpg' %}" alt="Herbal Skin Cleanser"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Ayurvedic Skin Cleansing Powder
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Skin Care • 100 g</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 499</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-3 py-1 text-xs font-semibold">
+                                        Processing
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870127</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/skin-cleanser.jpg' %}" alt="Herbal Skin Cleanser"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Ayurvedic Skin Cleansing Powder
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Skin Care • 100 g</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 499</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-3 py-1 text-xs font-semibold">
+                                        Processing
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870127</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/skin-cleanser.jpg' %}" alt="Herbal Skin Cleanser"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Ayurvedic Skin Cleansing Powder
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Skin Care • 100 g</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 499</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-3 py-1 text-xs font-semibold">
+                                        Processing
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Row 3 -->
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870345</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/wellness-tablets.jpg' %}" alt="Wellness Tablets"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Digestive Wellness Tablets
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Wellness • 60 tablets</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 899</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-sky-50 text-sky-700 px-3 py-1 text-xs font-semibold">
+                                        Out for Delivery
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Row 4 -->
+                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
+                                <div class="col-span-3 text-sm text-zinc-700">#KM12870345</div>
+
+                                <div class="col-span-5 flex items-center gap-4">
+                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
+                                        <img src="{% static 'web/images/products/wellness-tablets.jpg' %}" alt="Wellness Tablets"
+                                            class="h-full w-full object-cover" />
+                                    </div>
+                                    <div>
+                                        <a href="product-detail.html"
+                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
+                                            Digestive Wellness Tablets
+                                        </a>
+                                        <div class="text-sm text-zinc-500">Wellness • 60 tablets</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-span-2 text-sm text-zinc-700">₹ 899</div>
+
+                                <div class="col-span-2">
+                                    <span
+                                        class="inline-flex items-center justify-center rounded-full bg-sky-50 text-sky-700 px-3 py-1 text-xs font-semibold">
+                                        Out for Delivery
+                                    </span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+
+
+
+
+
+
+   

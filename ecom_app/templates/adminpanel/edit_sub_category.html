@@ -1,0 +1,124 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/dropzone.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Edit Sub Category Start -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-8 m-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-header-2">
+                                <h5>Edit Sub Category Information</h5>
+                            </div>
+
+                            <form action="{% url 'web:edit_sub_category' subcategory.id %}"
+                                  method="POST"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <div class="theme-form theme-form-2 mega-form">
+
+                                    <!-- Sub Category Name -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="form-label-title col-sm-3 mb-0">
+                                            Sub Category Name
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control"
+                                                   type="text"
+                                                   name="sub_category_name"
+                                                   value="{{ subcategory.sub_category_name }}"
+                                                   required>
+                                        </div>
+                                    </div>
+
+                                    <!-- Category -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">
+                                            Category
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <select class="js-example-basic-single w-100"
+                                                    name="category"
+                                                    required>
+                                                {% for category in categories %}
+                                                    <option value="{{ category.id }}"
+                                                        {% if subcategory.category.id == category.id %}
+                                                            selected
+                                                        {% endif %}>
+                                                        {{ category.category_name }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Current Image -->
+                                    <div class="mb-3 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">
+                                            Current Image
+                                        </label>
+                                        <div class="col-sm-9">
+                                            {% if subcategory.sub_category_image %}
+                                                <img src="{{ subcategory.sub_category_image.url }}"
+                                                     class="img-fluid mb-2"
+                                                     style="max-height: 120px;">
+                                            {% else %}
+                                                <p class="text-muted">No image uploaded</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Update Image -->
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">
+                                            Change Image
+                                        </label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control"
+                                                   type="file"
+                                                   name="sub_category_image"
+                                                   accept="image/*">
+                                            <small class="text-muted">
+                                                Leave empty to keep existing image
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-submit-button">
+                                    <button class="btn btn-animation ms-auto" type="submit">
+                                        Update
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Edit Sub Category End -->
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+<script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+{% endblock %}

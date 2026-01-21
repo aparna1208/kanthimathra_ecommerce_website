@@ -1,0 +1,95 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/dropzone.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Sub Category View Start -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-8 m-auto">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="card-header-2">
+                                <h5>Sub Category Information</h5>
+                            </div>
+
+                            <div class="theme-form theme-form-2 mega-form">
+
+                                <!-- Parent Category -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-3 mb-0">Category</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text"
+                                               value="{{ subcategory.category.category_name }}" readonly>
+                                    </div>
+                                </div>
+
+                                <!-- Sub Category Name -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-sm-3 mb-0">Sub Category Name</label>
+                                    <div class="col-sm-9">
+                                        <input class="form-control" type="text"
+                                               value="{{ subcategory.sub_category_name }}" readonly>
+                                    </div>
+                                </div>
+
+                                <!-- Sub Category Image -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="col-sm-3 col-form-label form-label-title">
+                                        Sub Category Image
+                                    </label>
+                                    <div class="col-sm-9">
+                                        {% if subcategory.sub_category_image %}
+                                            <div class="mb-3">
+                                                <img src="{{ subcategory.sub_category_image.url }}"
+                                                     alt="{{ subcategory.sub_category_name }}"
+                                                     class="img-fluid"
+                                                     style="max-width: 400px; height: auto;">
+                                            </div>
+                                        {% else %}
+                                            <p class="text-muted">No sub category image</p>
+                                        {% endif %}
+                                        <input class="form-control" type="file" disabled>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="card-submit-button d-flex justify-content-end gap-2">
+                                <a href="{% url 'web:edit_sub_category' subcategory.id %}"
+                                   class="btn btn-animation">
+                                    Edit
+                                </a>
+                                <a href="{% url 'web:sub_category_list' %}"
+                                   class="btn btn-animation">
+                                    All Sub Categories
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+<script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+{% endblock %}

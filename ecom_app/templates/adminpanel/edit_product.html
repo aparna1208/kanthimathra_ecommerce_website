@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -87,34 +88,57 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="card-header-2">
-                                                <h5>Edit Product Information</h5>
+                                                <h5>Product Information</h5>
                                             </div>
 
-                                            <form class="theme-form theme-form-2 mega-form">
+                                         <form id="addProductForm" class="theme-form theme-form-2 mega-form" method="post" enctype="multipart/form-data" >
+                                                {% csrf_token %}
                                                 <div class="mb-4 row align-items-center">
-                                                    <label class="form-label-title col-sm-3 mb-0">Product
-                                                        Name</label>
+                                                    <label class="form-label-title col-sm-3 mb-0">Product Name</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="text"
-                                                            placeholder="Product Name">
-                                                    </div>
+                                                    <input class="form-control" type="text" name="product_name" value="{{ product.product_name }}" required>                                                    </div>
                                                 </div>
 
                                                 <!-- Category -->
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 col-form-label form-label-title">Category</label>
                                                     <div class="col-sm-9">
-                                                        <select class="js-example-basic-single w-100" name="category" required>
+                                                        <select id="category_select"
+                                                            class="js-example-basic-single w-100"
+                                                            name="category"
+                                                            required>
                                                             <option value="" disabled selected>Select category</option>
                                                             {% for category in categories %}
                                                             <option value="{{ category.id }}"
-                                                                {% if product.category and product.category.id == category.id %}selected{% endif %}>
-                                                                {{ category.name }}
+                                                                 {% if product.category and product.category.id == category.id %}selected{% endif %}>
+                                                                {{ category.category_name }}
                                                             </option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                 <!-- Sub Category -->
+                                                 <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Sub Category</label>
+                                                    <div class="col-sm-9">
+                                                   <select id="subcategory_select" class="js-example-basic-single w-100" name="subcategory" required>
+                                                        <option value="" disabled selected>Select subcategory</option>
+
+                                                        {% for subcategory in subcategories %}
+                                                            <option value="{{ subcategory.id }}"
+                                                                data-category="{{ subcategory.category.id }}"
+                                                                {% if product.subcategory and product.subcategory.id == subcategory.id %}selected{% endif %}>
+                                                            {{ subcategory.sub_category_name }}
+                                                        </option>
+
+                                                        {% endfor %}
+                                                    </select>
+
+
+                                                    </div>
+                                                </div>
+
 
                                                   <!-- Brand -->
                                                 <div class="mb-4 row align-items-center">
@@ -122,7 +146,8 @@
                                                     <div class="col-sm-9">
                                                         <select class="js-example-basic-single w-100" name="brand">
                                                             <option value="">Select Brand</option>
-                                                            <option value="Kanthimantra" {% if product.brand == 'Kanthimantra' %}selected{% endif %}>
+                                                            <option value="Kanthimantra"
+                                                              {% if product.brand == 'Kanthimantra' %}selected{% endif %}>
                                                                 Kanthimantra
                                                             </option>
                                                             <!-- Add more brands if needed -->
@@ -134,7 +159,8 @@
                                                     <div class="col-sm-9">
                                                         <select class="js-example-basic-single w-100" name="country">
                                                             <option value="">Select Country</option>
-                                                            <option value="India" {% if product.country == 'India' %}selected{% endif %}>
+                                                            <option value="India" 
+                                                            {% if product.country == 'India' %}selected{% endif %}>
                                                                 India
                                                             </option>
                                                             <!-- Add more countries if needed -->
@@ -170,17 +196,16 @@
                                                         <!-- Existing Images (Edit Mode) -->
                                                         {% if product %}
                                                         <div class="row mt-4">
-                                                            {% for img in product.images.all %}
-                                                            <div class="col-md-4 mb-4 position-relative existing-image" data-id="{{ img.id }}">
-                                                                <img src="{{ img.image.url }}"
-                                                                     class="img-fluid rounded border shadow-sm"
-                                                                     style="height:180px; width:100%; object-fit:cover;">
-                                                                <button type="button"
-                                                                        class="btn btn-danger btn-sm position-absolute top-0 end-0 m-2 rounded-circle delete-existing">
-                                                                    &times;
-                                                                </button>
-                                                            </div>
-                                                            {% endfor %}
+                                                           {% for media in product.media_files.all %}
+                                                            {% if media.media_type == "image" %}
+                                                                <div class="col-md-4 mb-4 position-relative">
+                                                                    <img src="{{ media.media_file.url }}"
+                                                                        class="img-fluid rounded border shadow-sm"
+                                                                        style="height:180px;width:100%;object-fit:cover;">
+                                                                </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+
                                                         </div>
                                                         {% endif %}
 
@@ -214,14 +239,13 @@
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 col-form-label form-label-title">Video</label>
                                                     <div class="col-sm-9">
-                                                        {% if product.video %}
-                                                        <div class="mb-3">
+                                                       {% for media in product.media_files.all %}
+                                                        {% if media.media_type == "video" %}
                                                             <video width="300" controls class="rounded border shadow-sm">
-                                                                <source src="{{ product.video.url }}" type="video/mp4">
-                                                                Your browser does not support the video tag.
+                                                                <source src="{{ media.media_file.url }}">
                                                             </video>
-                                                        </div>
                                                         {% endif %}
+                                                    {% endfor %}
 
                                                         <input class="form-control" type="file" id="productVideoInput"
                                                                name="product_video" accept="video/*">
@@ -236,15 +260,15 @@
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 form-label-title">Quantity</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="number" name="quantity"
-                                                                placeholder="0" step="0.01" required>
+                                                        <input class="form-control" type="text" name="quantity"
+                                                                placeholder="0"   value="{{ product.quantity }}" required>
                                                     </div>
                                                 </div>
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 form-label-title">Shelf life</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="number" name="shelf_life"
-                                                                placeholder="0" step="0.01" required>
+                                                        <input class="form-control" type="number" name="shelf_life" 
+                                                                placeholder="0" step="0.01" value="{{product.shelf_life}}" required>
                                                     </div>
                                                 </div>
 
@@ -254,8 +278,8 @@
                                                     <div class="mb-4 row align-items-center">
                                                         <label class="col-sm-3 form-label-title">Original Price</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number" id="original_price"
-                                                                name="original_price" placeholder="0" step="0.01" required>
+                                                            <input class="form-control" type="number" id="original_price"  
+                                                                name="original_price"  step="0.01" value="{{product.original_price}}" required>
                                                         </div>
                                                     </div>
 
@@ -263,15 +287,15 @@
                                                         <label class="col-sm-3 form-label-title">Discount (%)</label>
                                                         <div class="col-sm-9">
                                                             <input class="form-control" type="number" id="discount"
-                                                                name="discount" placeholder="0" step="0.01">
+                                                             name="discount_percentage"   min="0" max="100" value="{{product.discount_percentage}}"  >
                                                         </div>
                                                     </div>
 
                                                     <div class="mb-4 row align-items-center">
                                                         <label class="col-sm-3 form-label-title">Offer Price</label>
                                                         <div class="col-sm-9">
-                                                            <input class="form-control" type="number" id="offer_price"
-                                                                name="offer_price" placeholder="0" step="0.01" readonly>
+                                                            <input class="form-control" type="number" id="offer_price" name="offer_price"
+                                                                value="{{product.offer_price}}"  readonly>
                                                         </div>
                                                     </div>
 
@@ -279,23 +303,40 @@
                                                 <!-- Inventory -->
                                                 <div class="card-header-2"><h5>Product Inventory</h5></div>
 
-                                                <div class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Stock Status</label>
-                                                    <div class="col-sm-9">
-                                                        <select id="stock_status" class="js-example-basic-single w-100" name="state">
-                                                            <option value="In Stock" {% if product.stock_status != 'Out Of Stock' %}selected{% endif %}>In Stock</option>
-                                                            <option value="Out Of Stock" {% if product.stock_status == 'Out Of Stock' %}selected{% endif %}>Out Of Stock</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 col-form-label form-label-title">Stock Status</label>
+                                                <div class="col-sm-9">
+                                                    <select id="stock_status"
+                                                        class="js-example-basic-single w-100"
+                                                        name="stock_status">
 
-                                                <div id="quantity_group" class="mb-4 row align-items-center">
-                                                    <label class="col-sm-3 col-form-label form-label-title">Quantity</label>
-                                                    <div class="col-sm-9">
-                                                        <input id="quantity_input" class="form-control" type="number" name="quantity"
-                                                               value="{{ product.quantity|default:'0' }}" min="0" required>
-                                                    </div>
+                                                                                                    <option value="instock"
+                                                {% if product.stock == "instock" %}selected{% endif %}>In Stock</option>
+
+                                                <option value="outofstock"
+                                                {% if product.stock == "outofstock" %}selected{% endif %}>Out Of Stock</option>
+
+
+                                                </select>
+
                                                 </div>
+                                            </div>
+
+                                            <!-- Quantity / Stock Count -->
+                                            <div class="mb-4 row align-items-center" id="quantity_group">
+                                                <label class="col-sm-3 col-form-label form-label-title">Stock Count</label>
+                                                <div class="col-sm-9">
+                                                    <input type="number"
+                                                        id="quantity_input"
+                                                        name="stock_quantity"
+                                                        class="form-control"
+                                                        min="0"
+                                                        value="{{ product.count }}">
+                                                </div>
+                                            </div>
+
+
+                                               
 
                                                <div class="card mt-4 row align-items-center">
                                                                         <div class="card-body">
@@ -309,12 +350,9 @@
                                                                                 </label>
                                                                                 <div class="col-sm-9">
                                                                                     <textarea class="form-control"
-                                                                                            name="highlights"
-                                                                                            rows="5"
-                                                                                            placeholder="Eg:Lightweight design
-                                                                                                            Water resistant
-                                                                                                            1 year warranty"
-                                                                  >{{ product.highlights|default:'' }}</textarea>
+                                                                                            name="product_highlight"
+                                                                                            rows="5">
+                                                                                            {{ product.product_highlight }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -333,10 +371,8 @@
                                                                                     <textarea class="form-control"
                                                                                             name="how_to_use"
                                                                                             rows="5"
-                                                                                            placeholder="Eg:Lightweight design
-                                                                                                            Water resistant
-                                                                                                            1 year warranty"
-                                                                  >{{ product.how_to_use|default:'' }}</textarea>
+                                                                                            
+                                                                  >{{ product.how_to_use }}</textarea>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -346,18 +382,17 @@
                                                  <div class="mb-4 row align-items-center">
                                                     <label class="form-label-title col-sm-3 mb-0">Page title</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="search"
-                                                            placeholder="Fresh Fruits">
+                                                        <input class="form-control" type="search"  name="page_title"
+                                                            value="{{ product.page_title }}">
                                                     </div>
                                                 </div>
                                                   <div class="mb-4 row">
                                                     <label class="form-label-title col-sm-3 mb-0">Meta
                                                         Keywords</label>
                                                     <div class="col-sm-9">
-                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <textarea class="form-control" rows="3"  name="meta_keywords">{{ product.meta_keywords }}</textarea>
                                                     </div>
                                                 </div>
-
 
                                                 
 
@@ -365,15 +400,15 @@
                                                     <label class="form-label-title col-sm-3 mb-0">Meta
                                                         description</label>
                                                     <div class="col-sm-9">
-                                                        <textarea class="form-control" rows="3"></textarea>
+                                                        <textarea class="form-control" name="meta_description" rows="3">{{ product.meta_description }}</textarea>
                                                     </div>
                                                 </div>
 
                                                 <div class="row">
                                                     <label class="form-label-title col-sm-3 mb-0">URL handle</label>
                                                     <div class="col-sm-9">
-                                                        <input class="form-control" type="search"
-                                                            placeholder="https://fastkart.com/fresh-veggies">
+                                                        <input class="form-control" type="search"  name="canonical_url"
+                                                            value="{{ product.canonical_tag }}">
                                                     </div>
                                                 </div>
 
@@ -382,23 +417,13 @@
                                                 <!-- Submit Button -->
                                                 <div class="card-submit-button text-end mt-4">
                                                     <button class="btn btn-animation btn-primary px-5" type="submit">
-                                                     Update
+                                                    update
                                                     </button>
                                                     </div>
 
                                             </form>
                                         </div>
                                     </div>
-
-
-                                 
-
-                                 
-
-                                  
-                                    
-
-                               
 
                                  
 
@@ -440,6 +465,31 @@
         </div>
     </div>
     <!-- Modal End -->
+
+<script>
+    document.getElementById("discount").addEventListener("input", function () {
+        const price = parseFloat(document.getElementById("original_price").value) || 0;
+        const discount = parseFloat(this.value) || 0;
+        document.getElementById("offer_price").value =
+            price - (price * discount / 100);
+    });
+
+    const stockSelect = document.getElementById("stock_status");
+    const countGroup = document.getElementById("count_group");
+    const countInput = document.getElementById("count_input");
+
+    function toggleCount() {
+        if (stockSelect.value === "Out Of Stock") {
+            countGroup.style.display = "none";
+            countInput.value = 0;
+        } else {
+            countGroup.style.display = "flex";
+        }
+    }
+
+    stockSelect.addEventListener("change", toggleCount);
+    toggleCount();
+</script>
 
     <!-- latest js -->
     <script src="{% static 'adminpanel/js/jquery-3.6.0.min.js' %}"></script>
@@ -484,11 +534,117 @@
     <script src="{% static 'adminpanel/js/script.js' %}"></script>
 
         <!-- Your custom JS files -->
-    <script src="{% static 'adminpanel/js/adminpanel.js' %}"></script>
+    <!-- <script src="{% static 'adminpanel/js/adminpanel.js' %}"></script> -->
 
     <!-- NEW: Separate stock toggle script -->
-    <script src="{% static 'adminpanel/js/product-stock.js' %}"></script>
+  
     <script src="{% static 'adminpanel/js/product_price.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const stockStatus = document.getElementById("stock_status");
+    const quantityInput = document.getElementById("quantity_input");
+    const quantityGroup = document.getElementById("quantity_group");
+
+    if (!stockStatus || !quantityInput || !quantityGroup) return;
+
+    function handleStock() {
+        // 🔒 Always visible
+        quantityGroup.style.display = "flex";
+
+        if (stockStatus.value === "outofstock") {
+            quantityInput.value = 0;
+            quantityInput.readOnly = true;
+            quantityInput.disabled = true;
+        } else {
+            quantityInput.disabled = false;
+            quantityInput.readOnly = false;
+        }
+    }
+
+    handleStock();
+    stockStatus.addEventListener("change", handleStock);
+
+    // Select2 support
+    if (window.jQuery && jQuery.fn.select2) {
+        jQuery(stockStatus).on("select2:select", handleStock);
+    }
+});
+</script>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Get both selects
+    const categorySelect = document.getElementById("category_select");
+    const subcategorySelect = document.getElementById("subcategory_select");
+
+    if (!categorySelect || !subcategorySelect) return;
+
+    // Store all subcategory options for later filtering
+    const allSubOptions = Array.from(subcategorySelect.querySelectorAll("option"));
+
+    // Make sure initially subcategory is disabled + empty
+    subcategorySelect.disabled = true;
+    subcategorySelect.innerHTML = '<option value="" disabled selected>Select subcategory</option>';
+
+    function updateSubcategories() {
+        const selectedCategoryId = categorySelect.value;
+
+        // Clear current options (except placeholder)
+        subcategorySelect.innerHTML = '<option value="" disabled selected>Select subcategory</option>';
+
+        if (!selectedCategoryId) {
+            // No category selected → disable & show only placeholder
+            subcategorySelect.disabled = true;
+            return;
+        }
+
+        // Enable subcategory select
+        subcategorySelect.disabled = false;
+
+        // Filter and add only matching subcategories
+        allSubOptions.forEach(option => {
+            if (option.value === "") return; // skip placeholder
+
+            const belongsToCategory = option.dataset.category === selectedCategoryId;
+
+            if (belongsToCategory) {
+                // Clone the original option and add it
+                const newOption = option.cloneNode(true);
+                newOption.hidden = false; // make sure it's visible
+                subcategorySelect.appendChild(newOption);
+            }
+        });
+
+        // If using Select2 → refresh it
+        if (jQuery && jQuery.fn.select2) {
+            jQuery(subcategorySelect).trigger('change.select2');
+        }
+    }
+
+    // Listen to category change (native + Select2)
+    categorySelect.addEventListener("change", updateSubcategories);
+
+    // Support Select2 change event
+    if (window.jQuery && jQuery.fn.select2) {
+        jQuery(categorySelect).on("select2:select", function (e) {
+            updateSubcategories();
+        });
+
+        // Optional: trigger once after Select2 is fully initialized
+        setTimeout(updateSubcategories, 100);
+    }
+
+    // Run once on page load (important for edit mode)
+    updateSubcategories();
+});
+</script>
+
+
+
 </body>
 
 </html>

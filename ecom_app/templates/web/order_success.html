@@ -1,0 +1,163 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Successful • Kanthi Mantra</title>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brownMain: '#6B3F2A',
+                        brownDark: '#4A2A1C',
+                        line: '#E9E2DA',
+                        soft: '#FAF8F5',
+                    },
+                    boxShadow: {
+                        soft: '0 12px 35px rgba(0,0,0,0.08)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes floatIn {
+            from { transform: translateY(18px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .float-in { animation: floatIn .7s ease-out both; }
+
+        @keyframes draw {
+            to { stroke-dashoffset: 0; }
+        }
+        .check-path {
+            stroke-dasharray: 80;
+            stroke-dashoffset: 80;
+            animation: draw 900ms ease-out 250ms forwards;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(.88); opacity: .65; }
+            60% { transform: scale(1.02); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop { animation: pop .55s ease-out both; }
+
+        @keyframes progress {
+            from { transform: scaleX(1); }
+            to { transform: scaleX(0); }
+        }
+        .progress {
+            transform-origin: left center;
+            animation: progress 5s linear forwards;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-zinc-900">
+
+<section class="min-h-screen w-full relative overflow-hidden flex items-center">
+    <div class="absolute inset-0 bg-soft"></div>
+
+    <div class="relative w-full px-6 sm:px-10 lg:px-16">
+        <div class="max-w-4xl mx-auto text-center float-in">
+
+            <!-- Badge -->
+            <div
+                class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm text-brownMain font-medium shadow-soft">
+                <span class="h-2 w-2 rounded-full bg-brownMain"></span>
+                Payment confirmed • Order placed
+            </div>
+
+            <!-- Icon -->
+            <div
+                class="mt-8 mx-auto w-24 h-24 rounded-full bg-white border border-line shadow-soft grid place-items-center pop">
+                <svg width="54" height="54" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="9" stroke="#6B3F2A" stroke-width="2" opacity="0.25"></circle>
+                    <path class="check-path" d="M8 12.5l2.5 2.5L16.5 9"
+                          stroke="#6B3F2A" stroke-width="2.4"
+                          stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+            </div>
+
+            <!-- Heading -->
+            <h1 class="mt-8 text-4xl sm:text-6xl font-[500] tracking-tight">
+                Order Successful
+            </h1>
+
+            <p class="mt-4 text-zinc-700 max-w-2xl mx-auto">
+                Thank you for ordering from Kanthi Mantra. Your payment was successful and your order is being processed.
+            </p>
+
+            <!-- Order info -->
+            <div class="mt-8 grid gap-4 sm:grid-cols-3 text-left">
+                <div class="rounded-2xl border border-line bg-white p-5 shadow-soft">
+                    <div class="text-xs text-zinc-500">Order ID</div>
+                    <div class="mt-1 text-sm font-semibold">{{ order.order_id }}</div>
+                </div>
+
+                <div class="rounded-2xl border border-line bg-white p-5 shadow-soft">
+                    <div class="text-xs text-zinc-500">Amount Paid</div>
+                    <div class="mt-1 text-sm font-semibold">₹{{ order.total_amount }}</div>
+                </div>
+
+                <div class="rounded-2xl border border-line bg-white p-5 shadow-soft">
+                    <div class="text-xs text-zinc-500">Estimated Dispatch</div>
+                    <div class="mt-1 text-sm font-semibold">24–48 hours</div>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+
+                <!-- Invoice -->
+                <a href="{% url 'web:generate_invoice' order.id %}"
+                   class="inline-flex items-center justify-center rounded-full border border-brownMain px-6 py-3 text-sm font-semibold text-brownMain hover:bg-soft transition">
+                    Download Invoice
+                </a>
+
+                <!-- Continue shopping -->
+                <a href="{% url 'web:index' %}"
+                   class="inline-flex items-center justify-center rounded-full bg-brownMain px-6 py-3 text-sm font-semibold text-white hover:bg-brownDark transition">
+                    Continue Shopping
+                </a>
+            </div>
+
+            <!-- Redirect -->
+            <div class="mt-8 text-sm text-zinc-600">
+                Redirecting to home in <span id="countdown" class="font-semibold text-brownMain">5</span> seconds…
+            </div>
+
+            <div class="mt-4 max-w-md mx-auto">
+                <div class="h-2 rounded-full bg-white border border-line overflow-hidden">
+                    <div class="h-full bg-brownMain progress"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    let t = 5;
+    const el = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
+        t--;
+        el.textContent = t;
+        if (t <= 0) {
+            clearInterval(timer);
+            window.location.href = "{% url 'web:invoice_view' order.id %}";
+        }
+    }, 1000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+/* ---------------- A4 INVOICE STYLE ---------------- */
+.invoice-a4 {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    background: #ffffff;
+    margin: auto;
+    box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    font-family: Arial, sans-serif;
+}
+
+/* PAGE SETTINGS */
+@page {
+    size: A4;
+    margin: 0;
+}
+
+/* PRINT / PDF SETTINGS */
+@media print {
+    body {
+        background: white;
+    }
+
+    .invoice-a4 {
+        margin: 0;
+        box-shadow: none;
+        width: 210mm;
+        height: 297mm;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* TABLE STYLE */
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.invoice-table th,
+.invoice-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 6px;
+    font-size: 14px;
+}
+
+.invoice-table th {
+    text-align: left;
+    font-weight: 600;
+    color: #555;
+}
+
+.invoice-table td {
+    color: #333;
+}
+
+.invoice-table td.text-right,
+.invoice-table th.text-right {
+    text-align: right;
+}
+
+.invoice-table td.text-center {
+    text-align: center;
+}
+</style>
+
+<section class="bg-soft py-14">
+    <div class="max-w-6xl mx-auto px-4">
+
+        <!-- ================= A4 INVOICE ================= -->
+        <div id="invoice-a4" class="invoice-a4">
+
+            <!-- HEADER -->
+            <div class="text-center">
+                <h1 style="font-size:28px; font-weight:700;">INVOICE</h1>
+                <p style="color:#666; margin-top:6px;">Thank you for your order</p>
+            </div>
+
+            <!-- ORDER INFO -->
+            <div style="margin-top:25px; display:flex; justify-content:space-between; font-size:14px;">
+                <div>
+                    <p><strong>Order ID:</strong> {{ order.order_id }}</p>
+                    <p><strong>Date:</strong> {{ order.created_at|date:"d M Y" }}</p>
+                    <p><strong>Status:</strong> {{ order.status|title }}</p>
+                </div>
+                <div style="text-align:right;">
+                    <p><strong>Payment:</strong> Paid</p>
+                </div>
+            </div>
+
+            <!-- BILLING -->
+            <div style="margin-top:30px; font-size:14px;">
+                <p style="font-weight:600; margin-bottom:6px;">Billed To</p>
+                <p>{{ order.shipping.full_name }}</p>
+                <p>{{ order.shipping.address }}</p>
+                <p>{{ order.shipping.city }}, {{ order.shipping.state }}</p>
+                <p>{{ order.shipping.pincode }}</p>
+                {% if order.shipping.notes %}
+                <p style="color:#777; margin-top:4px;">Note: {{ order.shipping.notes }}</p>
+                {% endif %}
+            </div>
+
+            <!-- PRODUCT TABLE -->
+            <div style="margin-top:30px;">
+                <table class="invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-right">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items %}
+                        <tr>
+                            <td>
+                                {{ item.product.product_name }}
+                                <div style="font-size:12px; color:#777;">
+                                    {{ item.quantity_variant }}
+                                </div>
+                            </td>
+                            <td class="text-center">{{ item.count }}</td>
+                            <td class="text-right">₹{{ item.subtotal }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TOTALS -->
+            <div style="margin-top:30px; width:40%; margin-left:auto; font-size:14px;">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>MRP</span>
+                    <span>₹{{ order.subtotal|add:order.discount }}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; color:green;">
+                    <span>Discount</span>
+                    <span>- ₹{{ order.discount }}</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span>Shipping</span>
+                    <span>₹{{ order.shipping_charge }}</span>
+                </div>
+                <hr style="margin:10px 0;">
+                <div style="display:flex; justify-content:space-between; font-weight:700; font-size:16px;">
+                    <span>Total Paid</span>
+                    <span>₹{{ order.total_amount }}</span>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        <!-- ================= BUTTONS (WEB ONLY) ================= -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center no-print">
+
+            <button onclick="downloadInvoicePDF()"
+                class="rounded-full border border-brownMain px-6 py-3 text-sm font-semibold text-brownMain hover:bg-soft transition">
+                Download Invoice
+            </button>
+
+            <a href="#"
+                class="rounded-full border border-line px-6 py-3 text-sm font-semibold text-zinc-800 hover:bg-soft transition">
+                Track Order
+            </a>
+
+            <a href="{% url 'web:index' %}"
+                class="rounded-full bg-brownMain px-6 py-3 text-sm font-semibold text-white hover:bg-brownDark transition">
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= PDF SCRIPT ================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function downloadInvoicePDF() {
+    const element = document.getElementById('invoice-a4');
+
+    const options = {
+        margin: 0,
+        filename: 'Invoice_{{ order.order_id }}.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: {
+            scale: 2,
+            useCORS: true
+        },
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        }
+    };
+
+    html2pdf().set(options).from(element).save();
+}
+</script>
+
+{% endblock %}

@@ -70,7 +70,7 @@
             <div class="h-16 sm:h-20 flex items-center justify-between gap-3">
 
                 <!-- Left: Logo -->
-                <a href="index.html" class="flex items-center min-w-0">
+                <a href="{% url 'web:index' %}" class="flex items-center min-w-0">
                     <img src="{% static 'web/images/logo.png' %}" alt="Kanthi Mantra" class="h-12 sm:h-14 w-auto object-contain" />
                 </a>
 
@@ -79,13 +79,13 @@
                     <ul class="flex items-center gap-7">
 
                         <li>
-                            <a href="index.html"
+                            <a href="{% url 'web:index' %}"
                                 class="text-sm font-medium text-zinc-700 hover:text-zinc-900 transition inline-flex items-center gap-2 py-3">Home</a>
                         </li>
 
                         <!-- Shop (MEGA MENU) -->
                         <li class="relative group">
-                            <a href="shop.html"
+                            <a href="{% url 'web:shop' %}"
                                 class="text-sm font-medium text-zinc-700 hover:text-zinc-900 transition inline-flex items-center gap-2 py-3">
                                 Shop
                                 <i
@@ -111,15 +111,15 @@
                                                         class="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
                                                         Skin Care</p>
                                                     <div class="mt-3 space-y-2">
-                                                        <a href="shop.html"
+                                                        <a href="{% url 'web:shop' %}"
                                                             class="block text-sm text-zinc-700 hover:text-brownMain transition">Face</a>
-                                                        <a href="shop.html"
+                                                        <a href="{% url 'web:shop' %}"
                                                             class="block text-sm text-zinc-700 hover:text-brownMain transition">Cleansers</a>
-                                                        <a href="shop.html"
+                                                        <a href="{% url 'web:shop' %}"
                                                             class="block text-sm text-zinc-700 hover:text-brownMain transition">Serums</a>
-                                                        <a href="shop.html"
+                                                        <a href="{% url 'web:shop' %}"
                                                             class="block text-sm text-zinc-700 hover:text-brownMain transition">Moisturizers</a>
-                                                        <a href="shop.html"
+                                                        <a href="{% url 'web:shop' %}"
                                                             class="block text-sm text-zinc-700 hover:text-brownMain transition">Sunscreens</a>
                                                     </div>
                                                 </div>
@@ -169,15 +169,15 @@
 
                                             <!-- Quick links -->
                                             <div class="mt-6 pt-5 border-t border-zinc-200 flex flex-wrap gap-3">
-                                                <a href="shop_copy.html"
+                                                <a href="{% url 'web:shop' %}"
                                                     class="text-xs font-semibold px-3 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 transition">New
                                                     Arrivals</a>
-                                                <a href="shop_copy.html"
+                                                <a href="{% url 'web:shop' %}"
                                                     class="text-xs font-semibold px-3 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 transition">Best
                                                     Sellers</a>
-                                                <a href="shop_copy.html"
+                                                <a href="{% url 'web:shop' %}"
                                                     class="text-xs font-semibold px-3 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 transition">Combos</a>
-                                                <a href="shop_copy.html"
+                                                <a href="{% url 'web:shop' %}"
                                                     class="text-xs font-semibold px-3 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 transition">Offers</a>
                                             </div>
                                         </div>
@@ -187,7 +187,7 @@
                                             <a href="product.html?sku=kumkumadi"
                                                 class="group mt-4 block rounded-2xl overflow-hidden border border-zinc-200 bg-white transition hover:shadow-lg">
                                                 <div class="relative h-44 overflow-hidden">
-                                                    <img src="images/headerimage.jpg" alt="Kumkumadi Glow Serum"
+                                                    <img src="{% static 'web/images/headerimage.jpg' %}" alt="Kumkumadi Glow Serum"
                                                         class="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
                                                     <div
                                                         class="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent">
@@ -217,19 +217,19 @@
                         </li>
 
                         <li>
-                            <a href="category.html"
+                            <a href="{% url 'web:category' %}"
                                 class="text-sm font-medium text-zinc-700 hover:text-zinc-900 transition">Category</a>
                         </li>
                         <li>
-                            <a href="about.html"
+                            <a href="{% url 'web:about' %}"
                                 class="text-sm font-medium text-zinc-700 hover:text-zinc-900 transition">About</a>
                         </li>
                         <li>
-                            <a href="blog.html"
+                            <a href="{% url 'web:blog' %}"
                                 class="text-sm font-medium text-zinc-700 hover:text-zinc-900 transition">Journal</a>
                         </li>
                         <li>
-                            <a href="contact.html"
+                            <a href="{% url 'web:contact' %}"
                                 class="text-sm font-medium text-zinc-700 hover:text-zinc-900 transition">Contact</a>
                         </li>
 
@@ -243,21 +243,30 @@
                     <div class="hidden md:flex items-center gap-2">
 
                         <!-- Wishlist -->
-                        <a href="wishlist.html"
+                        <!-- Desktop -->
+                            <a href="{% url 'web:wishlist' %}"
                             class="relative h-11 w-11 rounded-2xl bg-zinc-100 hover:bg-zinc-200 transition grid place-items-center"
                             aria-label="Wishlist">
-                            <i class="fa-regular fa-heart text-zinc-700 text-lg"></i>
-                            <span
-                                class="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-brownMain text-white">2</span>
-                        </a>
+
+                                <i class="fa-regular fa-heart text-zinc-700 text-lg"></i>
+
+                                <span id="wishlist-count"
+                                    class="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-brownMain text-white">
+                                    {{ wishlist_count }}
+                                </span>
+                            </a>
 
                         <!-- Cart -->
-                        <a href="cart.html"
+                        <a href="{% url 'web:cart' %}"
                             class="relative h-11 w-11 rounded-2xl bg-zinc-100 hover:bg-zinc-200 transition grid place-items-center"
                             aria-label="Cart">
                             <i class="fa-solid fa-cart-shopping text-zinc-700 text-lg"></i>
                             <span
-                                class="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-brownMain text-white">3</span>
+                                id="cart-count"
+                                class="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5
+                                    rounded-full bg-brownMain text-white">
+                                {{ cart_count }}
+                            </span>
                         </a>
 
                         <!-- Desktop search input (always visible) -->
@@ -272,7 +281,7 @@
                         </div>
 
                         <!-- Account -->
-                        <a href="account.html"
+                        <a href="{% url 'web:account' %}"
                             class="h-11 w-11 rounded-2xl bg-zinc-100 hover:bg-zinc-200 transition grid place-items-center"
                             aria-label="Account">
                             <i class="fa-regular fa-user text-zinc-700 text-lg"></i>
@@ -323,7 +332,7 @@
                     <!-- PRIMARY LINKS -->
                     <div class="p-3 space-y-1">
                         <a class="block px-3 py-3 rounded-xl text-sm font-semibold text-brownMain bg-zinc-50"
-                            href="index.html">Home</a>
+                            href="{% url 'web:index' %}">Home</a>
 
                         <!-- SHOP (accordion) -->
                         <button type="button"
@@ -365,26 +374,27 @@
                         </div>
 
                         <!-- OTHER LINKS -->
-                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="category.html">Category</a>
-                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="about.html">About Us</a>
-                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="blog.html">Journal</a>
-                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="contact.html">Contact</a>
+                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="{% url 'web:category' %}">Category</a>
+                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="{% url 'web:about' %}">About Us</a>
+                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="{% url 'web:blog' %}">Journal</a>
+                        <a class="block px-3 py-3 rounded-xl text-sm hover:bg-zinc-50" href="{% url 'web:contact' %}">Contact</a>
                     </div>
 
                     <!-- QUICK ACTIONS -->
                     <div class="border-t border-zinc-200 p-3">
                         <div class="grid grid-cols-3 gap-2">
-                            <a href="wishlist.html"
+                            <a href="{% url 'web:wishlist' %}"
                                 class="h-11 rounded-xl bg-zinc-100 hover:bg-zinc-200 transition grid place-items-center"
                                 aria-label="Wishlist">
-                                <i class="fa-regular fa-heart text-zinc-700"></i>
+
+                                    <i class="fa-regular fa-heart text-zinc-700"></i>
                             </a>
-                            <a href="cart.html"
+                            <a href="{% url 'web:cart' %}"
                                 class="h-11 rounded-xl bg-zinc-100 hover:bg-zinc-200 transition grid place-items-center"
                                 aria-label="Cart">
                                 <i class="fa-solid fa-bag-shopping text-zinc-700"></i>
                             </a>
-                            <a href="account.html"
+                            <a href="{% url 'web:account' %}"
                                 class="h-11 rounded-xl bg-zinc-100 hover:bg-zinc-200 transition grid place-items-center"
                                 aria-label="Account">
                                 <i class="fa-regular fa-user text-zinc-700"></i>
@@ -397,4 +407,3 @@
 
         </div>
     </header>
-

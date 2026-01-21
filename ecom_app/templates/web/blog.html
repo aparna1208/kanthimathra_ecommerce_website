@@ -1,0 +1,424 @@
+{% extends 'web/base.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- PAGE HEADER -->
+    <section class="relative border-b border-line min-h-[40vh] sm:min-h-[60vh] flex items-center">
+
+        <!-- Background image -->
+        <div class="absolute inset-0 bg-cover bg-center pagebanner"></div>
+
+        <!-- Overlay for readability -->
+        <div class="absolute inset-0 bg-white/80"></div>
+
+        <!-- Content -->
+        <div class="relative px-6 w-full">
+            <div class="max-w-8xl mx-auto py-12 sm:py-16">
+
+                <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+                    <div>
+                        <div class="text-sm sm:text-lg text-brownMain font-medium">
+                            Our Blog
+                        </div>
+
+                        <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                            Articles for calm, consistent wellness
+                        </h1>
+
+                        <p class="mt-3 text-zinc-700">
+                            Read practical Ayurveda insights, clinic-first guidance, and routines designed for modern
+                            daily life.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white border-t border-line">
+        <div class="max-w-8xl mx-auto px-4 sm:px-6">
+
+            <!-- Cards -->
+            <div class="mt-12 grid gap-6 lg:grid-cols-3">
+
+                <!-- Blog Card 1 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog1.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Dec 12, 2025 • 4 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            Understanding your routine: food, sleep, and consistency
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Small daily choices shape long-term wellness. Learn how consistent routines support balance
+                            and recovery.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 2 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog2.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Dec 05, 2025 • 5 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            What “clinic-first care” actually means (and why it matters)
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Why diagnosis should come before products. A simple explanation of our approach and what you
+                            can expect.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 3 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog3.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Nov 28, 2025 • 6 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            Herbs, preparation, and quality: what to look for
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Not all formulations are the same. Here’s how sourcing, method, and consistency affect
+                            outcomes.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 1 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog1.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Dec 12, 2025 • 4 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            Understanding your routine: food, sleep, and consistency
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Small daily choices shape long-term wellness. Learn how consistent routines support balance
+                            and recovery.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 2 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog2.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Dec 05, 2025 • 5 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            What “clinic-first care” actually means (and why it matters)
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Why diagnosis should come before products. A simple explanation of our approach and what you
+                            can expect.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 3 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog3.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Nov 28, 2025 • 6 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            Herbs, preparation, and quality: what to look for
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Not all formulations are the same. Here’s how sourcing, method, and consistency affect
+                            outcomes.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 1 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog1.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Dec 12, 2025 • 4 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            Understanding your routine: food, sleep, and consistency
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Small daily choices shape long-term wellness. Learn how consistent routines support balance
+                            and recovery.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 2 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog2.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Dec 05, 2025 • 5 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            What “clinic-first care” actually means (and why it matters)
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Why diagnosis should come before products. A simple explanation of our approach and what you
+                            can expect.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Blog Card 3 -->
+                <article
+                    class="group rounded-3xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
+                    <a href="blog-single.html" class="block bg-soft">
+                        <div class="aspect-[16/9] overflow-hidden">
+                            <img src="{% static 'web/images/blog3.jpg' %}" alt="Blog cover"
+                                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
+                        </div>
+                    </a>
+
+                    <div class="p-6">
+                        <div class="text-xs text-zinc-500">Nov 28, 2025 • 6 min read</div>
+                        <h3 class="mt-2 text-lg font-semibold text-zinc-900 leading-snug">
+                            Herbs, preparation, and quality: what to look for
+                        </h3>
+
+                        <p class="mt-3 text-sm text-zinc-600 leading-relaxed">
+                            Not all formulations are the same. Here’s how sourcing, method, and consistency affect
+                            outcomes.
+                        </p>
+
+                        <div class="mt-5">
+                            <a href="blog-single.html" class="inline-flex items-center gap-2 rounded-xl border border-brownMain text-brownMain px-4 py-2 text-sm font-medium
+                      hover:bg-soft transition">
+                                Read More
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 6l6 6-6 6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+            <!-- Pagination -->
+            <div class="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-zinc-600">
+                    Showing <span class="font-medium text-zinc-900">1–9</span> of <span
+                        class="font-medium text-zinc-900">27</span> posts
+                </p>
+
+                <nav class="flex items-center gap-2" aria-label="Pagination">
+
+                    <!-- Prev -->
+                    <a href="#" class="h-10 px-4 rounded-xl border border-line bg-white text-sm text-zinc-700
+              hover:bg-soft transition inline-flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
+                        </svg>
+                        Prev
+                    </a>
+
+                    <!-- Pages -->
+                    <a href="#" class="h-10 w-10 rounded-xl border border-brownMain bg-brownMain text-white text-sm font-medium
+              grid place-items-center">
+                        1
+                    </a>
+
+                    <a href="#" class="h-10 w-10 rounded-xl border border-line bg-white text-zinc-700 text-sm font-medium
+              hover:bg-soft transition grid place-items-center">
+                        2
+                    </a>
+
+                    <a href="#" class="h-10 w-10 rounded-xl border border-line bg-white text-zinc-700 text-sm font-medium
+              hover:bg-soft transition grid place-items-center">
+                        3
+                    </a>
+
+                    <span class="h-10 px-2 text-zinc-500 grid place-items-center">…</span>
+
+                    <a href="#" class="h-10 w-10 rounded-xl border border-line bg-white text-zinc-700 text-sm font-medium
+              hover:bg-soft transition grid place-items-center">
+                        6
+                    </a>
+
+                    <!-- Next -->
+                    <a href="#" class="h-10 px-4 rounded-xl border border-line bg-white text-sm text-zinc-700
+              hover:bg-soft transition inline-flex items-center gap-2">
+                        Next
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l6-6-6-6" />
+                        </svg>
+                    </a>
+
+                </nav>
+            </div>
+
+        </div>
+    </section>
+
+{% endblock %}
+
+
+
+
+   

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #222;
+        }
+
+        .invoice-a4 {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .subtext {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .info-table td {
+            font-size: 14px;
+            padding: 4px 0;
+            vertical-align: top;
+        }
+
+        .section {
+            margin-top: 25px;
+        }
+
+        .product-table th {
+            text-align: left;
+            font-size: 14px;
+            color: #666;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        .product-table td {
+            font-size: 14px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .variant {
+            font-size: 12px;
+            color: #777;
+            margin-top: 3px;
+        }
+
+        .totals-table td {
+            font-size: 14px;
+            padding: 4px 0;
+        }
+
+        .discount {
+            color: green;
+        }
+
+        .total-paid td {
+            font-weight: bold;
+            font-size: 16px;
+            padding-top: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="invoice-a4">
+
+    <!-- HEADER -->
+    <div style="text-align:center;">
+        <h1>INVOICE</h1>
+        <div class="subtext">Thank you for your order</div>
+    </div>
+
+    <!-- ORDER INFO -->
+    <table class="info-table section">
+        <tr>
+            <td width="70%">
+                <strong>Order ID:</strong> {{ order.order_id }}<br>
+                <strong>Date:</strong> {{ order.created_at|date:"d M Y" }}<br>
+                <strong>Status:</strong> {{ order.status|title }}
+            </td>
+            <td width="30%" class="text-right">
+                <strong>Payment:</strong> Paid
+            </td>
+        </tr>
+    </table>
+
+    <!-- BILLING -->
+    <div class="section">
+        <strong>Billed To</strong><br>
+        {{ order.shipping.full_name }}<br>
+        {{ order.shipping.address }}<br>
+        {{ order.shipping.city }}, {{ order.shipping.state }}<br>
+        {{ order.shipping.pincode }}
+    </div>
+
+    <!-- PRODUCTS -->
+    <table class="product-table section">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th class="text-center">Qty</th>
+                <th class="text-right">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>
+                    {{ item.product.product_name }}
+                    <div class="variant">{{ item.quantity_variant }}</div>
+                </td>
+                <td class="text-center">{{ item.count }}</td>
+                <td class="text-right">₹{{ item.subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- TOTALS -->
+    <table class="totals-table section" align="right" width="45%">
+        <tr>
+            <td>MRP</td>
+            <td class="text-right">₹{{ order.subtotal|add:order.discount }}</td>
+        </tr>
+        <tr class="discount">
+            <td>Discount</td>
+            <td class="text-right">- ₹{{ order.discount }}</td>
+        </tr>
+        <tr>
+            <td>Shipping</td>
+            <td class="text-right">₹{{ order.shipping_charge }}</td>
+        </tr>
+        <tr><td colspan="2"><hr></td></tr>
+        <tr class="total-paid">
+            <td>Total Paid</td>
+            <td class="text-right">₹{{ order.total_amount }}</td>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+</html>

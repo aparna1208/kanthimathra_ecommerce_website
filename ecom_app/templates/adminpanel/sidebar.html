@@ -54,6 +54,23 @@
                                     </ul>
                                 </li>
 
+                                  <li class="sidebar-list">
+                                    <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
+                                        <i class="ri-list-check-2"></i>
+                                        <span>Sub Category</span>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                        <li>
+                                            <a href="{% url 'web:add_sub_category' %}">Add New Sub Category</a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'web:sub_category_list' %}">Sub Category List</a>
+                                        </li>
+
+                                        <li>
+                                    </ul>
+                                </li>                                
+
 
                                 <li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
@@ -66,9 +83,7 @@
                                         </li>
                                         <li>
                                             <a href="{% url 'web:product_list' %}">Products</a>
-                                        </li>
-
-                                       
+                                        </li>                                
                                     </ul>
                                 </li>
 

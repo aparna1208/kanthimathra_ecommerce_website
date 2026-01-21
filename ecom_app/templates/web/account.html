@@ -80,12 +80,12 @@
                                 </div>
 
                                 <div class="mt-4 text-lg font-semibold text-zinc-900">Navoditha User</div>
-                                <div class="mt-1 text-sm text-zinc-600">info@navodithahealthcare.com</div>
+                                <div class="mt-1 text-sm text-zinc-600">{% if user.email %}{{ user.email }}{% else %}No email{% endif %}</div>
                             </div>
 
                             <!-- Menu -->
                             <nav class="mt-6 space-y-2">
-                                <a href="account.html"
+                                <a href="{% url 'web:account' %}"
                                     class="flex items-center gap-3 rounded-2xl px-4 py-3 bg-soft border border-line text-brownMain font-medium">
                                     <span
                                         class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
@@ -98,7 +98,7 @@
                                     Dashboard
                                 </a>
 
-                                <a href="orders.html"
+                                <a href="{% url 'web:order_history' %}"
                                     class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
                                     <span
                                         class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
@@ -111,7 +111,7 @@
                                     Orders
                                 </a>
 
-                                <a href="address.html"
+                                <a href="{% url 'web:account_address' %}"
                                     class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
                                     <span
                                         class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
@@ -125,7 +125,7 @@
                                     My Address
                                 </a>
 
-                                <a href="settings.html"
+                                <a href="{% url 'web:account_settings' %}"
                                     class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
                                     <span
                                         class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">
@@ -140,7 +140,7 @@
                                     Settings
                                 </a>
 
-                                <a href="logout.php"
+                                <a href="{% url 'web:logout' %}"
                                     class="flex items-center gap-3 rounded-2xl px-4 py-3 hover:bg-soft transition text-zinc-800">
                                     <span
                                         class="h-10 w-10 rounded-xl bg-white border border-line grid place-items-center">

@@ -110,7 +110,7 @@
                                                 <div class="mb-4 row">
                                                     <label class="col-sm-3 form-label-title">Product Name</label>
                                                     <div class="col-sm-9">
-                                                        <div class="view-box">{{ product.name }}</div>
+                                                        <div class="view-box">{{ product.product_name }}</div>
                                                     </div>
                                                 </div>
 
@@ -119,9 +119,18 @@
                                                 <div class="mb-4 row">
                                                     <label class="col-sm-3 form-label-title">Category</label>
                                                     <div class="col-sm-9">
-                                                        <div class="view-box">{{ product.category.name }}</div>
+                                                        <div class="view-box">{{ product.category.category_name }}</div>
                                                     </div>
                                                 </div>
+
+                                                <div class="mb-4 row">
+                                                    <label class="col-sm-3 form-label-title">Sub Category</label>
+                                                    <div class="col-sm-9">
+                                                        <div class="view-box">{{ product.subcategory.sub_category_name }}</div>
+                                                    </div>
+                                                </div>
+
+                                             
 
 
                                                 <!-- Brand -->
@@ -161,15 +170,20 @@
                                                 </div>
 
                                                 <div class="d-flex flex-wrap gap-3 mt-3">
-                                                    {% if product.images.all %}
-                                                    {% for img in product.images.all %}
-                                                    <img src="{{ img.image.url }}" width="90" height="90"
-                                                        class="border rounded shadow-sm" style="object-fit:cover;">
+
+                                                {% if product.media_files.exists %}
+                                                    {% for img in product.media_files.all %}
+                                                        <img src="{{ img.media_file.url }}"
+                                                            width="90"
+                                                            height="90"
+                                                            class="border rounded shadow-sm"
+                                                            style="object-fit:cover;">
                                                     {% endfor %}
-                                                    {% else %}
+                                                {% else %}
                                                     <p class="text-muted">No images available</p>
-                                                    {% endif %}
-                                                </div>
+                                                {% endif %}
+
+                                            </div>
 
 
                                                 <!-- Thumbnail -->
@@ -190,14 +204,16 @@
                                                     <h5>Product Video</h5>
                                                 </div>
 
-                                                {% if product.video %}
-                                                <video width="260" controls class="rounded shadow-sm border">
-                                                    <source src="{{ product.video.url }}">
-                                                </video>
+                                               {% if videos %}
+                                                    {% for video in videos %}
+                                                        <video width="320" controls class="rounded shadow-sm border mb-2">
+                                                            <source src="{{ video.media_file.url }}" type="video/mp4">
+                                                        </video>
+                                                    {% endfor %}
                                                 {% else %}
-                                                <p class="text-muted">No video available</p>
+                                                    <p class="text-muted">No video available</p>
                                                 {% endif %}
-
+                                                
                                                 <div class="mb-4 row">
                                                     <label class="col-sm-3 form-label-title">Quantity</label>
                                                     <div class="col-sm-9">
@@ -232,7 +248,7 @@
                                                 <div class="mb-4 row">
                                                     <label class="col-sm-3 form-label-title">Discount</label>
                                                     <div class="col-sm-9">
-                                                        <div class="view-box">{{ product.discount }}%</div>
+                                                        <div class="view-box">{{ product.discount_percentage }}%</div>
                                                     </div>
                                                 </div>
 
@@ -253,14 +269,14 @@
                                                 <div class="mb-4 row">
                                                     <label class="col-sm-3 form-label-title">Stock Status</label>
                                                     <div class="col-sm-9">
-                                                        <div class="view-box">{{ product.stock_status }}</div>
+                                                        <div class="view-box">{{ product.get_stock_display }}</div>
                                                     </div>
                                                 </div>
 
                                                 <div class="mb-4 row">
                                                     <label class="col-sm-3 form-label-title">Quantity</label>
                                                     <div class="col-sm-9">
-                                                        <div class="view-box">{{ product.quantity }}</div>
+                                                        <div class="view-box">{{ product.count }}</div>
                                                     </div>
                                                 </div>
 
@@ -277,7 +293,7 @@
                                                             </label>
                                                             <div class="col-sm-9">
                                                                 <div class="view-box view-box-textarea">
-                                                                    {{ product.highlights|default:"N/A" }}
+                                                                    {{ product.product_highlight|default:"N/A" }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -349,9 +365,9 @@
 
 
                                                 <div class="card-submit-button d-flex justify-content-end gap-2">
-                                <button class="btn btn-animation" type="submit">Edit</button>
+                                                    <a href="{% url 'web:edit_product' product.id %}" class="btn btn-animation">Edit</a>
 
-                                <button class="btn btn-animation" type="submit">All Products</button>
+                                <a href="{% url 'web:product_list' %}" class="btn btn-animation">All Products</a>
                             </div>
 
                                             </form>

@@ -1,0 +1,118 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/dropzone.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/select2.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/chartist.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/date-picker.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/vendors/bootstrap-tagsinput.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+{% if messages %}
+<div class="container mt-3">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+</div>
+{% endif %}
+<!-- New Product Add Start -->
+<div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-sm-8 m-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="card-header-2">
+                                                <h5>Sub Category Information</h5>
+                                            </div>
+
+                                          <form action="{% url 'web:add_sub_category' %}" method="POST" enctype="multipart/form-data">
+                                              {% csrf_token %}
+                                              <div class="theme-form theme-form-2 mega-form">
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="form-label-title col-sm-3 mb-0">Sub Category Name</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="text" name="sub_category_name" placeholder="Enter Sub Category Name" required>
+                                                    </div>
+                                                </div>
+                                                <!-- Category -->
+                                                <div class="mb-4 row align-items-center">
+                                                        <label class="col-sm-3 col-form-label form-label-title">
+                                                            Category
+                                                        </label>
+
+                                                        <div class="col-sm-9">
+                                                            <div class="d-flex align-items-center gap-2">
+
+                                                                <!-- Category Select -->
+                                                                <select class="js-example-basic-single w-100"
+                                                                        name="category"
+                                                                        required>
+                                                                    <option value="" disabled selected>Select category</option>
+                                                                    {% for category in categories %}
+                                                                    <option value="{{ category.id }}"
+                                                                        {% if product.category and product.category.id == category.id %}selected{% endif %}>
+                                                                        {{ category.category_name }}
+                                                                    </option>
+                                                                    {% endfor %}
+                                                                </select>
+
+                                                                <!-- ➕ Add Category Button -->
+                                                                <a href="{% url 'web:add_category' %}"
+                                                                class="btn btn-outline-primary btn-sm"
+                                                                title="Add new category"
+                                                                >
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                                                    
+                                                <!-- Sub Category Image -->
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="col-sm-3 col-form-label form-label-title">Sub Category Image</label>
+                                                    <div class="col-sm-9">
+                                                        <input class="form-control" type="file" name="sub_category_image" accept="image/*">
+                                                        <small class="text-muted">Recommended size: 1200x400px</small>
+                                                    </div>
+                                                </div>
+
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="card-submit-button">
+                                            <button class="btn btn-animation ms-auto" type="submit">Submit</button>
+                                        </div>
+                                          </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% block extra_js %}
+
+    <script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+    <script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+    <script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+    <script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+    <script src="{% static 'adminpanel/js/bootstrap-tagsinput.min.js' %}"></script>
+
+                {% endblock %}
+
+
+
+<!-- New Product Add End -->
+{% endblock %}

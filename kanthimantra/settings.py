@@ -68,6 +68,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "ecom_app.context_processors.wishlist_count",
+                "ecom_app.context_processors.cart_count",
+
             ],
         },
     },
@@ -140,3 +143,20 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+RAZORPAY_KEY_ID = "rzp_test_S4pRKx2Sb5OXGJ"
+RAZORPAY_KEY_SECRET = "ET2SSD6Nb0ISEybzSdBBX4IF"
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'aparna12080@gmail.com'
+EMAIL_HOST_PASSWORD = 'oogw ckpp jlaf gogu'
+DEFAULT_FROM_EMAIL = 'Kanthi Mantra <aparna12080@gmail.com>'
