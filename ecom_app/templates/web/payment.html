@@ -386,7 +386,7 @@
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<!-- <script>
+<script>
     const csrfToken = "{{ csrf_token }}";
 
     document.getElementById("rzp-button").addEventListener("click", function (e) {
@@ -427,67 +427,12 @@
 
         new Razorpay(options).open();
     });
-</script> -->
-
-
-
-
-<script>
-    const csrfToken = "{{ csrf_token }}";
-
-    document.getElementById("rzp-button").onclick = function (e) {
-        e.preventDefault();
-
-        var options = {
-            key: "{{ razorpay_key }}",
-            amount: {{ razorpay_amount }},          // already in paise from view
-            currency: "INR",
-            name: "Kanthi Mantra",
-            description: "Order Payment",
-            order_id: "{{ razorpay_order_id }}",
-            prefill: {
-                name: "{{ request.user.get_full_name|default:'' }}",
-                email: "{{ request.user.email|default:'' }}",
-                contact: "{{ order.shipping.phone|default:'' }}"
-            },
-            handler: function (response) {
-                // This runs on successful payment
-                console.log("Payment successful!", response);
-
-                var form = document.createElement("form");
-                form.method = "POST";
-                form.action = "{% url 'web:payment_success' %}";
-
-                form.innerHTML = `
-                    <input type="hidden" name="csrfmiddlewaretoken" value="${csrfToken}">
-                    <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
-                    <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
-                    <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
-                `;
-
-                document.body.appendChild(form);
-                form.submit();
-            },
-            modal: {
-                ondismiss: function() {
-                    console.log("Checkout modal closed by user");
-                    // Optional: show message or log
-                }
-            },
-            theme: {
-                color: "#6B3F2A"
-            }
-        };
-
-        var rzp = new Razorpay(options);
-        rzp.open();
-    };
-
-window.onload = function () {
-    document.getElementById("rzp-button").click();
-};
-
 </script>
+
+
+
+
+
 {% endblock %}
 
 

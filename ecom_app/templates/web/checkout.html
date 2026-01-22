@@ -207,25 +207,25 @@
                             <!-- Items -->
                             <div class="p-6 space-y-4">
                            {% for item in cart_items %}
-<div class="flex gap-4">
-    <div class="h-16 w-16 rounded-2xl border border-line bg-soft overflow-hidden flex-shrink-0">
-        <img src="{{ item.thumbnail.url }}" class="h-full w-full object-cover">
-    </div>
+                            <div class="flex gap-4">
+                                <div class="h-16 w-16 rounded-2xl border border-line bg-soft overflow-hidden flex-shrink-0">
+                                    <img src="{{ item.thumbnail.url }}" class="h-full w-full object-cover">
+                                </div>
 
-    <div class="flex-1">
-        <div class="font-semibold text-zinc-900 leading-snug">
-            {{ item.product.product_name }}
-        </div>
-        <div class="text-sm text-zinc-500">
-            {{ item.quantity }} • Qty: {{ item.count }}
-        </div>
-    </div>
+                                <div class="flex-1">
+                                    <div class="font-semibold text-zinc-900 leading-snug">
+                                        {{ item.product.product_name }}
+                                    </div>
+                                    <div class="text-sm text-zinc-500">
+                                        {{ item.quantity }} • Qty: {{ item.count }}
+                                    </div>
+                                </div>
 
-    <div class="text-sm font-semibold text-zinc-900">
-        ₹{{ item.subtotal|floatformat:0  }}
-    </div>
-</div>
-{% endfor %}
+                                <div class="text-sm font-semibold text-zinc-900">
+                                    ₹{{ item.subtotal|floatformat:0  }}
+                                </div>
+                            </div>
+                            {% endfor %}
 
 
                                 <!-- Coupon -->
@@ -244,28 +244,28 @@
                                 <!-- Totals -->
                                 <div class="pt-4 border-t border-line space-y-2 text-sm">
                                     <!-- MRP -->
-    <div class="flex items-center justify-between text-zinc-700">
-        <span>MRP</span>
-        <span>₹{{  mrp_total|floatformat:0 }}</span>
-    </div>
+                                    <div class="flex items-center justify-between text-zinc-700">
+                                        <span>MRP</span>
+                                        <span>₹{{  mrp_total|floatformat:0 }}</span>
+                                    </div>
 
-    <!-- Delivery -->
-    <div class="flex items-center justify-between text-zinc-700">
-        <span>Delivery</span>
-        <span id="shipCost">₹0</span>
-    </div>
+                                    <!-- Delivery -->
+                                    <div class="flex items-center justify-between text-zinc-700">
+                                        <span>Delivery</span>
+                                        <span id="shipCost">₹0</span>
+                                    </div>
 
-    <!-- Discount -->
-    <div class="flex items-center justify-between text-zinc-700">
-        <span>Discount</span>
-        <span class="text-green-600">- ₹{{ discount|floatformat:0 }}</span>
-    </div>
+                                    <!-- Discount -->
+                                    <div class="flex items-center justify-between text-zinc-700">
+                                        <span>Discount</span>
+                                        <span class="text-green-600">- ₹{{ discount|floatformat:0 }}</span>
+                                    </div>
 
-    <!-- Total -->
-    <div class="pt-3 flex items-center justify-between text-zinc-900 font-semibold">
-        <span>Total</span>
-        <span>₹{{ payable_total|floatformat:0 }}</span>
-    </div>
+                                    <!-- Total -->
+                                    <div class="pt-3 flex items-center justify-between text-zinc-900 font-semibold">
+                                        <span>Total</span>
+                                        <span>₹{{ payable_total|floatformat:0 }}</span>
+                                    </div>
 
                                 </div>
 

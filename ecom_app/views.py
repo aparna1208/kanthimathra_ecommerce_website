@@ -563,76 +563,6 @@ def buy_now(request):
 
 
 
-# def cart(request):
-#     # ---------- Logged-in user ----------
-#     if request.user.is_authenticated:
-#         cart = Cart.objects.filter(user=request.user).first()
-#         items = cart.items.all() if cart else []
-
-#         subtotal = Decimal("0.00")     # offer price total
-#         discount = Decimal("0.00")     # discount amount
-#         mrp_total = Decimal("0.00")    # original price total
-
-#         for item in items:
-#             subtotal += item.subtotal
-#             mrp_total += item.product.original_price * item.count
-
-#             discount += (
-#                 item.product.original_price - item.price
-#             ) * item.count
-
-#             # attach discount percentage
-#             item.discount_percent = item.product.discount_percentage
-
-#         grand_total = mrp_total - discount
-
-#         return render(request, "web/cart.html", {
-#             "cart_items": items,
-#             "subtotal": subtotal,
-#             "discount": discount,
-#             "mrp_total": mrp_total,          # ✅ NEW
-#             "grand_total": grand_total,      # ✅ NEW
-#             "is_authenticated": True
-#         })
-
-#     # ---------- Guest user ----------
-#     session_cart = request.session.get("cart", {})
-#     items = []
-
-#     subtotal = Decimal("0.00")
-#     discount = Decimal("0.00")
-#     mrp_total = Decimal("0.00")
-
-#     for item in session_cart.values():
-#         product = Product.objects.get(id=item["product_id"])
-
-#         item_subtotal = Decimal(item["price"]) * item["count"]
-#         subtotal += item_subtotal
-
-#         mrp_total += product.original_price * item["count"]
-
-#         discount += (
-#             product.original_price - Decimal(item["price"])
-#         ) * item["count"]
-
-#         item_data = item.copy()
-#         item_data["subtotal"] = item_subtotal
-#         item_data["original_price"] = product.original_price
-#         item_data["discount_percent"] = product.discount_percentage
-
-#         items.append(item_data)
-
-#     grand_total = mrp_total - discount
-
-#     return render(request, "web/cart.html", {
-#         "cart_items": items,
-#         "subtotal": subtotal,
-#         "discount": discount,
-#         "mrp_total": mrp_total,          # ✅ NEW
-#         "grand_total": grand_total,      # ✅ NEW
-#         "is_authenticated": False
-#     })
-
 
 
 def cart(request):
@@ -803,6 +733,7 @@ def remove_cart_item(request):
         "cart_count": cart_count
     })
 
+
 @login_required(login_url="web:login")
 def checkout(request):
     cart = Cart.objects.filter(user=request.user).first()
@@ -825,7 +756,38 @@ def checkout(request):
     payable_total = subtotal + shipping_charge
 
     if request.method == "POST":
-        ...
+        order = Order.objects.create(
+        user=request.user,
+        order_id=f"KM-{uuid.uuid4().hex[:10].upper()}",
+        subtotal=subtotal,
+        discount=discount,
+        shipping_charge=shipping_charge,
+        total_amount=payable_total,
+        status="created"
+    )
+
+        for item in items:
+            OrderItem.objects.create(
+                order=order,
+                product=item.product,
+                quantity_variant=item.quantity,
+                count=item.count,
+                price=item.price,
+                original_price=item.product.original_price,
+            )
+
+        ShippingAddress.objects.create(
+        order=order,
+        full_name=request.POST.get("full_name"),
+        phone=request.POST.get("phone"),
+        address=request.POST.get("address"),
+        city=request.POST.get("city"),
+        state=request.POST.get("state"),
+        pincode=request.POST.get("pincode"),
+        country=request.POST.get("country", "India"),
+        notes=request.POST.get("notes"),
+    )
+
         return redirect("web:payment", order_id=order.id)
 
     return render(request, "web/checkout.html", {
@@ -836,6 +798,7 @@ def checkout(request):
         "payable_total": payable_total,
         "total_items": total_items,  # ✅ PASS TO TEMPLATE
     })
+
 
 
 @login_required
@@ -874,163 +837,6 @@ def payment(request, order_id):
     })
 
 
-# @login_required
-# def payment_success(request):
-#     if request.method == "POST":
-#         payment_id = request.POST.get("razorpay_payment_id")
-#         razorpay_order_id = request.POST.get("razorpay_order_id")
-#         signature = request.POST.get("razorpay_signature")
-
-#         client = razorpay.Client(
-#             auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-#         )
-
-#         try:
-#             client.utility.verify_payment_signature({
-#                 "razorpay_order_id": razorpay_order_id,
-#                 "razorpay_payment_id": payment_id,
-#                 "razorpay_signature": signature
-#             })
-#         except:
-#             return HttpResponse("Payment verification failed", status=400)
-
-#         order = Order.objects.get(razorpay_order_id=razorpay_order_id)
-
-#         order.payment_status = True
-#         order.status = "paid"
-#         order.payment_id = payment_id
-#         order.save()
-
-#         # clear cart
-#         order.user.cart.items.all().delete()
-
-#         send_order_email(order)
-
-#         return redirect("web:invoice_view", order_id=order.id)
-
-# @login_required
-# def payment_success(request):
-#     if request.method == "POST":
-#         payment_id = request.POST.get("razorpay_payment_id")
-#         razorpay_order_id = request.POST.get("razorpay_order_id")
-#         signature = request.POST.get("razorpay_signature")
-
-#         client = razorpay.Client(
-#             auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-#         )
-
-#         try:
-#             client.utility.verify_payment_signature({
-#                 "razorpay_order_id": razorpay_order_id,
-#                 "razorpay_payment_id": payment_id,
-#                 "razorpay_signature": signature
-#             })
-#         except:
-#             return HttpResponse("Payment verification failed", status=400)
-
-#         order = get_object_or_404(
-#             Order,
-#             razorpay_order_id=razorpay_order_id,
-#             user=request.user
-#         )
-
-#         order.payment_status = True
-#         order.status = "paid"
-#         order.payment_id = payment_id
-#         order.save()
-
-#         # ✅ clear cart
-#         order.user.cart.items.all().delete()
-
-#         send_order_email(order)
-
-#         # ✅ STEP 1: ORDER SUCCESS PAGE
-#         return redirect("web:order_success", order_id=order.id)
-
-
-
-# @login_required
-# def payment_success(request):
-#     if request.method == "POST":
-#         payment_id = request.POST.get("razorpay_payment_id")
-#         razorpay_order_id = request.POST.get("razorpay_order_id")
-#         signature = request.POST.get("razorpay_signature")
-
-#         client = razorpay.Client(
-#             auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-#         )
-
-#         client.utility.verify_payment_signature({
-#             "razorpay_order_id": razorpay_order_id,
-#             "razorpay_payment_id": payment_id,
-#             "razorpay_signature": signature
-#         })
-
-#         order = Order.objects.get(
-#             razorpay_order_id=razorpay_order_id,
-#             user=request.user
-#         )
-
-#         order.payment_status = True
-#         order.status = "paid"
-#         order.payment_id = payment_id
-#         order.save()
-
-#         # Clear cart
-#         order.user.cart.items.all().delete()
-
-#         # ✅ SEND SAME INVOICE.HTML AS PDF MAIL
-#         send_invoice_email(order)
-
-#         return redirect("web:order_success", order_id=order.id)
-
-
-# working--
-# @login_required
-# def payment_success(request):
-    if request.method != "POST":
-        return redirect("web:index")
-
-    payment_id = request.POST.get("razorpay_payment_id")
-    razorpay_order_id = request.POST.get("razorpay_order_id")
-    signature = request.POST.get("razorpay_signature")
-
-    client = razorpay.Client(
-        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-    )
-
-    # ✅ Verify payment
-    client.utility.verify_payment_signature({
-        "razorpay_order_id": razorpay_order_id,
-        "razorpay_payment_id": payment_id,
-        "razorpay_signature": signature
-    })
-
-    order = get_object_or_404(
-        Order,
-        razorpay_order_id=razorpay_order_id,
-        user=request.user
-    )
-
-    # ✅ Prevent double execution
-    if not order.payment_status:
-        order.payment_status = True
-        order.status = "paid"
-        order.payment_id = payment_id
-        order.save()
-
-        # Clear cart
-        if hasattr(order.user, "cart"):
-            order.user.cart.items.all().delete()
-
-        # Send invoice email
-        try:
-            send_invoice_email(order)
-        except Exception as e:
-            print("Invoice mail failed:", e)
-
-    # ✅ DIRECT REDIRECT (NO PAYMENT PAGE AGAIN)
-    return redirect("web:invoice_view", order_id=order.id)
 
 
 
@@ -1048,7 +854,7 @@ def payment_success(request):
         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
     )
 
-    # ✅ Verify payment
+    # Verify payment
     client.utility.verify_payment_signature({
         "razorpay_order_id": razorpay_order_id,
         "razorpay_payment_id": payment_id,
@@ -1070,10 +876,10 @@ def payment_success(request):
         if hasattr(order.user, "cart"):
             order.user.cart.items.all().delete()
 
-        # 🔥 DO NOT SEND MAIL HERE
+        #  DO NOT SEND MAIL HERE
         request.session["send_invoice"] = order.id
 
-    # 🚀 FAST redirect (NO delay)
+    # FAST redirect (NO delay)
     return redirect("web:order_success", order_id=order.id)
 
 
@@ -1113,17 +919,6 @@ def generate_invoice(request, order_id):
     return response
 
 
-
-# @login_required
-# def order_success(request, order_id):
-#     order = Order.objects.get(id=order_id, user=request.user)
-
-#     return render(request, "web/order_success.html", {
-#         "order": order
-#     })
-
-
-
 @login_required
 def order_success(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
@@ -1150,6 +945,11 @@ def invoice_view(request, order_id):
         "order": order,
         "items": order.items.all(),
     })
+
+
+
+
+
 
 #------------------------------------------------#
 #-------------ADMIN PANEL VIEWS -----------------#
@@ -1342,6 +1142,8 @@ def sub_category_view(request, id):
         'adminpanel/view_sub_category.html',
         {'subcategory': subcategory}
     )
+
+
 # ---Product----
 
 # add product
@@ -1415,7 +1217,6 @@ def product_list(request):
     return render(request, 'adminpanel/product_list.html', {
         'products': products
     })
-
 
 
 # edit product
@@ -1521,14 +1322,17 @@ def view_product(request, product_id):
         "videos": videos,
         "images": images,
     })
-    product = get_object_or_404(
-        Product.objects.select_related("category", "subcategory")
-                       .prefetch_related("media_files"),
-        id=product_id
-    )
 
-    return render(request,"adminpanel/view_product.html",
-        {
-            "product": product
-        }
-    )
+
+
+
+# Order list
+def order_list(request):
+    orders = Order.objects.select_related("user").order_by("-created_at")
+    return render(request, "adminpanel/order_list.html", {
+        "orders": orders
+    })
+
+
+
+

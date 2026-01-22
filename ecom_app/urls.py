@@ -39,7 +39,7 @@ urlpatterns = [
     path("cart/update/", views.update_cart_item, name="update_cart_item"),
     path("cart/remove/", views.remove_cart_item, name="remove_cart_item"),
     path('checkout/', views.checkout, name='checkout'),
-    path("payment/<int:order_id>/", views.payment, name="payment"),  # ✅ FIX
+    path("payment/<int:order_id>/", views.payment, name="payment"), 
     # path("payment-success/", views.payment_success, name="payment_success"),
     # path("order-success/<int:order_id>/", views.order_success, name="order_success"),
     # path("invoice/<int:order_id>/", views.invoice_view, name="invoice"),
@@ -80,6 +80,9 @@ urlpatterns = [
     path('adminpanel/product/<int:product_id>/edit/', views.edit_product, name='edit_product'),
     path('adminpanel/product/<int:product_id>/delete/', views.delete_product, name='delete_product'),
     path('adminpanel/product/<int:product_id>/view/', views.view_product, name='view_product'),
+
+
+    path('adminpanel/order_list/', views.order_list, name='order_list'),
 
 
 
