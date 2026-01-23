@@ -208,6 +208,18 @@ class Account(models.Model):
         return self.user.email
 
 
+class AdminProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="admin_profile")
+    name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    profile_image = models.ImageField(upload_to="admin_profiles/", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Admin Profile - {self.user.email}"
+
+
 class EmailOTP(models.Model):
     email = models.EmailField(max_length=191, db_index=True)
     otp = models.CharField(max_length=6)

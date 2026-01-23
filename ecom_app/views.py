@@ -948,19 +948,93 @@ def invoice_view(request, order_id):
 
 
 
-
-
-
 #------------------------------------------------#
 #-------------ADMIN PANEL VIEWS -----------------#
 #------------------------------------------------#
 
+#----admin-login----
+def admin_login(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=email, password=password)
+
+        if user is not None:
+            if user.is_superuser:
+                login(request, user)
+                return redirect('web:admin_dashboard')  # change if needed
+            else:
+                messages.error(request, "You are not authorized as admin.")
+        else:
+            messages.error(request, "Invalid email or password.")
+
+    return render(request, 'adminpanel/admin_login.html')
+
+
+def admin_logout(request):
+    logout(request)
+    return redirect('web:admin_login')
 
 
 def admin_dashboard(request):
     return render(request, 'adminpanel/dashboard.html')
 
 
+
+
+# @login_required(login_url='web:admin_login')
+# def admin_settings(request):
+#     user = request.user
+
+#     # ensure account exists
+#     account, created = Account.objects.get_or_create(user=user)
+
+#     if request.method == "POST":
+#         user.first_name = request.POST.get("name")
+#         user.email = request.POST.get("email")
+#         account.phone = request.POST.get("phone")
+
+#         if 'profile_image' in request.FILES:
+#             account.profile_image = request.FILES['profile_image']
+
+#         user.save()
+#         account.save()
+
+#         messages.success(request, "Profile updated successfully")
+#         return redirect('web:admin_settings')
+
+#     context = {
+#         "user": user,
+#         "account": account
+#     }
+#     return render(request, 'adminpanel/admin_settings.html', context)
+
+from .models import AdminProfile
+
+@login_required(login_url='web:admin_login')
+def admin_settings(request):
+    user = request.user
+    profile, created = AdminProfile.objects.get_or_create(user=user)
+
+    if request.method == "POST":
+        user.first_name = request.POST.get("name")
+        user.email = request.POST.get("email")
+        profile.phone = request.POST.get("phone")
+
+        if 'profile_image' in request.FILES:
+            profile.profile_image = request.FILES['profile_image']
+
+        user.save()
+        profile.save()
+
+        messages.success(request, "Profile updated successfully")
+        return redirect('web:admin_settings')
+
+    return render(request, 'adminpanel/admin_settings.html', {
+        "user": user,
+        "account": profile   # keeping template unchanged
+    })
 
 
 # Category list
@@ -1051,6 +1125,9 @@ def delete_category(request, category_id):
 def view_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     return render(request, 'adminpanel/view_category.html', {'category': category})
+
+
+
 
 # ----SubCategory----
 def sub_category_add(request):

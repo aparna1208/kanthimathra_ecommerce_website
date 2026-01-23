@@ -56,7 +56,12 @@ urlpatterns = [
   
 
     #----ADMIN PANEL URLS----#
-    path('adminpanel/', views.admin_dashboard, name='admin_dashboard'),
+    # path('adminpanel/login/', views.admin_login, name='admin_login'),
+    path('adminpanel/', views.admin_login, name='admin_login'),
+    path('adminpanel/logout/', views.admin_logout, name='admin_logout'), 
+
+    path('adminpanel/dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('adminpanel/settings/', views.admin_settings, name='admin_settings'),
 
     # category URLs
     path('adminpanel/category/add/', views.add_category, name='add_category'),

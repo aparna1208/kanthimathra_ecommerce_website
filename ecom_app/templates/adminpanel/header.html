@@ -1,4 +1,3 @@
-
 {% load static %}
 
 <!-- Page Header Start-->
@@ -88,33 +87,38 @@
                 </li>
                 <li class="profile-nav onhover-dropdown pe-0 me-0">
                     <div class="media profile-media">
-                        <img class="user-profile rounded-circle" src="{% static 'adminpanel/images/users/4.jpg' %}" alt="">
+                        <img class="user-profile rounded-circle"
+                         src="{% if request.user.admin_profile.profile_image %}
+                        {{ request.user.admin_profile.profile_image.url }}
+                         {% else %}
+                        {% static 'adminpanel/images/users/4.jpg' %} 
+                        {% endif %}" alt="Profile Photo">
                         <div class="user-name-hide media-body">
-                            <span>KanthiMantra</span>
+                            <span>{{ request.user.first_name }}</span>
                             <p class="mb-0 font-roboto">Admin<i class="middle ri-arrow-down-s-line"></i></p>
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
                         <li>
-                            <a href="all-users.html">
+                            <a href="#">
                                 <i data-feather="users"></i>
                                 <span>Users</span>
                             </a>
                         </li>
                         <li>
-                            <a href="order-list.html">
+                            <a href="{% url 'web:order_list' %}">
                                 <i data-feather="archive"></i>
                                 <span>Orders</span>
                             </a>
                         </li>
                         <li>
-                            <a href="support-ticket.html">
+                            <a href="#">
                                 <i data-feather="phone"></i>
                                 <span>Spports Tickets</span>
                             </a>
                         </li>
                         <li>
-                            <a href="profile-setting.html">
+                            <a href="{% url 'web:admin_settings' %}">
                                 <i data-feather="settings"></i>
                                 <span>Settings</span>
                             </a>
@@ -131,4 +135,31 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Start -->
+ <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h5 class="modal-title" id="staticBackdropLabel">Logging Out</h5>
+                    <p>Are you sure you want to log out?</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" data-bs-original-title="" title=""></button>
+                    <div class="button-box">
+                        <button type="button" 
+                        class="btn btn--no" data-bs-dismiss="modal" 
+                        data-bs-original-title="" title="">No</button>
+                        
+                        <form method="POST" action="{% url 'web:admin_logout' %}">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    class="btn btn--yes btn-primary">
+                                Yes
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal End -->
 <!-- Page Header Ends-->
