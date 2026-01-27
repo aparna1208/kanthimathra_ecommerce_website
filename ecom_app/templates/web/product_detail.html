@@ -140,9 +140,28 @@
 
                     <!-- Price (Offer) -->
                     <div class="mt-4 flex flex-wrap items-baseline gap-3">
-                        <div class="text-3xl font-semibold text-zinc-900">₹{{ product.offer_price_rounded }}</div>
-                        <div class="text-sm text-zinc-500 line-through">₹{{ product.original_price }}</div>
-                        <div class="text-sm font-semibold text-green-600">{{product.discount_percentage}}% OFF</div>
+                    {% if product.discount_percentage > 0 %}
+                        <!-- Discount price -->
+                        <div class="text-3xl font-semibold text-zinc-900">
+                            ₹{{ product.offer_price_rounded }}
+                        </div>
+
+                        <!-- Original price (striked) -->
+                        <div class="text-sm text-zinc-500 line-through">
+                            ₹{{ product.original_price|floatformat:0 }}
+                        </div>
+
+                        <!-- Discount percentage -->
+                        <div class="text-sm font-semibold text-green-600">
+                            {{product.discount_percentage|floatformat:0 }}% OFF
+                        </div>
+
+                    {% else %}
+                    <!-- No discount -->
+                        <div class="text-3xl font-semibold text-zinc-900">
+                            ₹{{ product.original_price|floatformat:0 }}
+                        </div>
+                    {% endif %}
                     </div>
 
                     <div class="mt-2 text-sm text-zinc-600">

@@ -28,6 +28,10 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.core.paginator import Paginator
 from .utils import send_invoice_email
+from django.db import transaction
+from .models import AdminProfile
+
+
 
 
 
@@ -73,8 +77,6 @@ def account_settings(request):
 
 def order_history(request):
     return render(request, 'web/orders.html')
-
-
 
 
 def blog(request):
@@ -365,9 +367,6 @@ def logout_view(request):
     return redirect("web:login")
 
 
-
-
-
 def shop(request):
     categories = Category.objects.all()
     products = Product.objects.all()
@@ -436,13 +435,11 @@ def shop(request):
     return render(request, 'web/shop.html', context)
 
 
-
 def account_redirect(request):
     if request.user.is_authenticated:
         return redirect('web:account')
     else:
         return redirect('web:login')
-
 
 
 def product_detail(request, slug):
@@ -490,6 +487,8 @@ def toggle_wishlist(request):
         "count": count
     })
 
+
+
 @login_required
 def wishlist(request):
     wishlist_items = Wishlist.objects.filter(
@@ -502,32 +501,56 @@ def wishlist(request):
     return render(request, "web/wishlist.html", context)
 
 
-
-#------------- CART VIEWS -----------------#
 def add_to_cart_view(request):
     if request.method != "POST":
-        return JsonResponse({"success": False})
+        return JsonResponse({"success": False, "message": "Invalid request"})
 
     product_id = request.POST.get("product_id")
     quantity_variant = request.POST.get("quantity")
     count = int(request.POST.get("count", 1))
 
     if not product_id or not quantity_variant:
-        return JsonResponse({"success": False})
+        return JsonResponse({"success": False, "message": "Missing data"})
 
+    # Fetch product
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return JsonResponse({"success": False, "message": "Product not found"})
+
+    # Out of stock check
+    if product.stock == "outofstock" or product.count <= 0:
+        return JsonResponse({
+            "success": False,
+            "message": "Product is out of stock"
+        })
+
+    # Quantity exceeds available stock
+    if count > product.count:
+        return JsonResponse({
+            "success": False,
+            "message": f"Only {product.count} items available"
+        })
+
+    # ---------- LOGGED-IN USER ----------
     if request.user.is_authenticated:
-        add_to_db_cart(request.user,product_id, quantity_variant,count)
+        add_to_db_cart(request.user, product_id, quantity_variant, count)
 
-        cart_count = (CartItem.objects.filter(cart__user=request.user) .aggregate(total=Sum("count"))["total"] or 0)
+        cart_count = (
+            CartItem.objects
+            .filter(cart__user=request.user)
+            .aggregate(total=Sum("count"))["total"] or 0
+        )
+
+    # ---------- GUEST USER ----------
     else:
-        add_to_cart(request,product_id,quantity_variant,count)
+        add_to_cart(request, product_id, quantity_variant, count)
 
         cart_count = sum(
             item["count"]
             for item in request.session.get("cart", {}).values()
         )
 
-    # ✅ JSON ONLY (NO REDIRECT)
     return JsonResponse({
         "success": True,
         "cart_count": cart_count
@@ -560,9 +583,6 @@ def buy_now(request):
 
     # ✅ DIRECT TO CHECKOUT
     return redirect("web:checkout")
-
-
-
 
 
 def cart(request):
@@ -645,6 +665,7 @@ def cart(request):
         "grand_total": grand_total,
         "is_authenticated": False
     })
+
 
 def update_cart_item(request):
     if request.method != "POST":
@@ -837,10 +858,6 @@ def payment(request, order_id):
     })
 
 
-
-
-
-
 @login_required
 def payment_success(request):
     if request.method != "POST":
@@ -854,7 +871,7 @@ def payment_success(request):
         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
     )
 
-    # Verify payment
+    # ✅ Verify payment
     client.utility.verify_payment_signature({
         "razorpay_order_id": razorpay_order_id,
         "razorpay_payment_id": payment_id,
@@ -867,20 +884,41 @@ def payment_success(request):
         user=request.user
     )
 
-    if not order.payment_status:
+    # ✅ Prevent double processing
+    if order.payment_status:
+        return redirect("web:order_success", order_id=order.id)
+
+    with transaction.atomic():
+        # ✅ Mark order paid
         order.payment_status = True
         order.status = "paid"
         order.payment_id = payment_id
         order.save()
 
+        # ✅ UPDATE PRODUCT STOCK
+        for item in order.items.select_related("product"):
+            product = item.product
+
+            # Reduce stock count
+            product.count -= item.count
+
+            # Safety: no negative stock
+            if product.count <= 0:
+                product.count = 0
+                product.stock = "outofstock"
+            else:
+                product.stock = "instock"
+
+            product.save()
+
+        # ✅ Clear cart
         if hasattr(order.user, "cart"):
             order.user.cart.items.all().delete()
 
-        #  DO NOT SEND MAIL HERE
         request.session["send_invoice"] = order.id
 
-    # FAST redirect (NO delay)
     return redirect("web:order_success", order_id=order.id)
+
 
 
 def send_order_email(order):
@@ -947,6 +985,9 @@ def invoice_view(request, order_id):
     })
 
 
+def category_single(request):
+    return render(request, "web/category_single.html")
+
 
 #------------------------------------------------#
 #-------------ADMIN PANEL VIEWS -----------------#
@@ -978,39 +1019,31 @@ def admin_logout(request):
 
 
 def admin_dashboard(request):
-    return render(request, 'adminpanel/dashboard.html')
+    total_orders = Order.objects.count()
+    total_customers = User.objects.filter(is_superuser=False).count()
+    total_products = Product.objects.count()
+
+    # ✅ FETCH categories (not count)
+    categories = Category.objects.all().order_by('-created_at')
+
+    total_revenue = (
+        Order.objects
+        .filter(payment_status=True)
+        .aggregate(total=Sum("total_amount"))["total"]
+        or 0
+    )
+
+    context = {
+        "total_orders": total_orders,
+        "total_customers": total_customers,
+        "total_products": total_products,
+        "categories": categories,
+        "total_revenue": total_revenue,
+    }
+
+    return render(request, "adminpanel/dashboard.html", context)
 
 
-
-
-# @login_required(login_url='web:admin_login')
-# def admin_settings(request):
-#     user = request.user
-
-#     # ensure account exists
-#     account, created = Account.objects.get_or_create(user=user)
-
-#     if request.method == "POST":
-#         user.first_name = request.POST.get("name")
-#         user.email = request.POST.get("email")
-#         account.phone = request.POST.get("phone")
-
-#         if 'profile_image' in request.FILES:
-#             account.profile_image = request.FILES['profile_image']
-
-#         user.save()
-#         account.save()
-
-#         messages.success(request, "Profile updated successfully")
-#         return redirect('web:admin_settings')
-
-#     context = {
-#         "user": user,
-#         "account": account
-#     }
-#     return render(request, 'adminpanel/admin_settings.html', context)
-
-from .models import AdminProfile
 
 @login_required(login_url='web:admin_login')
 def admin_settings(request):
@@ -1042,6 +1075,7 @@ def category_list(request):
     """List all categories."""
     categories = Category.objects.all()
     return render(request, 'adminpanel/category_list.html', {'categories': categories})
+
 
 # Add category
 def add_category(request):
@@ -1077,6 +1111,7 @@ def add_category(request):
 
     return render(request, 'adminpanel/add_category.html')
 
+
 # Edit category
 def edit_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -1109,6 +1144,7 @@ def edit_category(request, category_id):
 
     return render(request, 'adminpanel/edit_category.html', {'category': category})
 
+
 # Delete category
 def delete_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
@@ -1125,7 +1161,6 @@ def delete_category(request, category_id):
 def view_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     return render(request, 'adminpanel/view_category.html', {'category': category})
-
 
 
 
@@ -1401,9 +1436,7 @@ def view_product(request, product_id):
     })
 
 
-
-
-# Order list
+#--------------order-------------
 def order_list(request):
     orders = Order.objects.select_related("user").order_by("-created_at")
     return render(request, "adminpanel/order_list.html", {
@@ -1411,5 +1444,63 @@ def order_list(request):
     })
 
 
+def order_detail(request, order_id):
+    order = (
+        Order.objects
+        .select_related("user")
+        .prefetch_related(
+            "items__product",   # OrderItem + Product
+            "shipping"          # ShippingAddress (OneToOne)
+        )
+        .get(id=order_id)
+    )
+
+    return render(request, "adminpanel/order_detail.html", {
+        "order": order,
+    })
 
 
+@require_POST
+def order_delete(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.delete()
+    return redirect("web:order_list")
+
+
+
+#--------------users-------------
+def all_users(request):
+    users = User.objects.all()
+    return render(request, 'adminpanel/all_users.html', {'users': users})
+
+
+
+def view_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    # Default address (Account)
+    account = Account.objects.filter(user=user).first()
+
+    # User orders (for Orders tab)
+    orders = Order.objects.filter(user=user).order_by('-created_at')
+
+    context = {
+        'user': user,
+        'account': account,
+        'orders': orders,
+    }
+    return render(request, 'adminpanel/view_user.html', context)
+
+
+@require_POST
+def admin_delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    # Optional safety (recommended but not mandatory)
+    if user.is_superuser:
+        messages.error(request, "Superuser cannot be deleted.")
+        return redirect('web:all_users')
+
+    user.delete()
+    messages.success(request, "User deleted successfully.")
+    return redirect('web:all_users')

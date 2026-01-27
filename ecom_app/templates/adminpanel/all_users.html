@@ -1,0 +1,160 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<!-- Data Table css -->
+<link rel="stylesheet" type="text/css" href="{% static 'adminpanel/css/datatables.css' %}">
+
+<style>
+    #table_id th,
+    #table_id td {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    .action-icons {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- All User Table Start -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card card-table">
+                <div class="card-body">
+
+                    <div class="title-header option-title">
+                        <h5>All Users</h5>
+                    </div>
+
+                    <div class="table-responsive table-product">
+                        <table class="table all-package theme-table" id="table_id">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Created At</th>
+                                    <th>Option</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for user in users %}
+                                <tr>
+                                    <td>{{ user.id }}</td>
+
+                                    <td>Not Found</td>
+                                    <td>Not Found</td>
+
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.date_joined|date:"d-m-Y" }}</td>
+
+                                    <td>
+                                        <div class="action-icons">
+                                            <!-- View -->
+                                            <a href="{% url 'web:view_user' user.id %}">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+
+                                            <!-- Delete -->
+                                            <a href="#"
+                                               data-bs-toggle="modal"
+                                               data-bs-target="#deleteModal"
+                                               data-delete-url="{% url 'web:admin_delete_user' user.id %}">
+                                                <i class="ri-delete-bin-line text-danger"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">
+                                        No users found
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- All User Table Ends -->
+
+<!-- Delete Modal -->
+<div class="modal fade theme-modal remove-coupon"
+     id="deleteModal"
+     tabindex="-1"
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header d-block text-center">
+                <h5 class="modal-title w-100">Are You Sure?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body text-center">
+                <p>This user will be permanently deleted.</p>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <form method="POST" id="deleteForm">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="btn btn-animation btn-md fw-bold btn-danger">
+                        Yes
+                    </button>
+                </form>
+
+                <button type="button"
+                        class="btn btn-animation btn-md fw-bold"
+                        data-bs-dismiss="modal">
+                    No
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Delete Modal End -->
+
+{% block extra_js %}
+
+<!-- Data table js -->
+<script src="{% static 'adminpanel/js/jquery.dataTables.js' %}"></script>
+<script src="{% static 'adminpanel/js/custom-data-table.js' %}"></script>
+
+<!-- all checkbox select js -->
+<script src="{% static 'adminpanel/js/checkbox-all-check.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteForm = document.getElementById("deleteForm");
+
+    deleteModal.addEventListener("show.bs.modal", function (event) {
+        const button = event.relatedTarget;
+        const deleteUrl = button.getAttribute("data-delete-url");
+        deleteForm.action = deleteUrl;
+    });
+});
+</script>
+
+{% endblock %}
+
+{% endblock %}

@@ -176,7 +176,7 @@
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 col-form-label form-label-title">Brand</label>
                                                     <div class="col-sm-9">
-                                                        <select class="js-example-basic-single w-100" name="brand">
+                                                        <select class="js-example-basic-single w-100" name="brand" required>
                                                             <option value="">Select Brand</option>
                                                             <option value="Kanthimantra"
                                                               {% if product.brand == 'Kanthimantra' %}selected{% endif %}>
@@ -189,7 +189,7 @@
                                                 <div class="mb-4 row align-items-center">
                                                     <label class="col-sm-3 col-form-label form-label-title">Country</label>
                                                     <div class="col-sm-9">
-                                                        <select class="js-example-basic-single w-100" name="country">
+                                                        <select class="js-example-basic-single w-100" name="country" required>
                                                             <option value="">Select Country</option>
                                                             <option value="India" 
                                                             {% if product.country == 'India' %}selected{% endif %}>

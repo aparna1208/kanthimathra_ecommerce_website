@@ -1,0 +1,200 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <!-- ================= ORDER HEADER ================= -->
+                    <div class="title-header title-header-block package-card">
+                        <div>
+                            <h5>Order #{{ order.order_id }}</h5>
+                        </div>
+                        <div class="card-order-section">
+                            <ul>
+                                <li>{{ order.created_at|date:"F d, Y \\a\\t h:i A" }}</li>
+                                <li>{{ order.items.count }} items</li>
+                                <li>Total ₹{{ order.total_amount_rounded }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- ================= ORDER BODY ================= -->
+                    <div class="bg-inner cart-section order-details-table">
+                        <div class="row g-4">
+
+                            <!-- ================= ITEMS TABLE ================= -->
+                            <div class="col-xl-8">
+                                <div class="table-responsive table-details">
+                                    <table class="table cart-table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="5">Items</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        {% for item in order.items.all %}
+                                            <tr class="table-order">
+                                                <td>
+                                                    <img src="{{ item.product.thumbnail.url }}"
+                                                         class="img-fluid blur-up lazyload" alt="">
+                                                </td>
+
+                                                <td>
+                                                    <p>Product Name</p>
+                                                    <h5>{{ item.product.product_name }}</h5>
+                                                    <p>Variant: {{ item.quantity_variant }}</p>
+                                                </td>
+
+                                                <td>
+                                                    <p>Quantity</p>
+                                                    <h5>{{ item.count }}</h5>
+                                                </td>
+
+                                                <td>
+                                                    <p>Original Price</p>
+                                                    <h5>₹{{ item.original_price_rounded }}</h5>
+                                                </td>
+
+                                                <td>
+                                                    <p>Offer Price</p>
+                                                    <h5>
+                                                        ₹{{ item.price_rounded }} × {{ item.count }} <br>
+                                                        = ₹{{ item.subtotal_rounded }}
+                                                    </h5>
+                                                </td>
+
+
+                                            </tr>
+                                        {% empty %}
+                                            <tr>
+                                                <td colspan="5" class="text-center">
+                                                    No items found
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+
+                                        <!-- ================= PRICE SUMMARY ================= -->
+                                        <tfoot>
+                                            <tr class="table-order">
+                                                <td colspan="4"><h5>MRP :</h5></td>
+                                                <td>
+                                                    <h4>
+                                                        ₹{{ order.subtotal|add:order.discount }}
+                                                    </h4>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="table-order">
+                                                <td colspan="4"><h5>Subtotal :</h5></td>
+                                                <td>
+                                                    <h4>₹{{ order.subtotal_rounded }}</h4>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="table-order">
+                                                <td colspan="4"><h5>Discount amount :</h5></td>
+                                                <td>
+                                                    <h4>- ₹{{ order.discount_rounded }}</h4>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="table-order">
+                                                <td colspan="4"><h5>Shipping :</h5></td>
+                                                <td>
+                                                    <h4>₹{{ order.shipping_charge_rounded }}</h4>
+                                                </td>
+                                            </tr>
+
+                                            <tr class="table-order">
+                                                <td colspan="4">
+                                                    <h4 class="theme-color fw-bold">
+                                                        Total Price :
+                                                    </h4>
+                                                </td>
+                                                <td>
+                                                    <h4 class="theme-color fw-bold">
+                                                        ₹{{ order.total_amount_rounded }}
+                                                    </h4>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- ================= RIGHT SUMMARY ================= -->
+                            <div class="col-xl-4">
+                                <div class="order-success">
+                                    <div class="row g-4">
+
+                                        <!-- Order Summary -->
+                                        <h4>Summary</h4>
+                                        <ul class="order-details">
+                                            <li>Order ID: {{ order.order_id }}</li>
+                                            <li>Order Date: {{ order.created_at|date:"F d, Y" }}</li>
+                                            <li>Order Total: ₹{{ order.total_amount_rounded }}</li>
+                                        </ul>
+
+                                        <!-- Shipping Address -->
+                                        <h4>Shipping Address</h4>
+                                        {% if order.shipping %}
+                                        <ul class="order-details">
+                                            <li>{{ order.shipping.full_name }}</li>
+                                            <li>{{ order.shipping.address }}</li>
+                                            <li>
+                                                {{ order.shipping.city }},
+                                                {{ order.shipping.state }} -
+                                                {{ order.shipping.pincode }}
+                                            </li>
+                                            <li>Contact No: {{ order.shipping.phone }}</li>
+                                        </ul>
+                                        {% else %}
+                                            <p>No shipping address available</p>
+                                        {% endif %}
+
+                                        <!-- Payment Method -->
+                                        <div class="payment-mode">
+                                            <h4>Payment Method</h4>
+                                            <p>
+                                                {% if order.payment_status %}
+                                                    Online Payment (Razorpay)
+                                                {% else %}
+                                                    Cash on Delivery
+                                                {% endif %}
+                                            </p>
+                                        </div>
+
+                                        <!-- Order Status -->
+                                        <div class="delivery-sec">
+                                            <h3>
+                                                Order Status :
+                                                <span class="theme-color">
+                                                    {{ order.status|title }}
+                                                </span>
+                                            </h3>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- section end -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

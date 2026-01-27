@@ -34,7 +34,7 @@
         <!-- Categories Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {% for category in categories %}
-            <a href="#" class="group">
+            <a href="{% url 'web:category_single' %}" class="group">
 
         <div class="relative rounded-3xl overflow-hidden shadow-soft border border-line">
 
@@ -70,7 +70,6 @@
 
     </div>
 </section>
-
 
 <section class="py-20 bg-white border-t border-line">
     <div class="max-w-8xl mx-auto px-4 sm:px-6">
@@ -212,25 +211,31 @@
                     </div>
 
                     <!-- Price row (aligned baseline) -->
-                    <div class="mt-3 flex items-baseline gap-2">
-                        <span class="text-[18px] font-semibold text-brownMain">
-                            ₹{{ product.offer_price_rounded}}
-                        </span>
-                         
-                        
+                                <div class="mt-3 flex items-baseline gap-2">
+                                    
+                                    {% if product.discount_percentage > 0 %}
+                                    <!-- Discounted price -->
+                                    <span class="text-[18px] font-semibold text-brownMain">
+                                        ₹{{ product.offer_price_rounded }}
+                                    </span>
 
-                        {% if product.original_price %}
-                        <span class="text-[15px] line-through text-zinc-400">
-                            ₹{{ product.original_price }}
-                        </span>
-                        {% endif %}
+                                    <!-- Original price (striked) -->
+                                    <span class="text-[15px] line-through text-zinc-400">
+                                        ₹{{ product.original_price|floatformat:0 }}
+                                    </span>
 
-                        {% if product.discount %}
-                        <span class="text-[13px] font-semibold text-green-600">
-                            {{ product.discount_percentage|floatformat:0  }}% OFF
-                        </span>
-                        {% endif %}
-                    </div>
+                                    <!-- Discount percentage -->
+                                    <span class="text-[13px] font-semibold text-green-600">
+                                        {{ product.discount_percentage|floatformat:0 }}% OFF
+                                    </span>
+
+                                    {% else %}
+                                    <!-- Only original price when no discount -->
+                                     <span class="text-[18px] font-semibold text-brownMain">
+                                        ₹{{ product.original_price|floatformat:0 }}
+                                    </span>
+                                    {% endif %}
+                                </div>
 
                     <!-- Actions -->
                     <div class="mt-4 flex gap-2">

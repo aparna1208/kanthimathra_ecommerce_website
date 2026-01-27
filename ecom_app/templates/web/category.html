@@ -57,7 +57,7 @@
             <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                     {% for category in categories %}
                 <!-- Category Card -->
-                <a href="#"
+                <a href="{% url 'web:category_single' %}"
                     class="group rounded-2xl border border-line bg-white overflow-hidden hover:shadow-soft transition">
                     <div class="relative bg-soft">
                         <img src="{{ category.category_image.url }}" alt="{{ category.category_name }}"
@@ -89,6 +89,3 @@
         </div>
     </section>
 {% endblock %}
-
-
-

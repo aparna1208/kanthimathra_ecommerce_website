@@ -51,7 +51,7 @@ urlpatterns = [
     path("invoice/<int:order_id>/", views.invoice_view, name="invoice_view"),
     path("invoice/pdf/<int:order_id>/", views.generate_invoice, name="generate_invoice"),
     path("buy-now/", views.buy_now, name="buy_now"),
-    
+    path("category_single/", views.category_single, name="category_single"),    
 
   
 
@@ -86,9 +86,11 @@ urlpatterns = [
     path('adminpanel/product/<int:product_id>/delete/', views.delete_product, name='delete_product'),
     path('adminpanel/product/<int:product_id>/view/', views.view_product, name='view_product'),
 
-
     path('adminpanel/order_list/', views.order_list, name='order_list'),
+    path('adminpanel/order/<int:order_id>/detail/', views.order_detail, name='order_detail'),
+    path("adminpanel/orders/delete/<int:order_id>/",views.order_delete,name="adminpanel_order_delete"),
 
-
-
+    path('adminpanel/users/', views.all_users, name='all_users'),
+    path('adminpanel/user/<int:user_id>/view/', views.view_user, name='view_user'),
+    path('adminpanel/users/delete/<int:user_id>/', views.admin_delete_user, name='admin_delete_user')
  ]

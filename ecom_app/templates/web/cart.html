@@ -98,10 +98,12 @@
                     <div class="col-span-6 md:col-span-2 text-sm text-zinc-700 whitespace-nowrap">
                         <span class="md:hidden text-xs text-zinc-500 block mb-1">Price</span>
 
-                        <!-- Offer price -->
-                        ₹ <span class="tabular-nums whitespace-nowrap">{{ item.price|floatformat:0 }}</span>
-
                         {% if item.discount_percent > 0 %}
+                        <!-- Discounted price -->
+                        ₹ <span class="tabular-nums whitespace-nowrap">
+                            {{ item.price|floatformat:0 }}</span>
+
+                        
                             <div class="mt-1 text-sm text-zinc-500">
                                 <span class="text-[15px] line-through text-zinc-400">
                                     ₹{% if is_authenticated %}
@@ -115,6 +117,17 @@
                                     {{ item.discount_percent|floatformat:0 }}% OFF
                                 </span>
                             </div>
+
+                        {% else %}
+                        <!-- No discount → show only original price -->
+                        ₹ <span class="tabular-nums whitespace-nowrap">
+                            {% if is_authenticated %}
+                                {{ item.product.original_price|floatformat:0 }}
+                            {% else %}
+                                {{ item.original_price|floatformat:0 }}
+                            {% endif %}
+                        </span>
+
                         {% endif %}
                     </div>
 
