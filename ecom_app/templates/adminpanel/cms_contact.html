@@ -1,0 +1,297 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="title-header option-title">
+                                <h5>Contact Page Management</h5>
+                            </div>
+
+                            <!-- NAV TABS -->
+                            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="pills-sliders-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-sliders" type="button">
+                                        Basic Information
+                                    </button>
+                                </li>
+
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="pills-banner-tab" data-bs-toggle="pill"
+                                        data-bs-target="#banner" type="button">
+                                        Socialmedia
+                                    </button>
+                                </li>
+
+                                
+
+                            </ul>
+
+                            <!-- TAB CONTENT -->
+                            <div class="tab-content" id="pills-tabContent">
+
+                                <!-- SLIDERS -->
+                                <div class="tab-pane fade show active" id="pills-sliders" role="tabpanel"
+                                    aria-labelledby="pills-sliders-tab">
+                                        <form class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
+                                       
+
+                                        <div class="row">
+
+                                            <!-- SLIDER 1 -->
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner</label>
+                                                <div class="col-md-9 col-lg-10">
+                                                    <input class="form-control" type="file" accept="image/*"
+                                                        onchange="previewImage(this, 'preview1')">
+
+                                                    <img id="preview1" class="mt-2"
+                                                        style="max-height:120px; display:none; border-radius:10px;">
+
+                                                             <small class="text-muted">
+                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
+                                                            </small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Heading -->
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner Heading</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="Enter Banner text"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner paragraph</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="Write Here"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Office Address</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                
+                                                    <textarea class="form-control" rows="4" cols="50" placeholder="Address"></textarea>
+                                            </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Phone Number 1</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="+911245678934"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Phone Number 2</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="+911245678934"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                             <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Email 1</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="email"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="info@navodithahealthcare.com"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Email 2</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="email"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="info@kanthimantra.com"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Location</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="place map link"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+
+                                           
+                                      
+
+                                        </div>
+                                         <div class="row">
+                                                <div class="col-lg-2 col-md-3"></div>
+                                                <div class="col-md-9 col-lg-10 d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-solid btn-success">
+                                                        Save 
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                   
+                                </div>
+
+                                <!-- CENTER BANNER -->
+                                <div class="tab-pane fade" id="banner" role="tabpanel"
+                                    aria-labelledby="pills-banner-tab">
+
+                                    <form class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
+                                        
+
+                                        <!-- instagram -->
+                                       <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Instagram</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="instgram link"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+
+                                              <!-- Facebook -->
+                                       <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Facebook</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="Facebook link"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            
+                                              <!-- Linkedin -->
+                                       <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Linkedin</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="Linkedin link"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+
+                                            
+                                              <!-- Youtube -->
+                                       <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Youtube</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="Youtube link"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+
+                                            
+                                              <!-- X -->
+                                       <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">X</label>
+                                                <div class="col-md-9 col-lg-10 d-flex gap-2">
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="flash_news[]"
+                                                    placeholder="X link"
+                                                    maxlength="150">
+                                            </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                       
+                                         <!-- SUBMIT BUTTON -->
+                                            <div class="row">
+                                                <div class="col-lg-2 col-md-3"></div>
+                                                <div class="col-md-9 col-lg-10 d-flex justify-content-end">
+                                                    <button type="submit" class="btn btn-solid btn-success">
+                                                        Save 
+                                                    </button>
+                                                </div>
+                                            </div>
+                                    </form> 
+
+                                </div>
+
+                                
+                           
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block extra_js %}
+<!-- Dropzone js -->
+<script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+
+<!-- Select2 js -->
+<script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+
+<script>
+function previewImage(input, previewId) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Size validation (max 1 MB, ideal under 500 KB)
+    const sizeKB = file.size / 1024;
+    if (sizeKB > 1024) {
+        alert("Image size must be less than 1 MB");
+        input.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const preview = document.getElementById(previewId);
+        if (!preview) return;
+
+        preview.src = e.target.result;
+        preview.style.display = "block";
+    };
+
+    reader.readAsDataURL(file);
+}
+</script>
+
+    {% endblock %}
+
+    {% endblock %}

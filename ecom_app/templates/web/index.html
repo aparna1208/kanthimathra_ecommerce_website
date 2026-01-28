@@ -34,7 +34,7 @@
         <!-- Categories Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {% for category in categories %}
-            <a href="{% url 'web:category_single' %}" class="group">
+            <a href="{% url 'web:category_single' category.id %}" class="group">
 
         <div class="relative rounded-3xl overflow-hidden shadow-soft border border-line">
 

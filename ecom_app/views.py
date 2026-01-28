@@ -30,6 +30,7 @@ from django.core.paginator import Paginator
 from .utils import send_invoice_email
 from django.db import transaction
 from .models import AdminProfile
+from django.db.models import Count
 
 
 
@@ -84,7 +85,7 @@ def blog(request):
 
 
 def blog_single(request):
-    return render(request, 'web/blog-single.html')
+    return render(request, 'web/blog_single.html')
 
 
 def contact(request):
@@ -95,9 +96,39 @@ def about(request):
     return render(request, 'web/about.html')
 
 
+
 def category(request):
-    cat = Category.objects.all()
-    return render(request, 'web/category.html', {'categories': cat})
+    categories = (
+        Category.objects
+        .annotate(product_count=Count("products"))  
+        .order_by("-created_at")
+    )
+    return render(request, "web/category.html", {"categories": categories})
+
+
+
+
+def category_single(request, cat_id):
+    category = get_object_or_404(Category, id=cat_id)
+
+    #  Filter products under this category
+    product_list = Product.objects.filter(category=category).order_by("-created_at")
+
+    #  Pagination (8 products per page)
+    paginator = Paginator(product_list, 4)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        "category": category,
+
+        #  Use page_obj instead of products
+        "page_obj": page_obj,
+        "products": page_obj,   # optional: so your old template loop still works
+
+        "total_products": product_list.count(),
+    }
+    return render(request, "web/category_single.html", context)
 
 def register_view(request):
     if request.method == "POST":
@@ -985,9 +1016,15 @@ def invoice_view(request, order_id):
     })
 
 
-def category_single(request):
-    return render(request, "web/category_single.html")
+def gallery(request):
+    return render(request, "web/gallery.html")
 
+def terms_and_conditions(request):
+    return render(request,"web/terms_and_conditions.html")
+
+
+def privacy_policy(request):
+    return render(request,"web/privacy_policy.html")
 
 #------------------------------------------------#
 #-------------ADMIN PANEL VIEWS -----------------#
@@ -1504,3 +1541,15 @@ def admin_delete_user(request, user_id):
     user.delete()
     messages.success(request, "User deleted successfully.")
     return redirect('web:all_users')
+
+
+
+
+#Cms Management----------------
+
+def cms_home(request):
+    return render(request, "adminpanel/cms_home.html")
+
+
+def cms_contact(request):
+    return render(request, "adminpanel/cms_contact.html")

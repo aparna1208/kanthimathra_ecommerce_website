@@ -8,7 +8,7 @@ urlpatterns = [
     #----WEB FRONTEND URLS----#
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
-    path('category/', views.category, name='category'),
+   
     path('shop/', views.shop, name='shop'),
     path('account/', views.account, name='account'),
     path('account-settings/', views.account_settings, name='account_settings'),
@@ -40,20 +40,19 @@ urlpatterns = [
     path("cart/remove/", views.remove_cart_item, name="remove_cart_item"),
     path('checkout/', views.checkout, name='checkout'),
     path("payment/<int:order_id>/", views.payment, name="payment"), 
-    # path("payment-success/", views.payment_success, name="payment_success"),
-    # path("order-success/<int:order_id>/", views.order_success, name="order_success"),
-    # path("invoice/<int:order_id>/", views.invoice_view, name="invoice"),
-    # path("invoice/<int:order_id>/download/", views.generate_invoice, name="generate_invoice"),
-    # path("invoice/<int:order_id>/",views.invoice_view,name="invoice_view"),
-
+ 
     path("payment-success/", views.payment_success, name="payment_success"),
     path("order-success/<int:order_id>/", views.order_success, name="order_success"),
     path("invoice/<int:order_id>/", views.invoice_view, name="invoice_view"),
     path("invoice/pdf/<int:order_id>/", views.generate_invoice, name="generate_invoice"),
     path("buy-now/", views.buy_now, name="buy_now"),
-    path("category_single/", views.category_single, name="category_single"),    
 
-  
+    path('category/', views.category, name='category'),
+    path("category/<int:cat_id>/", views.category_single, name="category_single"),
+
+    path("gallery/", views.gallery, name="gallery"),
+    path("terms_and_conditions/", views.terms_and_conditions, name="terms_and_conditions"),
+    path("privacy_policy/", views.privacy_policy, name="privacy_policy"),
 
     #----ADMIN PANEL URLS----#
     # path('adminpanel/login/', views.admin_login, name='admin_login'),
@@ -92,5 +91,9 @@ urlpatterns = [
 
     path('adminpanel/users/', views.all_users, name='all_users'),
     path('adminpanel/user/<int:user_id>/view/', views.view_user, name='view_user'),
-    path('adminpanel/users/delete/<int:user_id>/', views.admin_delete_user, name='admin_delete_user')
+    path('adminpanel/users/delete/<int:user_id>/', views.admin_delete_user, name='admin_delete_user'),
+
+    # cms
+    path('adminpanel/cms_home/', views.cms_home, name='cms_home'),
+    path('adminpanel/cms_contact/', views.cms_contact, name='cms_contact'),
  ]
