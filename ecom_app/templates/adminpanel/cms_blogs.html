@@ -1,0 +1,403 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="title-header option-title">
+                        <h5>Blog Page Management</h5>
+                    </div>
+
+                    <!-- NAV TABS -->
+                    <ul class="nav nav-pills mb-3" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#add-blog">
+                                Add Blog
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#blog-list">
+                                Blog List
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#blog-banner">
+                                Blog Page Management
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- ================= ADD BLOG ================= -->
+                        <div class="tab-pane fade show active" id="add-blog">
+                            <form class="theme-form theme-form-2 mega-form"
+                                  method="post"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <!-- BLOG BANNER IMAGE -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Blog Banner
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="file"
+                                            class="form-control"
+                                            name="banner_image"
+                                            accept="image/*"
+                                            onchange="previewImageWithValidation(this, 'blog_banner_preview', 917, 516)">
+                                            
+                                        <img id="blog_banner_preview"
+                                            class="mt-2"
+                                            style="max-height:120px; display:none; border-radius:10px;">
+                                            <small class="text-muted">
+                                                Allowed formats: JPG, PNG, WebP | Ideal size: ≤ 500 KB | Dimension: 917 × 516 px
+                                            </small>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- BLOG TITLE -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Blog Title
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="title"
+                                               placeholder="Enter blog title">
+                                    </div>
+                                </div>
+
+                                <!-- SHORT DESCRIPTION -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Short Description
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <textarea class="form-control"
+                                                  rows="3"
+                                                  name="short_description"
+                                                  placeholder="Short summary shown in blog card">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- BLOG CONTENT -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Blog Content
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <textarea class="form-control"
+                                                  rows="8"
+                                                  name="content"
+                                                  placeholder="Full blog content">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- AUTHOR -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Author Name
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="author"
+                                               placeholder="Team Navoditha">
+                                    </div>
+                                </div>
+
+                                <!-- READ TIME -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Read Time
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="read_time"
+                                               placeholder="5 min read">
+                                    </div>
+                                </div>
+
+                                <!-- PUBLISH DATE -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Publish Date
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="date"
+                                               class="form-control"
+                                               name="publish_date">
+                                    </div>
+                                </div>
+
+                                <!-- STATUS -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Status
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <select class="form-control" name="status">
+                                            <option value="draft">Draft</option>
+                                            <option value="published">Published</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                               <div class="card-header-2"><h5>Search engine listing</h5></div>
+                            <!-- SEO TAGS TITLE -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Title
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="meta_blog_title">
+                                    </div>
+                                </div>
+
+                                <!-- SEO DESCRIPTION  -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Description
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <textarea class="form-control"
+                                                  rows="5"
+                                                  name="meta_blog_description"
+                                                  placeholder="write meta description">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- SEO KEYWORD  -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Description
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <textarea class="form-control"
+                                                  rows="5"
+                                                  name="meta_blog_keyword"
+                                                  placeholder="write meta keyword">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- SUBMIT -->
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3"></div>
+                                    <div class="col-md-9 col-lg-10 text-end">
+                                        <button type="submit"
+                                                class="btn btn-solid btn-success">
+                                            Save Blog
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- ================= BLOG LIST ================= -->
+                        <div class="tab-pane fade" id="blog-list">
+                            <div class="table-responsive">
+                                <table class="table all-package order-table theme-table" id="table_id">
+                                            <thead>
+                                                <tr>
+                                                    <th>Banner</th>
+                                                    <th>Title</th>
+                                                    <th>Created At</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                               
+                                                <tr>
+                                                   <td>
+                                                            <div class="table-image">
+                                                                <img src="{% static 'adminpanel/images/product/1.png' %}" class="img-fluid" alt="">
+                                                            </div>
+                                                        </td>
+                                                        <td>Kanthimantra cosmetics ... </td>
+                                                        <td>12-01-2026</td>
+                                                        <td><span class="badge bg-success">Published</span></td>
+                                                  <td>
+                                                            <ul>
+                                                          
+
+                                                                <li>
+                                                                    <a href="javascript:void(0)">
+                                                                        <i class="ri-pencil-line"></i>
+                                                                    </a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
+                                                                        <i class="ri-delete-bin-line"></i>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                </tr>
+                                               
+                                                
+                                            </tbody>
+                                        </table>
+                            </div>
+                        </div>
+
+                          <!-- ================= BLOG PAGE MANAGEMENT ================= -->
+                        <div class="tab-pane fade show active" id="blog-banner">
+                            <form class="theme-form theme-form-2 mega-form"
+                                  method="post"
+                                  enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <!-- BLOG MAIN BANNER IMAGE -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Blog Main Banner
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="file"
+                                            class="form-control"
+                                            name="main_banner_image"
+                                            accept="image/*"
+                                            onchange="previewImageWithValidation(this, 'blog_main_banner_preview', 1344, 768)">
+                                            
+                                        <img id="blog_main_banner_preview"
+                                            class="mt-2"
+                                            style="max-height:120px; display:none; border-radius:10px;">
+
+                                            <small class="text-muted">
+                                                Allowed formats: JPG, PNG, WebP | Ideal size: ≤ 500 KB | Dimension: 1344 × 768 px
+                                            </small>
+
+
+                                    </div>
+                                </div>
+
+                                <!-- BLOG MAIN PAGE HEADING -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Blog Main Heading
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="main_Heading"
+                                               placeholder="Enter blog heading">
+                                    </div>
+                                </div>
+
+                                <!-- SHORT Paragraph -->
+                                <div class="mb-4 row align-items-center">
+                                    <label class="form-label-title col-lg-2 col-md-3">
+                                        Short Paragraph
+                                    </label>
+                                    <div class="col-md-9 col-lg-10">
+                                        <textarea class="form-control"
+                                                  rows="3"
+                                                  name="short_main_paragraph"
+                                                  placeholder="Short summary shown in main banner ">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- SUBMIT -->
+                                <div class="row">
+                                    <div class="col-lg-2 col-md-3"></div>
+                                    <div class="col-md-9 col-lg-10 text-end">
+                                        <button type="submit"
+                                                class="btn btn-solid btn-success">
+                                            Save Blog
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block extra_js %}
+<!-- Dropzone js -->
+<script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+
+<!-- Select2 js -->
+<script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+
+
+<script>
+function previewImageWithValidation(input, previewId, reqWidth, reqHeight) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // -------- FILE SIZE VALIDATION (500 KB) --------
+    const sizeKB = file.size / 1024;
+    if (sizeKB > 500) {
+        alert("Image size must be less than 500 KB");
+        input.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+        const img = new Image();
+        img.src = e.target.result;
+
+        img.onload = function () {
+            // -------- DIMENSION VALIDATION --------
+            if (img.width !== reqWidth || img.height !== reqHeight) {
+                alert(`Image dimension must be ${reqWidth} × ${reqHeight}px`);
+                input.value = "";
+                return;
+            }
+
+            // -------- SHOW PREVIEW --------
+            const preview = document.getElementById(previewId);
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+    };
+
+    reader.readAsDataURL(file);
+}
+</script>
+
+
+
+    {% endblock %}
+
+    {% endblock %}

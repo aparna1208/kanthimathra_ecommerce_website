@@ -1,4 +1,5 @@
 from decimal import Decimal, ROUND_HALF_UP
+from urllib import request
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib import messages
@@ -6,19 +7,16 @@ from django.contrib.auth import authenticate, login
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils import timezone
-from .models import CartItem, PendingRegistration, EmailOTP, Category, Product, ProductImage, SubCategory, Wishlist, Cart, Order, OrderItem, ShippingAddress
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .models import EmailOTP
 from django.contrib.auth.hashers import make_password
-from .models import EmailOTP, PendingRegistration, Account
 from .utils import send_otp_email
 from django.contrib.auth import get_user_model 
 from django.contrib.auth import logout
 import random
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST,require_http_methods
 from .utils import add_to_cart, cart_totals, merge_session_cart_to_db, add_to_db_cart, update_cart, remove_from_cart
-from django.db.models import Sum
+
 import razorpay
 from django.core.mail import send_mail
 from reportlab.pdfgen import canvas
@@ -29,11 +27,12 @@ from xhtml2pdf import pisa
 from django.core.paginator import Paginator
 from .utils import send_invoice_email
 from django.db import transaction
-from .models import AdminProfile
-from django.db.models import Count
+from django.db.models import Count,Sum
 
+from .models import *
 
-
+import re
+from urllib.parse import urlparse, parse_qs
 
 
 
@@ -45,12 +44,17 @@ User = get_user_model()
 #------------------------------------------------#
 
 
+
 def index(request):
     categories = Category.objects.all()
     products = Product.objects.all()[:8]
+    home_video = HomeVideo.objects.first()
+    sliders = HomeSlider.objects.all().order_by("-id")
+    center_banner = HomeCenterBanner.objects.first()
+    end_banners = HomeEndBanner.objects.all().order_by("-id") 
+    flash_news = HomeFlashNews.objects.all().order_by("-id")[:10]
 
     wishlist_ids = []
-
     if request.user.is_authenticated:
         wishlist_ids = Wishlist.objects.filter(
             user=request.user
@@ -59,10 +63,17 @@ def index(request):
     context = {
         'categories': categories,
         'products': products,
-        'wishlist_ids': wishlist_ids,   # ✅ added correctly
+        'wishlist_ids': wishlist_ids,
+        'sliders': sliders, 
+        'center_banner': center_banner,
+        "home_video": home_video,
+        "end_banners": end_banners,
+        "flash_news": flash_news,
+
     }
 
     return render(request, 'web/index.html', context)
+
 
 @login_required(login_url='web:login')
 def account(request):
@@ -1547,9 +1558,200 @@ def admin_delete_user(request, user_id):
 
 #Cms Management----------------
 
-def cms_home(request):
-    return render(request, "adminpanel/cms_home.html")
 
+
+
+
+
+
+#  Extract youtube ID from URL
+def extract_youtube_id(url):
+    """
+    Extract YouTube video id from formats like:
+    - https://youtu.be/VIDEOID?si=xxx
+    - https://www.youtube.com/watch?v=VIDEOID&ab_channel=xxx
+    - https://www.youtube.com/embed/VIDEOID
+    """
+    if not url:
+        return None
+
+    # youtu.be link
+    if "youtu.be" in url:
+        path = urlparse(url).path
+        return path.strip("/")
+
+    # youtube.com/watch?v=
+    if "youtube.com" in url and "watch" in url:
+        query = parse_qs(urlparse(url).query)
+        return query.get("v", [None])[0]
+
+    # youtube.com/embed/
+    match = re.search(r"youtube\.com/embed/([^?&]+)", url)
+    if match:
+        return match.group(1)
+
+    return None
+
+
+@require_http_methods(["GET", "POST"])
+def cms_home(request):
+    # Create / load single CMS rows
+    center_banner, _ = HomeCenterBanner.objects.get_or_create(id=1)
+    home_video, _ = HomeVideo.objects.get_or_create(id=1)
+
+    if request.method == "POST":
+        form_type = request.POST.get("form_type")
+
+        # Sliders
+        if form_type == "sliders":
+            slider_files = request.FILES.getlist("sliders")
+
+            if not slider_files:
+                messages.error(request, "Please upload at least one slider image.")
+                return redirect("web:cms_home")
+
+            for img in slider_files:
+                HomeSlider.objects.create(image=img)
+
+            messages.success(request, "Sliders uploaded successfully!")
+            return redirect("web:cms_home")
+
+        # Center banner
+        elif form_type == "center_banner":
+            banner1 = request.FILES.get("banner1")
+            banner2 = request.FILES.get("banner2")
+            banner3 = request.FILES.get("banner3")
+
+            if not (banner1 or banner2 or banner3):
+                messages.error(request, "Please upload at least one center banner image.")
+                return redirect("web:cms_home")
+
+            if banner1:
+                center_banner.banner1 = banner1
+            if banner2:
+                center_banner.banner2 = banner2
+            if banner3:
+                center_banner.banner3 = banner3
+
+            center_banner.save()
+            messages.success(request, "Center banners updated successfully!")
+            return redirect("web:cms_home")
+
+        # video
+        elif form_type == "video":
+            video_type = request.POST.get("video_type")  # upload / youtube
+
+            # Thumbnail upload
+            thumbnail = request.FILES.get("video_thumbnail")
+            if thumbnail:
+                home_video.thumbnail = thumbnail
+
+            if video_type not in ["upload", "youtube"]:
+                messages.error(request, "Invalid video type.")
+                return redirect("web:cms_home")
+
+            home_video.video_type = video_type
+
+            # upload video
+            if video_type == "upload":
+                video_file = request.FILES.get("video_file")
+
+                if not video_file:
+                    messages.error(request, "Please upload a video file.")
+                    return redirect("web:cms_home")
+
+                home_video.video_file = video_file
+                home_video.youtube_url = None
+                home_video.youtube_id = None
+
+            # youtube url
+            elif video_type == "youtube":
+                youtube_url = request.POST.get("youtube_url")
+
+                if not youtube_url:
+                    messages.error(request, "Please enter YouTube URL.")
+                    return redirect("web:cms_home")
+
+                video_id = extract_youtube_id(youtube_url)
+                if not video_id:
+                    messages.error(request, "Invalid YouTube URL format.")
+                    return redirect("web:cms_home")
+
+                home_video.youtube_url = youtube_url
+                home_video.youtube_id = video_id
+                home_video.video_file = None
+
+            home_video.save()
+            messages.success(request, "Video updated successfully!")
+            return redirect("web:cms_home")
+
+        # End banners
+        elif form_type == "end_banner":
+            end_files = request.FILES.getlist("end_banners")
+
+            if not end_files:
+                messages.error(request, "Please upload at least one end banner image.")
+                return redirect("web:cms_home")
+
+            for img in end_files:
+                HomeEndBanner.objects.create(image=img)
+
+            messages.success(request, "End banners uploaded successfully!")
+            return redirect("web:cms_home")
+
+  
+        # Flash news
+       
+        elif form_type == "flash_news":
+            flash_news_list = request.POST.getlist("flash_news[]")
+
+            saved = 0
+            for txt in flash_news_list:
+                txt = txt.strip()
+                if txt:
+                    HomeFlashNews.objects.create(text=txt)
+                    saved += 1
+
+            if saved == 0:
+                messages.error(request, "Please add at least one flash news.")
+            else:
+                messages.success(request, "Flash news saved successfully!")
+
+            return redirect("web:cms_home")
+
+        else:
+            messages.error(request, "Invalid request.")
+            return redirect("web:cms_home")
+
+    #  page load
+    context = {
+        "sliders": HomeSlider.objects.all().order_by("-id"),
+        "center_banner": center_banner,
+        "home_video": home_video,
+        "end_banners": HomeEndBanner.objects.all().order_by("-id"),
+        "flash_news": HomeFlashNews.objects.all().order_by("-id"),
+    }
+
+    return render(request, "adminpanel/cms_home.html", context)
+
+def delete_slider(request, pk):
+    slider = get_object_or_404(HomeSlider, pk=pk)
+    slider.delete()
+    return redirect("web:cms_home")
+
+@require_POST
+def delete_end_banner(request, pk):
+    banner = get_object_or_404(HomeEndBanner, pk=pk)
+    banner.delete()
+    messages.success(request, "End banner deleted successfully!")
+    return redirect("web:cms_home")
 
 def cms_contact(request):
     return render(request, "adminpanel/cms_contact.html")
+
+def cms_legal(request):
+    return render(request, "adminpanel/cms_legal.html")
+
+def cms_blogs(request):
+    return render(request, "adminpanel/cms_blogs.html")
+

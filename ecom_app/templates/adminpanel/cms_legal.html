@@ -1,0 +1,200 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+
+                    <div class="title-header option-title">
+                        <h5>Legal Page Management</h5>
+                    </div>
+
+                    <!-- NAV TABS -->
+                    <ul class="nav nav-pills mb-3" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active"
+                                data-bs-toggle="pill"
+                                data-bs-target="#terms">
+                                Terms & Conditions
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button class="nav-link"
+                                data-bs-toggle="pill"
+                                data-bs-target="#privacy">
+                                Privacy Policy
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- TERMS & CONDITIONS -->
+                        <div class="tab-pane fade show active" id="terms">
+                            <form method="post">
+                                {% csrf_token %}
+
+                                <!-- SECTION HEADING -->
+                                <div class="mb-4 row">
+                                    <label class="form-label-title col-lg-2">
+                                        Section Heading
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <input type="text"
+                                            name="heading"
+                                            class="form-control"
+                                            placeholder="Enter section heading">
+                                    </div>
+                                </div>
+
+                                <!-- RICH TEXT DESCRIPTION -->
+                                <div class="mb-4 row">
+                                    <label class="form-label-title col-lg-2">
+                                        Description
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <textarea
+                                            name="description"
+                                            class="form-control"
+                                            rows="6"
+                                            placeholder="Enter detailed content">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- ORDER -->
+                                <div class="mb-4 row">
+                                    <label class="form-label-title col-lg-2">
+                                        Display Order
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <input type="number"
+                                            name="order"
+                                            class="form-control"
+                                            placeholder="Order number">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-10 text-end">
+                                        <button type="submit"
+                                            class="btn btn-solid btn-success">
+                                            Save Section
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- EXISTING SECTIONS -->
+                            <hr>
+                            <h6>Existing Sections</h6>
+
+                            {% for section in sections %}
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h6>{{ section.heading }}</h6>
+                                    <div>{{ section.description|safe }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- PRIVACY POLICY -->
+                        <div class="tab-pane fade" id="privacy">
+                             <form method="post">
+                                {% csrf_token %}
+
+                                <!-- SECTION HEADING -->
+                                <div class="mb-4 row">
+                                    <label class="form-label-title col-lg-2">
+                                        Section Heading
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <input type="text"
+                                            name="heading"
+                                            class="form-control"
+                                            placeholder="Enter section heading">
+                                    </div>
+                                </div>
+
+                                <!-- RICH TEXT DESCRIPTION -->
+                                <div class="mb-4 row">
+                                    <label class="form-label-title col-lg-2">
+                                        Description
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <textarea
+                                            name="description"
+                                            class="form-control"
+                                            rows="6"
+                                            placeholder="Enter detailed content">
+                                        </textarea>
+                                    </div>
+                                </div>
+
+                                <!-- ORDER -->
+                                <div class="mb-4 row">
+                                    <label class="form-label-title col-lg-2">
+                                        Display Order
+                                    </label>
+                                    <div class="col-lg-10">
+                                        <input type="number"
+                                            name="order"
+                                            class="form-control"
+                                            placeholder="Order number">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-10 text-end">
+                                        <button type="submit"
+                                            class="btn btn-solid btn-success">
+                                            Save Section
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <!-- EXISTING SECTIONS -->
+                            <hr>
+                            <h6>Existing Sections</h6>
+
+                            {% for section in sections %}
+                            <div class="card mt-3">
+                                <div class="card-body">
+                                    <h6>{{ section.heading }}</h6>
+                                    <div>{{ section.description|safe }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block extra_js %}
+<!-- Dropzone js -->
+<script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'adminpanel/js/dropzone/dropzone-script.js' %}"></script>
+
+<!-- Select2 js -->
+<script src="{% static 'adminpanel/js/select2.min.js' %}"></script>
+<script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
+
+
+    {% endblock %}
+
+    {% endblock %}

@@ -459,8 +459,67 @@ class ShippingAddress(models.Model):
     pincode = models.CharField(max_length=10)
     country = models.CharField(max_length=50, default="India")
 
-    # ✅ landmark / delivery instructions
+    # landmark / delivery instructions
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.full_name
+    
+
+
+# CMS Models ------------------------#
+
+
+class HomeSlider(models.Model):
+    image = models.ImageField(upload_to="cms/home/sliders/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Home Slider {self.id}"
+
+
+class HomeCenterBanner(models.Model):
+    banner1 = models.ImageField(upload_to="cms/home/center_banner/", blank=True, null=True)
+    banner2 = models.ImageField(upload_to="cms/home/center_banner/", blank=True, null=True)
+    banner3 = models.ImageField(upload_to="cms/home/center_banner/", blank=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Home Center Banner"
+
+
+class HomeVideo(models.Model):
+    VIDEO_TYPE_CHOICES = (
+        ("upload", "Upload"),
+        ("youtube", "Youtube"),
+    )
+
+    video_type = models.CharField(max_length=20, choices=VIDEO_TYPE_CHOICES, default="upload")
+    video_file = models.FileField(upload_to="cms/home/video/", blank=True, null=True)
+    youtube_url = models.URLField(blank=True, null=True)
+    youtube_id = models.CharField(max_length=50, blank=True, null=True)
+
+    thumbnail = models.ImageField(upload_to="cms/home/video_thumbnails/", blank=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Home Video ({self.video_type})"
+
+
+class HomeEndBanner(models.Model):
+    image = models.ImageField(upload_to="cms/home/end_banners/")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"End Banner {self.id}"
+
+
+class HomeFlashNews(models.Model):
+    text = models.CharField(max_length=150)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text[:40]
+

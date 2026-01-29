@@ -19,16 +19,17 @@
                 <!-- Center: Auto scrolling news -->
                 <div class="relative flex-1 overflow-hidden">
                     <div class="news-marquee whitespace-nowrap text-sm text-white/90">
-                        <span class="mx-6">🔥 New arrivals are live — Shop now</span>
-                        <span class="mx-6">🚚 Free delivery on orders above ₹999</span>
-                        <span class="mx-6">🎁 Year-end offers ending soon</span>
-                        <span class="mx-6">🪔 Authentic Ayurvedic essentials — Kanthi Mantra</span>
+                        {% for news in flash_news %}
+                            <span class="mx-6"> {{ news.text }}</span>
+                        {% empty %}
+                            <span class="mx-6">🪔 Welcome to Kanthi Mantra</span>
+                        {% endfor %}
 
                         <!-- duplicate for seamless loop -->
-                        <span class="mx-6">🔥 New arrivals are live — Shop now</span>
-                        <span class="mx-6">🚚 Free delivery on orders above ₹999</span>
-                        <span class="mx-6">🎁 Year-end offers ending soon</span>
-                        <span class="mx-6">🪔 Authentic Ayurvedic essentials — Kanthi Mantra</span>
+                        {% for news in flash_news %}
+                            <span class="mx-6">🔥 {{ news.text }}</span>
+                        {% endfor %}
+
                     </div>
 
                     <!-- subtle fades -->

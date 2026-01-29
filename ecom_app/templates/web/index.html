@@ -8,17 +8,16 @@
 
     <div class="banner-slider" id="heroSlider">
 
-        <div class="banner-slide active">
-            <img src="{% static 'web/images/homeslider/1.jpg' %}" class="banner-bg">
+        {% for slider in sliders %}
+        <div class="banner-slide active" {% if forloop.first %}active{% endif %}>
+            <img src="{{ slider.image.url }}" class="banner-bg">
+        </div>
+        {% empty %}
+        <div class="banner-slide">
+            <img src="{% static 'web/images/homeslider/1.jpg' %}" class="banner-bg" alt="Home Slider">
         </div>
 
-        <div class="banner-slide">
-            <img src="{% static 'web/images/homeslider/2.jpg' %}" class="banner-bg">
-        </div>
-
-        <div class="banner-slide">
-            <img src="{% static 'web/images/homeslider/3.jpg' %}" class="banner-bg">
-        </div>
+        {% endfor %}
 
         <button class="nav prev" id="heroPrev" onclick="prevSlide()">❮</button>
         <button class="nav next" id="heroNext" onclick="prevSlide()">❯</button>
@@ -265,22 +264,29 @@
             <!-- LEFT : 4:3 Images -->
             <div class="grid grid-cols-1 sm:grid-cols-1 gap-6">
 
+                <!-- Banner 1 -->
                 <!-- Offer Card -->
+                {% if center_banner and center_banner.banner1 %}
                 <a href="#" class="group">
                     <div class="relative rounded-3xl overflow-hidden border border-line shadow-soft aspect-[16/9]">
-                        <img src="{% static 'web/images/catogory/c1.jpg' %}" alt=""
+                        <img src="{{ center_banner.banner1.url }}" alt="Banner 1"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/20"></div>
                     </div>
                 </a>
+                {% endif %}
+
+                <!-- Banner 2 -->
+                {% if center_banner and center_banner.banner2 %}
 
                 <a href="#" class="group">
                     <div class="relative rounded-3xl overflow-hidden border border-line shadow-soft aspect-[16/9]">
-                        <img src="{% static 'web/images/catogory/c2.jpg' %}" alt=""
+                        <img src="{{ center_banner.banner2.url }}" alt="Banner 2"
                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/20"></div>
                     </div>
                 </a>
+                {% endif %}
 
 
 
@@ -291,9 +297,11 @@
 
                 <div class="offer-slider-track">
 
+                    {% if center_banner and center_banner.banner3 %}
                     <div class="offer-slide aspect-[3/4]">
-                        <img src="{% static 'web/images/catogory/c3.jpg' %}" alt="" class="w-full h-full object-cover">
+                        <img src="{{ center_banner.banner3.url }}" alt="Banner 3" class="w-full h-full object-cover">
                     </div>
+                    {% endif %}
 
 
                 </div>
@@ -305,6 +313,8 @@
     </div>
 </section>
 
+
+<!-- Product -->
 <section class="py-20 bg-white border-t border-line">
     <div class="max-w-8xl mx-auto px-4 sm:px-6">
 
@@ -319,7 +329,7 @@
                 </h2>
             </div>
 
-            <a href="shop.html" class="inline-flex items-center gap-2 rounded-xl bg-brownMain px-5 py-3 text-sm font-medium text-white
+            <a href="{% url 'web:shop' %}" class="inline-flex items-center gap-2 rounded-xl bg-brownMain px-5 py-3 text-sm font-medium text-white
                 hover:bg-brownDark transition font-rounded">
                 View products
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none"
@@ -756,13 +766,22 @@
         <div class="relative rounded-3xl overflow-hidden shadow-soft group reveal reveal-bottom">
 
             <!-- Poster Image -->
+             {% if home_video and home_video.thumbnail %}
+                <img src="{{ home_video.thumbnail.url }}" alt="Video thumbnail"
+                    class="w-full aspect-[16/9] object-cover" />
+            {% else %}
             <img src="{% static 'web/images/video.jpg' %}" alt="Kanthi Mantra video"
                 class="w-full aspect-[16/9] object-cover" />
+            {% endif %}
 
             <!-- Dark overlay -->
             <div class="absolute inset-0 bg-black/20 transition group-hover:bg-black/40"></div>
 
             <!-- Play Button -->
+
+            {% if home_video %}
+            {% if home_video.video_type == "upload" and home_video.video_file %}
+
             <button id="playVideo" class="absolute inset-0 flex items-center justify-center" aria-label="Play video">
 
                 <span class="h-20 w-20 rounded-full bg-white/90 grid place-items-center
@@ -777,13 +796,27 @@
             <!-- Video -->
             <video id="videoEl" class="absolute inset-0 w-full h-full object-cover hidden" controls playsinline
                 preload="metadata">
-                <source src="{% static 'web/images/video.mp4' %}" type="video/mp4">
+                <source src="{{ home_video.video_file.url }}" type="video/mp4">
             </video>
+
+            <!--  If youtube url -->
+            {% elif home_video.video_type == "youtube" and home_video.youtube_id %}
+            <iframe class="absolute inset-0 w-full h-full"
+                src="https://www.youtube.com/embed/{{ home_video.youtube_id }}"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+            {% endif %}
+            {% endif %}
 
 
         </div>
     </div>
 </section>
+
+
 <!-- KANTHI MANTRA CATEGORY SECTION -->
 <section class="border-t border-line py-16">
     <div class="max-w-7xl mx-auto px-4">
@@ -876,6 +909,17 @@
             <div id="kmTrack" class="flex transition-transform duration-700 ease-out will-change-transform">
 
                 <!-- Slide 1 -->
+                 {% for banner in end_banners %}
+                <a href="#" class="relative w-full shrink-0">
+                    <div class="relative w-full aspect-[21/9]">
+                        <img src="{{ banner.image.url }}" alt="Ayurvedic Wellness"
+                            class="absolute inset-0 h-full w-full object-cover" />
+                        <div class="absolute inset-0">
+                        </div>
+                    </div>
+                </a>
+                {% empty %}
+                                
                 <a href="#" class="relative w-full shrink-0">
                     <div class="relative w-full aspect-[21/9]">
                         <img src="{% static 'web/images/bbanner/1.jpg' %}" alt="Ayurvedic Wellness"
@@ -884,27 +928,9 @@
                         </div>
                     </div>
                 </a>
+                {% endfor %}
 
-                <!-- Slide 1 -->
-                <a href="#" class="relative w-full shrink-0">
-                    <div class="relative w-full aspect-[21/9]">
-                        <img src="{% static 'web/images/bbanner/2.jpg' %}" alt="Ayurvedic Wellness"
-                            class="absolute inset-0 h-full w-full object-cover" />
-                        <div class="absolute inset-0">
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Slide 1 -->
-                <a href="#" class="relative w-full shrink-0">
-                    <div class="relative w-full aspect-[21/9]">
-                        <img src="{% static 'web/images/bbanner/3.jpg' %}" alt="Ayurvedic Wellness"
-                            class="absolute inset-0 h-full w-full object-cover" />
-                        <div class="absolute inset-0">
-                        </div>
-                    </div>
-                </a>
-
+        
             </div>
 
             <!-- Prev/Next -->
@@ -930,6 +956,8 @@
 
     </div>
 </section>
+
+
 
 <section class="py-20 bg-white border-t border-line">
     <div class="max-w-8xl mx-auto px-4 sm:px-6">

@@ -95,5 +95,9 @@ urlpatterns = [
 
     # cms
     path('adminpanel/cms_home/', views.cms_home, name='cms_home'),
+    path('adminpanel/cms_home/slider/delete/<int:pk>/', views.delete_slider, name='delete_slider'),
+    path("adminpanel/cms_home/endbanner/delete/<int:pk>/", views.delete_end_banner, name="delete_end_banner"),
     path('adminpanel/cms_contact/', views.cms_contact, name='cms_contact'),
+    path('adminpanel/cms_legal/', views.cms_legal, name='cms_legal'),
+    path('adminpanel/cms_blogs/', views.cms_blogs, name='cms_blogs'),
  ]
