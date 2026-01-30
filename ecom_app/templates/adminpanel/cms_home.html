@@ -19,7 +19,7 @@
                             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="pills-sliders-tab" data-bs-toggle="pill"
+                                    <button class="nav-link" id="pills-sliders-tab" data-bs-toggle="pill"
                                         data-bs-target="#pills-sliders" type="button">
                                         Sliders
                                     </button>
@@ -61,83 +61,56 @@
                                 <!-- SLIDERS -->
                                 <div class="tab-pane fade show active" id="pills-sliders" role="tabpanel"
                                     aria-labelledby="pills-sliders-tab">
-                                        <form method="POST" class="theme-form theme-form-2 mega-form" enctype="multipart/form-data"  action="" >
-                                        {% csrf_token %}
-                                        <input type="hidden" name="form_type" value="sliders">
+                                        <form class="theme-form theme-form-2 mega-form"
+                                            method="POST"
+                                            enctype="multipart/form-data"
+                                            action="{% if edit_slider %}{% url 'web:edit_slider' edit_slider.id %}{% else %}{% url 'web:add_slider' %}{% endif %}">
+                                            {% csrf_token %}
+
                                         <div class="card-header-1">
                                             <h5>Slider Management</h5>
                                         </div>
 
                                         <div class="row">
 
-                                            <!-- SLIDER 1 -->
+                                            <!-- SLIDER IMAGE -->
                                             <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider 1</label>
+                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider</label>
                                                 <div class="col-md-9 col-lg-10">
-                                                    <input class="form-control" type="file" accept="image/*" name="sliders"
-                                                            onchange="previewImage(this, 'preview1')">
-                                                           
+                                                   <input class="form-control"
+                                                                type="file"
+                                                                name="slider_image"
+                                                                accept="image/*"
+                                                                onchange="previewImage(this, 'preview1', 500, 1344, 768)">
 
-
-                                                    <img id="preview1" class="mt-2"
-                                                            style="max-height:120px; display:none; border-radius:10px;">
-
+                                                            {% if edit_slider %}
+                                                                <img id="preview1"
+                                                                    src="{{ edit_slider.image.url }}"
+                                                                    class="mt-2"
+                                                                    style="max-height:120px; border-radius:10px;">
+                                                            {% else %}
+                                                                <img id="preview1"
+                                                                    class="mt-2"
+                                                                    style="max-height:120px; display:none; border-radius:10px;">
+                                                            {% endif %}
                                                              <small class="text-muted">
                                                                 Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
                                                             </small>
                                                 </div>
                                             </div>
 
-                                            <!-- SLIDER 2 -->
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider 2</label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <input class="form-control" type="file" accept="image/*" name="sliders"
-                                                            onchange="previewImage(this, 'preview2')">
-                                                            
-
-                                                    <img id="preview2" class="mt-2"
-                                                            style="max-height:120px; display:none; border-radius:10px;">
-                                                            <small class="text-muted">
-                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
-                                                            </small>
-                                                </div>
-                                            </div>
-
-                                            <!-- SLIDER 3 -->
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider 3</label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <input class="form-control" type="file" accept="image/*"  name="sliders"
-                                                            onchange="previewImage(this, 'preview3')">
-                                                            
-                                                    <img id="preview3" class="mt-2"
-                                                            style="max-height:120px; display:none; border-radius:10px;">
-                                                            <small class="text-muted">
-                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
-                                                            </small>
-
-                                                </div>
-                                            </div>
-
-                                            <!-- DYNAMIC SLIDERS (will appear BELOW Slider 3) -->
-                                            <div id="extra-banners" class="col-12"></div>
-
+                                          
                                             <!-- ACTION BUTTONS -->
                                             <div class="row mt-3">
                                                 <div class="col-lg-2 col-md-3"></div>
 
                                                 <div class="col-md-9 col-lg-10 d-flex justify-content-between">
-                                                    <button type="button"
-                                                            class="btn btn-outline-primary"
-                                                            onclick="addBannerInput()">
-                                                        + Add More Banner
+                                                   
+
+                                                   <button type="submit" class="btn btn-solid btn-success">
+                                                        {% if edit_slider %}Update Slider{% else %}Save Slider{% endif %}
                                                     </button>
 
-                                                    <button type="submit"
-                                                            class="btn btn-solid btn-success">
-                                                        Save Sliders
-                                                    </button>
                                                 </div>
                                             </div>
 
@@ -152,95 +125,87 @@
                                         <table class="table all-package order-table theme-table" id="table_id">
                                             <thead>
                                                 <tr>
+                                                    <th>Banner id</th>
                                                     <th>Banner</th>
                                                     <th>created at</th>
                                                     
                                                     <th>Option</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                               {% for banner in sliders %}
+                                                                                        <tbody>
+                                                {% for slider in sliders %}
                                                 <tr>
-                                                   <td>
-                                                        <div class="table-image">
-                                                                <img src="{{banner.image.url}}" class="img-fluid" alt="Banner" style="height:70px; width:auto;">
-                                                        </div>
-                                                        </td>
-                                                        <td>{{ banner.created_at|date:"d-m-Y" }}</td>
-                                                  <td>
-                                                            <ul>
-                                                          
+                                                    <td>{{ slider.id }}</td>
+                                                    <td>
+                                                        <img src="{{ slider.image.url }}" class="img-fluid" style="height:60px;">
+                                                    </td>
+                                                    <td>{{ slider.created_at|date:"d-m-Y" }}</td>
+                                                    <td>
+                                                       <a href="{% url 'web:edit_slider' slider.id %}?tab=pills-sliders">
+                                                            <i class="ri-pencil-line"></i>
+                                                        </a>
 
-                                                                <li>
-                                                                    <a href="javascript:void(0)">
-                                                                        <i class="ri-pencil-line"></i>
-                                                                    </a>
-                                                                </li>
 
-                                                                <li>
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteSliderModal{{ banner.id }}">
-                                                                        <i class="ri-delete-bin-line"></i>
-                                                                    </a>
-                                                                </li>
-                                                            </ul>
-                                                            <!-- delete modal -->
-                                                            <div class="modal fade theme-modal remove-coupon" id="deleteSliderModal{{ banner.id }}" aria-hidden="true" tabindex="-1">
-                                                                <div class="modal-dialog modal-dialog-centered">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header d-block text-center">
-                                                                            <h5 class="modal-title w-100">Are You Sure ?</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Do you really want to delete this banner"?</p>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-dismiss="modal">No</button>
-                                                                            <form method="post" action="{% url 'web:delete_slider' banner.id %}">
-                                                                                {% csrf_token %}
-                                                                                <button type="submit" class="btn btn-animation btn-md fw-bold">Yes</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
+                                                        <a href="{% url 'web:delete_slider' slider.id %}"
+                                                        onclick="return confirm('Delete this slider?')">
+                                                            <i class="ri-delete-bin-line"></i>
+                                                        </a>
+
+                                                    </td>
                                                 </tr>
-                                               {% empty %}
+                                                {% empty %}
                                                 <tr>
-                                                <td colspan="3" class="text-center text-muted">
-                                                No banners uploaded yet
-                                                </td>
+                                                    <td colspan="4">No sliders uploaded</td>
                                                 </tr>
                                                 {% endfor %}
-                                                                                                
-                                            </tbody>
+                                                </tbody>
+
                                         </table>
                                     </div>
                                 </div>
-
-
-
 
                                 <!-- CENTER BANNER -->
                                 <div class="tab-pane fade" id="banner" role="tabpanel"
                                     aria-labelledby="pills-banner-tab">
 
-                                    <form method="POST" action="" class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
+                                    <form class="theme-form theme-form-2 mega-form"
+                                        method="POST"
+                                        enctype="multipart/form-data"
+                                        action="{% url 'web:center_banner' %}">
                                         {% csrf_token %}
-                                         <input type="hidden" name="form_type" value="center_banner">
-
                                         <div class="card-header-1 mt-3">
                                             <h5>Center Banner</h5>
                                         </div>
+
                                         <!-- BANNER 1 -->
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner 1</label>
                                             <div class="col-md-9 col-lg-10">
-                                                <input type="file" class="form-control" accept="image/*" name="banner1"
-                                                    onchange="validateBanner(this, 'preview_cb1', 917, 515)">
-                                                <img id="preview_cb1" class="mt-2"
-                                                    style="max-height:120px; display:none; border-radius:10px;">
+                                                <!-- BANNER 1 -->
+                                                    <input type="file"
+                                                        class="form-control"
+                                                        name="banner1"
+                                                        accept="image/*"
+                                                        onchange="validateBanner(this, 'preview_cb1', 917, 515)">
+
+                                                    {% if center_banner.banner1 %}
+                                                        <img id="preview_cb1"
+                                                            src="{{ center_banner.banner1.url }}"
+                                                            class="mt-2"
+                                                            style="max-height:120px; border-radius:10px;">
+
+                                                        <a href="{% url 'web:delete_center_banner' 'banner1' %}"
+                                                        class="text-danger d-block mt-1"
+                                                        onclick="return confirm('Delete Banner 1?')">
+                                                            Delete
+                                                        </a>
+                                                    {% else %}
+                                                        <img id="preview_cb1"
+                                                            class="mt-2"
+                                                            style="max-height:120px; display:none; border-radius:10px;">
+                                                    {% endif %}
+
+
                                                 <small class="text-muted">
                                                     Size: 917 × 515 px | Max file size: 1 MB
                                                 </small>
@@ -251,10 +216,28 @@
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner 2</label>
                                             <div class="col-md-9 col-lg-10">
-                                                <input type="file" class="form-control" accept="image/*" name="banner2"
+                                                <input type="file"
+                                                    class="form-control"
+                                                    name="banner2"
+                                                    accept="image/*"
                                                     onchange="validateBanner(this, 'preview_cb2', 917, 515)">
-                                                <img id="preview_cb2" class="mt-2"
-                                                    style="max-height:120px; display:none; border-radius:10px;">
+
+                                                {% if center_banner.banner2 %}
+                                                    <img id="preview_cb2"
+                                                        src="{{ center_banner.banner2.url }}"
+                                                        class="mt-2"
+                                                        style="max-height:120px; border-radius:10px;">
+
+                                                    <a href="{% url 'web:delete_center_banner' 'banner2' %}"
+                                                    class="text-danger d-block mt-1"
+                                                    onclick="return confirm('Delete Banner 2?')">
+                                                        Delete
+                                                    </a>
+                                                {% else %}
+                                                    <img id="preview_cb2"
+                                                        class="mt-2"
+                                                        style="max-height:120px; display:none; border-radius:10px;">
+                                                {% endif %}
                                                 <small class="text-muted">
                                                     Size: 917 × 515 px | Max file size: 1 MB
                                                 </small>
@@ -265,10 +248,29 @@
                                         <div class="mb-4 row align-items-center">
                                             <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner 3</label>
                                             <div class="col-md-9 col-lg-10">
-                                                <input type="file" class="form-control" accept="image/*" name="banner3"
+                                                <input type="file"
+                                                    class="form-control"
+                                                    name="banner3"
+                                                    accept="image/*"
                                                     onchange="validateBanner(this, 'preview_cb3', 917, 1222)">
-                                                <img id="preview_cb3" class="mt-2"
-                                                    style="max-height:120px; display:none; border-radius:10px;">
+
+                                                {% if center_banner.banner3 %}
+                                                    <img id="preview_cb3"
+                                                        src="{{ center_banner.banner3.url }}"
+                                                        class="mt-2"
+                                                        style="max-height:120px; border-radius:10px;">
+
+                                                    <a href="{% url 'web:delete_center_banner' 'banner3' %}"
+                                                    class="text-danger d-block mt-1"
+                                                    onclick="return confirm('Delete Banner 3?')">
+                                                        Delete
+                                                    </a>
+                                                {% else %}
+                                                    <img id="preview_cb3"
+                                                        class="mt-2"
+                                                        style="max-height:120px; display:none; border-radius:10px;">
+                                                {% endif %}
+
                                                 <small class="text-muted">
                                                     Size: 917 × 1222 px | Max file size: 1 MB
                                                 </small>
@@ -279,202 +281,104 @@
                                             <div class="row">
                                                 <div class="col-lg-2 col-md-3"></div>
                                                 <div class="col-md-9 col-lg-10 d-flex justify-content-end">
-                                                    <button type="submit" class="btn btn-solid btn-success">
-                                                         Save Center Banner
+                                                    <button type="submit"
+                                                            name="center_banner_submit"
+                                                            class="btn btn-solid btn-success">
+                                                        Save
                                                     </button>
+
                                                 </div>
                                             </div>
                                     </form> 
 
-
-                                    <!-- Center Banners table -->
-                                    <div class="card-header-1">
-                                        <h5>Center Banners</h5>
-                                    </div>
-
-                                    <div class="table-responsive">
-                                        <table class="table all-package order-table theme-table" id="table_id">
-                                            <thead>
-                                                <tr>
-                                                    <th>Image</th>
-                                                                                                       
-                                                    <th>Banner</th>
-                                                    <th>created at</th>
-                                                    <th>Option</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% if center_banner.banner1 %}
-                                                <tr>
-                                                    <td>
-                                                        <div class="table-image">
-                                                            <img src="{{ center_banner.banner1.url }}" class="img-fluid"
-                                                                style="height:70px; width:auto;" alt="Banner 1">
-                                                        </div>
-                                                    </td>
-                                                    
-                                                    <td>
-                                                        <span class="badge bg-primary">Banner 1</span>
-                                                    </td>
-                                                    <td>{{ center_banner.updated_at|date:"d-m-Y" }}</td>
-                                                    
-                                                </tr>
-                                                {% endif %}
-
-                                                {% if center_banner.banner2 %}
-                                                <tr>
-                                                    <td>
-                                                        <div class="table-image">
-                                                            <img src="{{ center_banner.banner2.url }}" class="img-fluid"
-                                                                style="height:70px; width:auto;" alt="Banner 2">
-                                                        </div>
-                                                    </td>
-                                                
-                                                    <td>
-                                                        <span class="badge bg-primary">Banner 2</span>
-                                                    </td>
-                                                    <td>{{ center_banner.updated_at|date:"d-m-Y" }}</td>
-                                                </tr>
-                                                {% endif %}
-
-                                                {% if center_banner.banner3 %}
-                                                <tr>
-                                                    <td>
-                                                        <div class="table-image">
-                                                            <img src="{{ center_banner.banner3.url }}" class="img-fluid"
-                                                                style="height:70px; width:auto;" alt="Banner 3">
-                                                        </div>
-                                                    </td>
-                                                    
-                                                    <td>
-                                                        <span class="badge bg-primary">Banner 3</span>
-                                                    </td>
-                                                    <td>{{ center_banner.updated_at|date:"d-m-Y" }}</td>
-                                                </tr>
-                                                {% endif %}
-
-                                                {% if not center_banner.banner1 and not center_banner.banner2 and not center_banner.banner3 %}
-                                                <tr>
-                                                    <td colspan="3" class="text-center text-muted">
-                                                        No Center Banners uploaded yet
-                                                    </td>
-                                                </tr>
-                                                {% endif %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-
                                 </div>
 
-                                <!-- VIDEO / ORDERS -->
-                                <div class="tab-pane fade" id="video" role="tabpanel" aria-labelledby="pills-video-tab">
+                                
+                                <!-- VIDEO TAB -->
+                                            <div class="tab-pane fade" id="video" role="tabpanel">
 
-                                    
-
-                                        <form  method="POST" action="" class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
+                                            <form class="theme-form theme-form-2 mega-form"
+                                                method="POST"
+                                                enctype="multipart/form-data"
+                                                action="{% url 'web:home_video' %}">
                                             {% csrf_token %}
-                                             <input type="hidden" name="form_type" value="video">
+
                                             <div class="card-header-1 mt-3">
                                                 <h5>Home Page Video</h5>
                                             </div>
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Video Thumbnail</label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <input class="form-control" type="file" accept="image/*"  name="video_thumbnail"
-                                                            onchange="previewImage(this, 'preview3')">
-                                                            
-                                                    <img id="preview3" class="mt-2"
-                                                            style="max-height:120px; display:none; border-radius:10px;">
-                                                            <small class="text-muted">
-                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
-                                                            </small>
 
-                                                </div>
-                                            </div>
-                                            
-                                            <!-- VIDEO TYPE OPTION -->
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">
-                                                    Video Type
-                                                </label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input"
-                                                            type="radio"
-                                                            name="video_type"
-                                                            id="video_upload"
-                                                            value="upload"
-                                                            checked
-                                                            onclick="toggleVideoType()">
-                                                        <label class="form-check-label" for="video_upload">
-                                                            Upload Video
+                                            <!-- THUMBNAIL -->
+                                           <div class="mb-4 row align-items-center">
+                                                        <label class="form-label-title col-lg-2 col-md-3 mb-0">
+                                                            Video Thumbnail
                                                         </label>
+                                                        <div class="col-md-9 col-lg-10">
+
+                                                            <input type="file"
+                                                                class="form-control"
+                                                                name="thumbnail"
+                                                                accept="image/*"
+                                                                onchange="previewImage(this, 'thumbPreview', 500)">
+
+                                                            <img id="thumbPreview"
+                                                                {% if home_video.thumbnail %}
+                                                                    src="{{ home_video.thumbnail.url }}"
+                                                                    style="height:120px; border-radius:10px;"
+                                                                {% else %}
+                                                                    style="height:120px; display:none; border-radius:10px;"
+                                                                {% endif %}
+                                                                class="mt-2">
+
+                                                            {% if home_video.thumbnail %}
+                                                                <a href="{% url 'web:delete_home_video_file' 'thumbnail' %}"
+                                                                class="text-danger d-block mt-1"
+                                                                onclick="return confirm('Delete thumbnail?')">
+                                                                    Delete
+                                                                </a>
+                                                            {% endif %}
+
+                                                        </div>
                                                     </div>
 
-                                                    <div class="form-check form-check-inline">
-                                                        <input class="form-check-input"
-                                                            type="radio"
-                                                            name="video_type"
-                                                            id="video_youtube"
-                                                            value="youtube"
-                                                            onclick="toggleVideoType()">
-                                                        <label class="form-check-label" for="video_youtube">
-                                                            YouTube URL
+
+                                            <!-- VIDEO FILE -->
+                                          <div class="mb-4 row align-items-center">
+                                                        <label class="form-label-title col-lg-2 col-md-3 mb-0">
+                                                            Video File
                                                         </label>
+                                                        <div class="col-md-9 col-lg-10">
+
+                                                            <input type="file"
+                                                                class="form-control"
+                                                                name="video_file"
+                                                                accept="video/mp4,video/webm"
+                                                                onchange="previewVideo(this)">
+
+                                                            <video id="videoPreview"
+                                                                controls
+                                                                {% if home_video.video_file %}
+                                                                    src="{{ home_video.video_file.url }}"
+                                                                    style="height:120px; width:220px; border-radius:10px; background:#000;"
+                                                                {% else %}
+                                                                    style="height:120px; width:220px; display:none; border-radius:10px; background:#000;"
+                                                                {% endif %}
+                                                                class="mt-2">
+                                                            </video>
+
+                                                            <!-- {% if home_video.video_file %}
+                                                                <a href="{% url 'web:delete_home_video_file' 'video' %}"
+                                                                class="text-danger d-block mt-1"
+                                                                onclick="return confirm('Delete video?')">
+                                                                    Delete
+                                                                </a>
+                                                            {% endif %} -->
+
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- UPLOAD VIDEO -->
-                                            <div class="mb-4 row align-items-center" id="uploadVideoBox">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">
-                                                    Upload Video
-                                                </label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <input type="file"
-                                                        class="form-control"
-                                                        name="video_file"
-                                                        accept="video/mp4,video/webm"
-                                                        onchange="validateVideo(this, 'videoPreview')">
-
-                                                    <video id="videoPreview"
-                                                        class="mt-3"
-                                                        style="max-width:100%; display:none; border-radius:10px;"
-                                                        controls>
-                                                    </video>
-
-                                                    <small class="text-muted">
-                                                        Formats: MP4, WebM | Ideal: &lt; 3 MB | Max: 10 MB
-                                                    </small>
-                                                </div>
-                                            </div>
 
 
-                                            <!-- YOUTUBE VIDEO -->
-                                            <div class="mb-4 row align-items-center d-none" id="youtubeVideoBox">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">
-                                                    YouTube URL
-                                                </label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <input type="url"
-                                                        class="form-control"
-                                                        name="youtube_url"
-                                                        placeholder="https://www.youtube.com/watch?v=XXXXX"
-                                                        oninput="previewYoutube(this.value)">
-
-                                                    <iframe id="youtubePreview"
-                                                            class="mt-3"
-                                                            width="100%"
-                                                            height="315"
-                                                            style="display:none; border-radius:10px;"
-                                                            frameborder="0"
-                                                            allowfullscreen>
-                                                    </iframe>
-                                                </div>
-                                            </div>
-
-                                            <!-- SUBMIT BUTTON -->
-                                            <div class="row">
+                                            <!-- SAVE -->
+                                            <div class="row mt-4">
                                                 <div class="col-lg-2 col-md-3"></div>
                                                 <div class="col-md-9 col-lg-10 d-flex justify-content-end">
                                                     <button type="submit" class="btn btn-solid btn-success">
@@ -482,170 +386,121 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                        </form>
 
-
-                                </div>
-
-                                <!-- END BANNER -->
-                                <div class="tab-pane fade" id="endbanner" role="tabpanel" aria-labelledby="pills-endbanner-tab">
-                                <form method="POST" action="" enctype="multipart/form-data" class="theme-form theme-form-2 mega-form">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="form_type" value="end_banner">
-
-
-
-                                    <div class="card-header-1 mt-3">
-                                        <h5>End Banner</h5>
-                                    </div>
-
-                                     <div class="row">
-                                            <!-- SLIDER 1 -->
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider 1</label>
-                                                <div class="col-md-9 col-lg-10">
-                                                   <!-- END BANNER SLIDER 1 -->
-                                                    <input class="form-control" type="file" accept="image/*" name="end_banners"
-                                                        onchange="previewImage(this, 'end_preview1', 500)">
-                                                    <img id="end_preview1" class="mt-2"
-                                                        style="max-height:120px; display:none; border-radius:10px;">
-
-                                                             <small class="text-muted">
-                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
-                                                            </small>
-                                                </div>
+                                            </form>
                                             </div>
 
-                                            <!-- SLIDER 2 -->
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider 2</label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    
-                                                    <!-- SLIDER 2 -->
-                                                    <input class="form-control" type="file" accept="image/*" name="end_banners"
-                                                        onchange="previewImage(this, 'end_preview2', 500)">
-                                                    <img id="end_preview2" class="mt-2"
-                                                        style="max-height:120px; display:none; border-radius:10px;">
-                                                            <small class="text-muted">
-                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
-                                                            </small>
+
+                                
+                                            <!-- END BANNER -->
+                                            <div class="tab-pane fade" id="endbanner" role="tabpanel">
+
+                                                <form class="theme-form theme-form-2 mega-form"
+                                                    method="POST"
+                                                    enctype="multipart/form-data"
+                                                    action="{% if edit_end_banner %}
+                                                                {% url 'web:edit_end_banner' edit_end_banner.id %}
+                                                            {% else %}
+                                                                {% url 'web:add_end_banner' %}
+                                                            {% endif %}">
+                                                {% csrf_token %}
+
+                                                <div class="card-header-1 mt-3">
+                                                    <h5>End Banner</h5>
                                                 </div>
-                                            </div>
 
-                                            <!-- SLIDER 3 -->
-                                            <div class="mb-4 row align-items-center">
-                                                <label class="form-label-title col-lg-2 col-md-3 mb-0">Slider 3</label>
-                                                <div class="col-md-9 col-lg-10">
-                                                    <!-- SLIDER 3 -->
-                                                        <input class="form-control" type="file" accept="image/*" name="end_banners"
-                                                            onchange="previewImage(this, 'end_preview3', 500)">
-                                                        <img id="end_preview3" class="mt-2"
-                                                            style="max-height:120px; display:none; border-radius:10px;">
-                                                                Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
-                                                            </small>
+                                                <!-- MULTI UPLOAD -->
+                                                <div class="mb-4 row align-items-center">
+                                                    <label class="form-label-title col-lg-2 col-md-3 mb-0">Banners</label>
+                                                    <div class="col-md-9 col-lg-10">
 
+                                                        {% if edit_end_banner %}
+                                                            <input class="form-control"
+                                                                type="file"
+                                                                name="end_banner_image"
+                                                                accept="image/*"
+                                                                onchange="previewImage(this, 'end_preview1', 500, 1536, 672)">
+
+                                                            <img id="end_preview1"
+                                                                src="{{ edit_end_banner.image.url }}"
+                                                                class="mt-2"
+                                                                style="max-height:120px; border-radius:10px;">
+                                                        {% else %}
+                                                            <input class="form-control"
+                                                                type="file"
+                                                                name="end_banner_images"
+                                                                accept="image/*"
+                                                                multiple
+                                                                onchange="previewMultipleEndBanners(this)">
+                                                        {% endif %}
+
+                                                        <div id="end-preview-wrapper" class="d-flex gap-2 flex-wrap mt-2"></div>
+
+                                                        <small class="text-muted">
+                                                            Dimension: 1536 × 672 px | Max 1 MB each
+                                                        </small>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- DYNAMIC SLIDERS (will appear BELOW Slider 3) -->
-                                            <div id="end-extra-banners" class="col-12"></div>
-
-                                            <!-- ACTION BUTTONS -->
-                                            <div class="row mt-3">
-                                                <div class="col-lg-2 col-md-3"></div>
-
-                                                <div class="col-md-9 col-lg-10 d-flex justify-content-between">
-                                                    <button type="button"
-                                                        class="btn btn-outline-primary"
-                                                        onclick="addEndBannerInput()">
-                                                        + Add More Banner
-                                                    </button>
-
-
-                                                    <button type="submit"
-                                                            class="btn btn-solid btn-success">
-                                                        Save Sliders
-                                                    </button>
+                                                <!-- SAVE -->
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-2 col-md-3"></div>
+                                                    <div class="col-md-9 col-lg-10 d-flex justify-content-end">
+                                                        <button type="submit" class="btn btn-solid btn-success">
+                                                            {% if edit_end_banner %}Update Banner{% else %}Save Banners{% endif %}
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                    </div>
-                                        </form>
+                                                </form>
 
-                                    <div class="card-header-1">
-                                        <h5>Uploaded End Banners</h5>
-                                    </div>
 
-                                    <div class="table-responsive">
-                                        <table class="table all-package order-table theme-table" id="table_id">
-                                            <thead>
-                                                <tr>
-                                                    <th>Banner</th>
-                                                    <th>created at</th>
-                                                    
-                                                    <th>Option</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                               {% for banner in end_banners %}
-                                                <tr>
-                                                   <td>
-                                                        <div class="table-image">
-                                                                <img src="{{banner.image.url}}" class="img-fluid" alt="End Banner" style="height:70px; width:auto;">
-                                                        </div>
-                                                        </td>
-                                                        <td>{{ banner.created_at|date:"d-m-Y" }}</td>
-                                                  <td>
-                                                            <ul>
-                                                          
+                                                <!-- LIST -->
+                                                <div class="card-header-1 mt-4">
+                                                    <h5>Banners</h5>
+                                                </div>
 
-                                                                <li>
-                                                                    <a href="javascript:void(0)">
-                                                                        <i class="ri-pencil-line"></i>
-                                                                    </a>
-                                                                </li>
+                                                <div class="table-responsive">
+                                                    <table class="table all-package order-table theme-table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID</th>
+                                                                <th>Banner</th>
+                                                                <th>Created</th>
+                                                                <th>Option</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for banner in end_banners %}
+                                                            <tr>
+                                                                <td>{{ banner.id }}</td>
+                                                                <td>
+                                                                    <img src="{{ banner.image.url }}"
+                                                                        style="height:60px; border-radius:6px;">
+                                                                </td>
+                                                                <td>{{ banner.created_at|date:"d-m-Y" }}</td>
+                                                                <td>
+                                                                   <a href="{% url 'web:edit_end_banner' banner.id %}?tab=endbanner">
+                                                                            <i class="ri-pencil-line"></i>
+                                                                        </a>
 
-                                                                <li>
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#deleteSliderModal{{ banner.id }}">
+                                                                    <a href="{% url 'web:delete_end_banner' banner.id %}"
+                                                                    onclick="return confirm('Delete this banner?')">
                                                                         <i class="ri-delete-bin-line"></i>
                                                                     </a>
-                                                                </li>
-                                                            </ul>
-                                                            <!-- delete modal -->
-                                                            <div class="modal fade theme-modal remove-coupon" id="deleteSliderModal{{ banner.id }}" aria-hidden="true" tabindex="-1">
-                                                                <div class="modal-dialog modal-dialog-centered">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header d-block text-center">
-                                                                            <h5 class="modal-title w-100">Are You Sure ?</h5>
-                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <p>Do you really want to delete this banner"?</p>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-animation btn-md fw-bold" data-bs-dismiss="modal">No</button>
-                                                                            <form method="post" action="{% url 'web:delete_end_banner' banner.id %}">
-                                                                                {% csrf_token %}
-                                                                                <button type="submit" class="btn btn-animation btn-md fw-bold">Yes</button>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                </tr>
-                                               {% empty %}
-                                                <tr>
-                                                <td colspan="3" class="text-center text-muted">
-                                                No banners uploaded yet
-                                                </td>
-                                                </tr>
-                                                {% endfor %}
-                                                                                                
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                                                </td>
+                                                            </tr>
+                                                            {% empty %}
+                                                            <tr>
+                                                                <td colspan="4">No end banners added</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
 
                                 <!-- FLASH NEWS -->
                                 <div class="tab-pane fade" id="flashnews" role="tabpanel"
@@ -653,27 +508,36 @@
 
                                  
 
-                                  <form method="POST" action="" class="theme-form theme-form-2 mega-form">
+                                  <form class="theme-form theme-form-2 mega-form"
+                                        method="POST"
+                                        action="{% if edit_flash_news %}
+                                                    {% url 'web:edit_flash_news' edit_flash_news.id %}
+                                                {% else %}
+                                                    {% url 'web:add_flash_news' %}
+                                                {% endif %}">
                                     {% csrf_token %}
-                                    <input type="hidden" name="form_type" value="flash_news">
+
+
                                     <div class="card-header-1 mt-3">
                                         <h5>Flash News</h5>
                                     </div>
 
-                                    <!-- FLASH NEWS LIST -->
+                                    
                                     <div id="flash-news-wrapper">
 
-                                        <!-- FLASH NEWS 1 -->
+                                        <!-- FLASH NEWS  -->
                                         <div class="mb-4 row align-items-center flash-news-item">
                                             <label class="form-label-title col-lg-2 col-md-3 mb-0">
-                                                Flash News 1
+                                                Flash News 
                                             </label>
                                             <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
                                                     name="flash_news[]"
+                                                    maxlength="150"
                                                     placeholder="Enter flash news text"
-                                                    maxlength="150">
+                                                    value="{% if edit_flash_news %}{{ edit_flash_news.text }}{% endif %}">
+
                                             </div>
                                         </div>
 
@@ -683,19 +547,66 @@
                                     <div class="row">
                                         <div class="col-lg-2 col-md-3"></div>
                                         <div class="col-md-9 col-lg-10 d-flex justify-content-between">
-                                            <button type="button"
-                                                    class="btn btn-outline-primary"
-                                                    onclick="addFlashNews()">
-                                                + Add More Flash News
+                                          
+
+                                           <button type="submit" class="btn btn-solid btn-success">
+                                                {% if edit_flash_news %}
+                                                    Update Flash News
+                                                {% else %}
+                                                    Save Flash News
+                                                {% endif %}
                                             </button>
 
-                                            <button type="submit"
-                                                    class="btn btn-solid btn-success">
-                                                Save Flash News
-                                            </button>
                                         </div>
                                     </div>
                                 </form>
+
+                                <div class="card-header-1">
+                                        <h5>FlashNews</h5>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table all-package order-table theme-table" id="table_id">
+                                            <thead>
+                                                <tr>
+                                                    <th>Counter</th>
+                                                    <th>News</th>
+                                                    <th>created at</th>
+                                                    
+                                                    <th>Option</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for news in flash_news %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ news.text }}</td>
+                                                    <td>{{ news.created_at|date:"d-m-Y" }}</td>
+                                                    <td>
+                                                        <!-- EDIT -->
+                                                        <a href="{% url 'web:edit_flash_news' news.id %}?tab=flashnews">
+                                                            <i class="ri-pencil-line"></i>
+                                                        </a>
+
+
+                                                        <!-- DELETE -->
+                                                        <a href="{% url 'web:delete_flash_news' news.id %}"
+                                                        onclick="return confirm('Delete this flash news?')">
+                                                            <i class="ri-delete-bin-line"></i>
+                                                        </a>
+                                                    </td>
+
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="4">No flash news added</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+
+
+                                        </table>
+                                    </div>
 
                                 </div>
 
@@ -709,7 +620,6 @@
 </div>
 
 
-
 {% block extra_js %}
 <!-- Dropzone js -->
 <script src="{% static 'adminpanel/js/dropzone/dropzone.js' %}"></script>
@@ -720,9 +630,6 @@
 <script src="{% static 'adminpanel/js/select2-custom.js' %}"></script>
 <script>
 /* ---------- IMAGE PREVIEW + SIZE CHECK ---------- */
-function setDeleteUrl(url){
-    document.getElementById("confirmDeleteBtn").href = url;
-}
 function previewImage(input, previewId, maxSizeKB = 500, reqWidth = null, reqHeight = null) {
     const file = input.files[0];
     if (!file) return;
@@ -758,6 +665,10 @@ function previewImage(input, previewId, maxSizeKB = 500, reqWidth = null, reqHei
     reader.readAsDataURL(file);
 }
 </script>
+
+
+
+
 <script>
 let bannerCount = 3;
 
@@ -776,7 +687,7 @@ function addBannerInput() {
             Slider ${bannerCount}
         </label>
         <div class="col-md-9 col-lg-10">
-            <input class="form-control" type="file" accept="image/*" name="sliders"
+            <input class="form-control" type="file" accept="image/*"
                 onchange="previewImage(this, '${previewId}', 500)">
             <img id="${previewId}" class="mt-2"
                 style="max-height:120px; display:none; border-radius:10px;">
@@ -786,61 +697,14 @@ function addBannerInput() {
     container.appendChild(div);
 }
 </script>
+
+
 <script>
 function validateBanner(input, previewId, width, height) {
     previewImage(input, previewId, 500, width, height);
 }
 </script>
-<script>
-function toggleVideoType() {
-    const uploadBox = document.getElementById("uploadVideoBox");
-    const youtubeBox = document.getElementById("youtubeVideoBox");
 
-    const uploadRadio = document.getElementById("video_upload");
-
-    if (uploadRadio.checked) {
-        uploadBox.classList.remove("d-none");
-        youtubeBox.classList.add("d-none");
-    } else {
-        uploadBox.classList.add("d-none");
-        youtubeBox.classList.remove("d-none");
-    }
-}
-
-/* ---------- VIDEO FILE VALIDATION ---------- */
-function validateVideo(input, previewId) {
-    const file = input.files[0];
-    if (!file) return;
-
-    const sizeMB = file.size / (1024 * 1024);
-    if (sizeMB > 10) {
-        alert("Video must be less than 10 MB");
-        input.value = "";
-        return;
-    }
-
-    const video = document.getElementById(previewId);
-    video.src = URL.createObjectURL(file);
-    video.style.display = "block";
-}
-
-/* ---------- YOUTUBE PREVIEW ---------- */
-function previewYoutube(url) {
-    let videoId = "";
-
-    if (url.includes("watch?v=")) {
-        videoId = url.split("watch?v=")[1].split("&")[0];
-    } else if (url.includes("youtu.be/")) {
-        videoId = url.split("youtu.be/")[1];
-    }
-
-    if (videoId) {
-        const iframe = document.getElementById("youtubePreview");
-        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-        iframe.style.display = "block";
-    }
-}
-</script>
 <script>
 let flashCount = 1;
 
@@ -868,6 +732,9 @@ function addFlashNews() {
     wrapper.appendChild(div);
 }
 </script>
+
+
+
 <script>
 let endBannerCount = 3;
 
@@ -885,7 +752,7 @@ function addEndBannerInput() {
             Slider ${endBannerCount}
         </label>
         <div class="col-md-9 col-lg-10">
-            <input class="form-control" type="file" accept="image/*" name="end_banners"
+            <input class="form-control" type="file" accept="image/*"
                 onchange="previewImage(this, '${previewId}', 500)">
             <img id="${previewId}" class="mt-2"
                 style="max-height:120px; display:none; border-radius:10px;">
@@ -894,6 +761,83 @@ function addEndBannerInput() {
 
     container.appendChild(div);
 }
+</script>
+<script>
+/* ---------- VIDEO PREVIEW (ISOLATED, NO SIDE EFFECTS) ---------- */
+function previewVideo(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    // Size check (video only)
+    const sizeMB = file.size / (1024 * 1024);
+    if (sizeMB > 10) {
+        alert("Video must be less than 10 MB");
+        input.value = "";
+        return;
+    }
+
+    const video = document.getElementById("videoPreview");
+    if (!video) return;
+
+    // IMPORTANT: do NOT touch image preview logic
+    video.src = URL.createObjectURL(file);
+    video.style.display = "block";
+    video.load();
+}
+</script>
+
+
+<script>
+function previewMultipleEndBanners(input) {
+    const wrapper = document.getElementById("end-preview-wrapper");
+    wrapper.innerHTML = "";
+
+    Array.from(input.files).forEach(file => {
+        if (file.size / 1024 > 1000) {
+            alert("Each image must be under 1 MB");
+            input.value = "";
+            wrapper.innerHTML = "";
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.style.height = "120px";
+            img.style.borderRadius = "10px";
+            wrapper.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const tab = params.get("tab");
+
+    if (!tab) return;
+
+    // Remove active classes from all tabs
+    document.querySelectorAll(".nav-link").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    document.querySelectorAll(".tab-pane").forEach(pane => {
+        pane.classList.remove("show", "active");
+    });
+
+    // Activate correct tab button
+    const trigger = document.querySelector(`[data-bs-target="#${tab}"]`);
+    const pane = document.getElementById(tab);
+
+    if (trigger && pane) {
+        trigger.classList.add("active");
+        pane.classList.add("show", "active");
+    }
+});
 </script>
 
 

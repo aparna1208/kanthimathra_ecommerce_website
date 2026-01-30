@@ -42,8 +42,10 @@
                                 <!-- SLIDERS -->
                                 <div class="tab-pane fade show active" id="pills-sliders" role="tabpanel"
                                     aria-labelledby="pills-sliders-tab">
-                                        <form class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
-                                       
+                                        <form method="POST" class="theme-form theme-form-2 mega-form" action=""
+                                         enctype="multipart/form-data">
+                                       {% csrf_token %}
+                                       <input type="hidden" name="form_type" value="basic">
 
                                         <div class="row">
 
@@ -51,11 +53,16 @@
                                             <div class="mb-4 row align-items-center">
                                                 <label class="form-label-title col-lg-2 col-md-3 mb-0">Banner</label>
                                                 <div class="col-md-9 col-lg-10">
-                                                    <input class="form-control" type="file" accept="image/*"
+                                                    <input class="form-control" type="file" accept="image/*" name="banner"
                                                         onchange="previewImage(this, 'preview1')">
 
-                                                    <img id="preview1" class="mt-2"
-                                                        style="max-height:120px; display:none; border-radius:10px;">
+                                                        {% if contact.banner %}
+                                                        <img id="preview1" class="mt-2" src="{{ contact.banner.url }}"
+                                                            style="max-height:120px; display:block; border-radius:10px;">
+                                                        {% else %}
+                                                        <img id="preview1" class="mt-2"
+                                                            style="max-height:120px; display:none; border-radius:10px;">
+                                                        {% endif %}
 
                                                              <small class="text-muted">
                                                                 Allowed formats: WebP, JPG, PNG | Ideal size: 200–500 KB | Max size: 1 MB | Dimension: 1344 × 768 px
@@ -69,9 +76,10 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                     name="banner_heading"
                                                     placeholder="Enter Banner text"
-                                                    maxlength="150">
+                                                    maxlength="150"
+                                                    value="{{ contact.banner_heading|default:'' }}">
                                             </div>
                                             </div>
                                             <div class="mb-4 row align-items-center">
@@ -79,26 +87,30 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="banner_paragraph"
                                                     placeholder="Write Here"
-                                                    maxlength="150">
+                                                    maxlength="150"
+                                                    value="{{ contact.banner_paragraph|default:'' }}">
                                             </div>
                                             </div>
                                             <div class="mb-4 row align-items-center">
                                                 <label class="form-label-title col-lg-2 col-md-3 mb-0">Office Address</label>
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
-                                                
-                                                    <textarea class="form-control" rows="4" cols="50" placeholder="Address"></textarea>
+
+                                                    <textarea class="form-control" rows="4" cols="50" name="office_address"
+                                                    placeholder="Address">{{ contact.office_address|default:'' }}</textarea>
                                             </div>
                                             </div>
+                                            
                                             <div class="mb-4 row align-items-center">
                                                 <label class="form-label-title col-lg-2 col-md-3 mb-0">Phone Number 1</label>
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="phone1"
                                                     placeholder="+911245678934"
-                                                    maxlength="150">
+                                                    
+                                                    value="{{ contact.phone1|default:'' }}">
                                             </div>
                                             </div>
                                             <div class="mb-4 row align-items-center">
@@ -106,19 +118,19 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="phone2"
                                                     placeholder="+911245678934"
-                                                    maxlength="150">
-                                            </div>
+                                                    value="{{ contact.phone2|default:'' }}">
+                                                </div>
                                             </div>
                                              <div class="mb-4 row align-items-center">
                                                 <label class="form-label-title col-lg-2 col-md-3 mb-0">Email 1</label>
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="email"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="email1"
                                                     placeholder="info@navodithahealthcare.com"
-                                                    maxlength="150">
+                                                    value="{{ contact.email1|default:'' }}">
                                             </div>
                                             </div>
                                             <div class="mb-4 row align-items-center">
@@ -126,9 +138,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="email"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="email2"
                                                     placeholder="info@kanthimantra.com"
-                                                    maxlength="150">
+                                                    value="{{ contact.email2|default:'' }}">
                                             </div>
                                             </div>
                                             <div class="mb-4 row align-items-center">
@@ -136,9 +148,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="location_map_link"
                                                     placeholder="place map link"
-                                                    maxlength="150">
+                                                    value="{{ contact.location_map_link|default:'' }}">
                                             </div>
                                             </div>
 
@@ -163,8 +175,9 @@
                                 <div class="tab-pane fade" id="banner" role="tabpanel"
                                     aria-labelledby="pills-banner-tab">
 
-                                    <form class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
-                                        
+                                    <form method="POST" action="" class="theme-form theme-form-2 mega-form" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="form_type" value="social">
 
                                         <!-- instagram -->
                                        <div class="mb-4 row align-items-center">
@@ -172,9 +185,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
-                                                    placeholder="instgram link"
-                                                    maxlength="150">
+                                                    name="instagram"
+                                                    placeholder="instagram link"
+                                                   value="{{ contact.instagram|default:'' }}">
                                             </div>
                                             </div>
 
@@ -184,9 +197,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="facebook"
                                                     placeholder="Facebook link"
-                                                    maxlength="150">
+                                                    value="{{ contact.facebook|default:'' }}">
                                             </div>
                                             </div>
                                             
@@ -196,9 +209,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="linkedin"
                                                     placeholder="Linkedin link"
-                                                    maxlength="150">
+                                                    value="{{ contact.linkedin|default:'' }}">
                                             </div>
                                             </div>
 
@@ -209,9 +222,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="youtube"
                                                     placeholder="Youtube link"
-                                                    maxlength="150">
+                                                    value="{{ contact.youtube|default:'' }}">
                                             </div>
                                             </div>
 
@@ -222,9 +235,9 @@
                                                 <div class="col-md-9 col-lg-10 d-flex gap-2">
                                                 <input type="text"
                                                     class="form-control"
-                                                    name="flash_news[]"
+                                                    name="x"
                                                     placeholder="X link"
-                                                    maxlength="150">
+                                                    value="{{ contact.x|default:'' }}">
                                             </div>
                                             </div>
                                             

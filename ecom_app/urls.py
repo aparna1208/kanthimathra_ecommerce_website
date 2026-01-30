@@ -93,10 +93,22 @@ urlpatterns = [
     path('adminpanel/user/<int:user_id>/view/', views.view_user, name='view_user'),
     path('adminpanel/users/delete/<int:user_id>/', views.admin_delete_user, name='admin_delete_user'),
 
-    # cms
+    # cms ---------------------------------
+
     path('adminpanel/cms_home/', views.cms_home, name='cms_home'),
-    path('adminpanel/cms_home/slider/delete/<int:pk>/', views.delete_slider, name='delete_slider'),
-    path("adminpanel/cms_home/endbanner/delete/<int:pk>/", views.delete_end_banner, name="delete_end_banner"),
+    path("cms/slider/add/", views.add_slider, name="add_slider"),
+    path("cms/slider/edit/<int:pk>/", views.edit_slider, name="edit_slider"),
+    path("cms/slider/delete/<int:pk>/", views.delete_slider, name="delete_slider"),
+    path("cms/center-banner/", views.center_banner, name="center_banner"),
+    path("cms/center-banner/delete/<str:field>/", views.delete_center_banner, name="delete_center_banner"),
+    path("cms/home-video/", views.home_video, name="home_video"),
+    path("cms/home-video/delete/<str:file_type>/",views.delete_home_video_file,name="delete_home_video_file"),
+    path("cms/end-banner/add/", views.add_end_banner, name="add_end_banner"),
+    path("cms/end-banner/edit/<int:banner_id>/", views.edit_end_banner, name="edit_end_banner"),
+    path("cms/end-banner/delete/<int:banner_id>/", views.delete_end_banner, name="delete_end_banner"),
+    path("cms/flash-news/", views.add_edit_flash_news, name="add_flash_news"),
+    path("cms/flash-news/edit/<int:news_id>/", views.add_edit_flash_news, name="edit_flash_news"),
+    path("cms/flash-news/delete/<int:news_id>/", views.delete_flash_news, name="delete_flash_news"),
     path('adminpanel/cms_contact/', views.cms_contact, name='cms_contact'),
     path('adminpanel/cms_legal/', views.cms_legal, name='cms_legal'),
     path('adminpanel/cms_blogs/', views.cms_blogs, name='cms_blogs'),

@@ -222,119 +222,65 @@
                             </div>
 
                             <!-- Row 1 -->
+                             {% for order in orders %}
                             <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
-                                <div class="col-span-3 text-sm text-zinc-700">#KM12840629</div>
+                                <div class="col-span-3 text-sm text-zinc-700">{{ order.order_id }} <br>
+                                    <span class="text-xs text-zinc-500">
+                                        {{ order.created_at|date:"d M Y" }}
+                                    </span>
+                                
+                                </div>
 
                                 <div class="col-span-5 flex items-center gap-4">
+                                    {% for item in order.items.all %}
                                     <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
-                                        <img src="images/products/hair-oil.jpg" alt="Herbal Hair Oil"
+                                        <img src="{{ item.product.thumbnail.url }}" alt="{{ item.product.product_name }}"
                                             class="h-full w-full object-cover" />
                                     </div>
                                     <div>
-                                        <a href="product-detail.html"
+                                        <a href="{% url 'web:product_detail' item.product.id %}"
                                             class="font-semibold text-zinc-900 hover:text-brownMain transition">
-                                            Herbal Hair Nourishing Oil
+                                            {{ item.product.product_name }}
                                         </a>
-                                        <div class="text-sm text-zinc-500">Hair Care • 200 ml</div>
+                                        <div class="text-sm text-zinc-500">{{ item.quantity_variant }} Qty {{ item.count }}</div>
                                     </div>
+                                    {% endfor %}
                                 </div>
 
-                                <div class="col-span-2 text-sm text-zinc-700">₹ 699</div>
+                                <div class="col-span-2 text-sm text-zinc-700">₹ {{ order.total_amount_rounded }}</div>
 
+                                  <!-- STATUS -->
                                 <div class="col-span-2">
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-semibold">
-                                        Completed
-                                    </span>
+                                    {% if order.status == "delivered" %}
+                                        <span class="inline-flex rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-xs font-semibold">
+                                            Delivered
+                                        </span>
+                                    {% elif order.status == "shipped" %}
+                                        <span class="inline-flex rounded-full bg-blue-50 text-blue-700 px-3 py-1 text-xs font-semibold">
+                                            Shipped
+                                        </span>
+                                    {% elif order.status == "cancelled" %}
+                                        <span class="inline-flex rounded-full bg-red-50 text-red-700 px-3 py-1 text-xs font-semibold">
+                                            Cancelled
+                                        </span>
+                                    {% else %}
+                                        <span class="inline-flex rounded-full bg-yellow-50 text-yellow-700 px-3 py-1 text-xs font-semibold">
+                                            Pending
+                                        </span>
+                                    {% endif %}
                                 </div>
                             </div>
-
-                            <!-- Row 2 -->
-                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
-                                <div class="col-span-3 text-sm text-zinc-700">#KM12870127</div>
-
-                                <div class="col-span-5 flex items-center gap-4">
-                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
-                                        <img src="images/products/skin-cleanser.jpg" alt="Herbal Skin Cleanser"
-                                            class="h-full w-full object-cover" />
-                                    </div>
-                                    <div>
-                                        <a href="product-detail.html"
-                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
-                                            Ayurvedic Skin Cleansing Powder
-                                        </a>
-                                        <div class="text-sm text-zinc-500">Skin Care • 100 g</div>
-                                    </div>
+                            {% empty %}
+                                <div class="px-6 py-6 text-center text-zinc-500">
+                                    You haven’t placed any orders yet.
                                 </div>
-
-                                <div class="col-span-2 text-sm text-zinc-700">₹ 499</div>
-
-                                <div class="col-span-2">
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-amber-50 text-amber-700 px-3 py-1 text-xs font-semibold">
-                                        Processing
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Row 3 -->
-                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
-                                <div class="col-span-3 text-sm text-zinc-700">#KM12870345</div>
-
-                                <div class="col-span-5 flex items-center gap-4">
-                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
-                                        <img src="images/products/wellness-tablets.jpg" alt="Wellness Tablets"
-                                            class="h-full w-full object-cover" />
-                                    </div>
-                                    <div>
-                                        <a href="product-detail.html"
-                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
-                                            Digestive Wellness Tablets
-                                        </a>
-                                        <div class="text-sm text-zinc-500">Wellness • 60 tablets</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-span-2 text-sm text-zinc-700">₹ 899</div>
-
-                                <div class="col-span-2">
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-sky-50 text-sky-700 px-3 py-1 text-xs font-semibold">
-                                        Out for Delivery
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Row 4 -->
-                            <div class="grid grid-cols-12 gap-3 px-6 py-5 border-t border-line items-center">
-                                <div class="col-span-3 text-sm text-zinc-700">#KM12870345</div>
-
-                                <div class="col-span-5 flex items-center gap-4">
-                                    <div class="h-14 w-14 rounded-xl border border-line bg-soft overflow-hidden">
-                                        <img src="images/products/wellness-tablets.jpg" alt="Wellness Tablets"
-                                            class="h-full w-full object-cover" />
-                                    </div>
-                                    <div>
-                                        <a href="product-detail.html"
-                                            class="font-semibold text-zinc-900 hover:text-brownMain transition">
-                                            Digestive Wellness Tablets
-                                        </a>
-                                        <div class="text-sm text-zinc-500">Wellness • 60 tablets</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-span-2 text-sm text-zinc-700">₹ 899</div>
-
-                                <div class="col-span-2">
-                                    <span
-                                        class="inline-flex items-center justify-center rounded-full bg-sky-50 text-sky-700 px-3 py-1 text-xs font-semibold">
-                                        Out for Delivery
-                                    </span>
-                                </div>
-                            </div>
+                            {% endfor %}
+                           
 
 
                         </div>
+
+                       
                     </div>
 
                 </div>
@@ -343,12 +289,3 @@
     </section>
 
 {% endblock %}
-
-
-
-
-
-
-
-
-    

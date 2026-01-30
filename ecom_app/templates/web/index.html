@@ -757,62 +757,59 @@
     </div>
 </section>
 
-
-
 <section class="py-20 bg-white border-t border-line">
     <div class="max-w-8xl mx-auto px-4 sm:px-6">
 
-        <!-- Video Wrapper -->
-        <div class="relative rounded-3xl overflow-hidden shadow-soft group reveal reveal-bottom">
+   
+      <!-- Video Wrapper -->
+    <div class="relative rounded-3xl overflow-hidden shadow-soft group">
 
-            <!-- Poster Image -->
-             {% if home_video and home_video.thumbnail %}
-                <img src="{{ home_video.thumbnail.url }}" alt="Video thumbnail"
-                    class="w-full aspect-[16/9] object-cover" />
-            {% else %}
-            <img src="{% static 'web/images/video.jpg' %}" alt="Kanthi Mantra video"
-                class="w-full aspect-[16/9] object-cover" />
-            {% endif %}
+        <!-- Poster Image -->
+        <img id="videoPoster"
+            src="{% if home_video and home_video.thumbnail %}
+                    {{ home_video.thumbnail.url }}
+                {% else %}
+                    {% static 'web/images/video.jpg' %}
+                {% endif %}"
+            alt="Video thumbnail"
+            class="w-full aspect-[16/9] object-cover">
 
-            <!-- Dark overlay -->
-            <div class="absolute inset-0 bg-black/20 transition group-hover:bg-black/40"></div>
-
-            <!-- Play Button -->
-
-            {% if home_video %}
-            {% if home_video.video_type == "upload" and home_video.video_file %}
-
-            <button id="playVideo" class="absolute inset-0 flex items-center justify-center" aria-label="Play video">
-
-                <span class="h-20 w-20 rounded-full bg-white/90 grid place-items-center
-                     shadow-soft hover:scale-105 transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-brownMain ml-1" viewBox="0 0 24 24"
-                        fill="currentColor">
-                        <path d="M8 5v14l11-7z" />
-                    </svg>
-                </span>
-            </button>
-
-            <!-- Video -->
-            <video id="videoEl" class="absolute inset-0 w-full h-full object-cover hidden" controls playsinline
-                preload="metadata">
-                <source src="{{ home_video.video_file.url }}" type="video/mp4">
-            </video>
-
-            <!--  If youtube url -->
-            {% elif home_video.video_type == "youtube" and home_video.youtube_id %}
-            <iframe class="absolute inset-0 w-full h-full"
-                src="https://www.youtube.com/embed/{{ home_video.youtube_id }}"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-            </iframe>
-            {% endif %}
-            {% endif %}
-
-
+        <!-- Dark overlay -->
+        <div id="videoOverlay"
+            class="absolute inset-0 bg-black/20 transition group-hover:bg-black/40">
         </div>
+
+        {% if home_video and home_video.video_file %}
+
+        <!-- Play Button -->
+        <button id="playVideo"
+                class="absolute inset-0 flex items-center justify-center z-10"
+                aria-label="Play video">
+
+            <span class="h-20 w-20 rounded-full bg-white/90 grid place-items-center
+                        shadow-soft hover:scale-105 transition">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="h-8 w-8 text-brownMain ml-1"
+                    viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </span>
+        </button>
+
+        <!-- Video -->
+        <video id="videoEl"
+            class="absolute inset-0 w-full h-full object-cover hidden"
+            controls
+            playsinline
+            preload="metadata"
+            src="{{ home_video.video_file.url }}">
+        </video>
+
+        {% endif %}
+
+    </div>
+
     </div>
 </section>
 

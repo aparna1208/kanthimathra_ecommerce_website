@@ -6,7 +6,10 @@
     <section class="relative border-b border-line min-h-[40vh] sm:min-h-[60vh] flex items-center">
 
         <!-- Background image -->
-        <div class="absolute inset-0 bg-cover bg-center pagebanner">
+        <div class="absolute inset-0 bg-cover bg-center pagebanner"
+            {% if contact and contact.banner %}
+                style="background-image:url('{{ contact.banner.url }}');"
+            {% endif %}>
         </div>
 
         <!-- Overlay for readability -->
@@ -22,13 +25,22 @@
                             Contact Us
                         </div>
 
+                        <!-- Banner heading -->
                         <h1 class="mt-2 text-4xl sm:text-6xl font-[500] leading-[1.1] tracking-[-0.02em]">
+                        {% if contact and contact.banner_heading %}
+                            {{ contact.banner_heading }}
+                        {% else %}
                             Let’s talk about your care
+                        {% endif %}
                         </h1>
 
+                        <!-- Bannar pargraph -->
                         <p class="mt-3 text-zinc-700">
-                            Reach out for consultations, product guidance, or general enquiries. We’ll respond with
-                            clarity and care.
+                        {% if contact and contact.banner_paragraph %}
+                            {{ contact.banner_paragraph }}
+                        {% else %}
+                            Reach out for consultations, product guidance, or general enquiries. We’ll respond with clarity and care.
+                        {% endif %}
                         </p>
                     </div>
                 </div>
@@ -71,9 +83,11 @@
                             <div>
                                 <div class="font-medium text-zinc-900 text-xl">Clinic Address</div>
                                 <p class="mt-1">
-                                    62/1238, B Paul Abrao Road,<br>
-                                    Ayyappankavu, North P.O,<br>
-                                    Ernakulam – 682018, Kerala, India
+                                    {% if contact and contact.office_address %}
+                                        {{ contact.office_address|linebreaksbr }}
+                                    {% else %}
+                                        Address not added
+                                    {% endif %}
                                 </p>
                             </div>
                         </div>
@@ -94,8 +108,8 @@
                             </svg>
                             <div>
                                 <div class="font-medium text-zinc-900 text-xl">Phone</div>
-                                <a href="tel:+919995100269" class="block hover:text-brownMain">+91 99951 00269</a>
-                                <a href="tel:+919995100296" class="block hover:text-brownMain">+91 99951 00296</a>
+                                <a href="tel:{{ contact.phone1 }}" class="block hover:text-brownMain">{{ contact.phone1 }}</a>
+                                <a href="tel:{{ contact.phone2 }}" class="block hover:text-brownMain">{{ contact.phone2 }}</a>
                             </div>
                         </div>
 
@@ -108,11 +122,11 @@
                             </svg>
                             <div>
                                 <div class="font-medium text-zinc-900 text-xl">Email</div>
-                                <a href="mailto:info@navodithahealthcare.com" class="block hover:text-brownMain">
-                                    info@navodithahealthcare.com
+                                <a href="mailto:{{ contact.email1 }}" class="block hover:text-brownMain">
+                                    {{ contact.email1 }}
                                 </a>
-                                <a href="mailto:navodithahealthcarepvtltd@gmail.com" class="block hover:text-brownMain">
-                                    navodithahealthcarepvtltd@gmail.com
+                                <a href="mailto:{{ contact.email2 }}" class="block hover:text-brownMain">
+                                    {{ contact.email2 }}
                                 </a>
                             </div>
                         </div>
@@ -125,7 +139,8 @@
 
                             <div class="flex items-center gap-4 text-zinc-600">
                                 <!-- Instagram -->
-                                <a href="#" aria-label="Instagram"
+                                {% if contact and contact.instagram %}
+                                <a href="{{ contact.instagram }}" aria-label="Instagram"
                                     class="h-10 w-10 rounded-full border border-line grid place-items-center hover:bg-soft hover:text-brownMain transition">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="1.8">
@@ -134,18 +149,21 @@
                                         <path d="M17.5 6.5h.01" />
                                     </svg>
                                 </a>
-
+                                {% endif %}
                                 <!-- Facebook -->
-                                <a href="#" aria-label="Facebook"
+                                  {% if contact and contact.facebook %}
+                                <a href="{{ contact.facebook }}" aria-label="Facebook"
                                     class="h-10 w-10 rounded-full border border-line grid place-items-center hover:bg-soft hover:text-brownMain transition">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M22 12a10 10 0 1 0-11.56 9.87v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88
         1.09 0 2.22.19 2.22.19v2.45h-1.25c-1.23 0-1.61.76-1.61 1.54V12h2.74l-.44 2.88h-2.3v6.99A10 10 0 0 0 22 12Z" />
                                     </svg>
                                 </a>
+                                {% endif %}
 
                                 <!-- LinkedIn -->
-                                <a href="#" aria-label="LinkedIn"
+                                 {% if contact and contact.linkedin %}
+                                <a href="{{ contact.linkedin }}" aria-label="LinkedIn"
                                     class="h-10 w-10 rounded-full border border-line grid place-items-center hover:bg-soft hover:text-brownMain transition">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                         <path
@@ -156,9 +174,11 @@
         -2.43 0-2.8 1.9-2.8 3.86V23h-4V8.5Z" />
                                     </svg>
                                 </a>
+                                {% endif %}
 
                                 <!-- YouTube -->
-                                <a href="#" aria-label="YouTube"
+                                 {% if contact and contact.youtube %}
+                                <a href="{{ contact.youtube }}" aria-label="YouTube"
                                     class="h-10 w-10 rounded-full border border-line grid place-items-center hover:bg-soft hover:text-brownMain transition">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M23.5 6.2s-.23-1.64-.95-2.36c-.9-.95-1.9-.96-2.36-1.01
@@ -170,15 +190,18 @@
         s.5-1.93.5-3.86v-1.81c0-1.93-.5-3.86-.5-3.86ZM9.75 14.6V7.9l6.2 3.35-6.2 3.35Z" />
                                     </svg>
                                 </a>
+                                {% endif %}
 
                                 <!-- X -->
-                                <a href="#" aria-label="X"
+                                 {% if contact and contact.x %}
+                                <a href="{{ contact.x }}" aria-label="X"
                                     class="h-10 w-10 rounded-full border border-line grid place-items-center hover:bg-soft hover:text-brownMain transition">
                                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                                         <path
                                             d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.9-6.4L6.3 22H3.2l7.3-8.4L1 2h6.4l4.4 5.7L18.9 2Zm-1.1 18h1.7L6.5 3.9H4.7L17.8 20Z" />
                                     </svg>
                                 </a>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -232,9 +255,18 @@
             </div>
 
             <div class="mt-10 rounded-3xl overflow-hidden border border-line">
-                <iframe src="https://www.google.com/maps?q=Ernakulam%20Kerala&output=embed" class="w-full h-[360px]"
+                {% if contact and contact.location_map_link %}
+                <iframe src="{{ contact.location_map_link }}" class="w-full h-[360px]"
                     loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                 </iframe>
+                {% else %}
+                <iframe src="https://www.google.com/maps?q=Ernakulam%20Kerala&output=embed"
+                    class="w-full h-[360px]"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+                {% endif %}
+
             </div>
 
         </div>

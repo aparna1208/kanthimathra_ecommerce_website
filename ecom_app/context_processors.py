@@ -1,6 +1,6 @@
 from django.db.models import Sum
 from .models import Wishlist, CartItem
-
+from .models import ContactPage
 
 def wishlist_count(request):
     if request.user.is_authenticated:
@@ -30,3 +30,8 @@ def cart_count(request):
     )
 
     return {"cart_count": total}
+
+
+def contact_context(request):
+    contact = ContactPage.objects.first()
+    return {"contact": contact}

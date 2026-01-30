@@ -490,22 +490,20 @@ class HomeCenterBanner(models.Model):
 
 
 class HomeVideo(models.Model):
-    VIDEO_TYPE_CHOICES = (
-        ("upload", "Upload"),
-        ("youtube", "Youtube"),
+    video_file = models.FileField(
+        upload_to="cms/home/video/",
+        blank=True,
+        null=True
     )
-
-    video_type = models.CharField(max_length=20, choices=VIDEO_TYPE_CHOICES, default="upload")
-    video_file = models.FileField(upload_to="cms/home/video/", blank=True, null=True)
-    youtube_url = models.URLField(blank=True, null=True)
-    youtube_id = models.CharField(max_length=50, blank=True, null=True)
-
-    thumbnail = models.ImageField(upload_to="cms/home/video_thumbnails/", blank=True, null=True)
-
+    thumbnail = models.ImageField(
+        upload_to="cms/home/video_thumbnails/",
+        blank=True,
+        null=True
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Home Video ({self.video_type})"
+        return "Home Video"
 
 
 class HomeEndBanner(models.Model):
@@ -523,3 +521,30 @@ class HomeFlashNews(models.Model):
     def __str__(self):
         return self.text[:40]
 
+
+
+class ContactPage(models.Model):
+    # Banner section 
+    banner = models.ImageField(upload_to="cms/contact/banner/", blank=True, null=True)
+    banner_heading = models.CharField(max_length=150, blank=True, null=True)
+    banner_paragraph = models.TextField(blank=True, null=True)
+
+    # Contact details 
+    office_address = models.TextField(blank=True, null=True)
+    phone1 = models.CharField(max_length=20, blank=True, null=True)
+    phone2 = models.CharField(max_length=20, blank=True, null=True)
+    email1 = models.EmailField(blank=True, null=True)
+    email2 = models.EmailField(blank=True, null=True)
+    location_map_link = models.URLField(blank=True, null=True)
+
+    # Social Links
+    instagram = models.URLField(blank=True, null=True)
+    facebook = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
+    youtube = models.URLField(blank=True, null=True)
+    x = models.URLField(blank=True, null=True)
+
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "Contact Page CMS"

@@ -46,8 +46,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
             <!-- Main grid -->
-          <div class="mt-8 grid gap-8 lg:grid-cols-12 items-start">
+        <div class="mt-8 grid gap-8 lg:grid-cols-12 items-start">
 
+            
     <!-- Left: Cart table -->
     <div class="lg:col-span-8">
         <div class="rounded-2xl border border-line overflow-hidden bg-white">
@@ -219,7 +220,7 @@
 
                         <label class="flex items-center justify-between gap-3 cursor-pointer">
                             <span class="flex items-center gap-2">
-                                <input type="radio" name="ship" value="60" class="accent-brownMain">
+                                <input type="radio" name="ship" value="60" class="accent-brownMain" disabled>
                                 Local
                             </span>
                             <span class="text-zinc-900 font-medium">₹ 60</span>
@@ -227,7 +228,7 @@
 
                         <label class="flex items-center justify-between gap-3 cursor-pointer">
                             <span class="flex items-center gap-2">
-                                <input type="radio" name="ship" value="90" class="accent-brownMain">
+                                <input type="radio" name="ship" value="90" class="accent-brownMain" disabled>
                                 Flat Rate
                             </span>
                             <span class="text-zinc-900 font-medium">₹ 90</span>
@@ -258,7 +259,7 @@
                 {% endif %}
 
 
-                <a href="shop.html"
+                <a href="{% url 'web:shop' %}"
                    class="w-full inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white py-3 font-semibold text-zinc-900 hover:bg-soft transition">
                     Continue shopping →
                 </a>

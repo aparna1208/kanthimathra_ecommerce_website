@@ -32,8 +32,9 @@ from django.db.models import Count,Sum
 from .models import *
 
 import re
-from urllib.parse import urlparse, parse_qs
-
+from urllib.parse import urlparse, parse_qs,quote
+from django.urls import reverse
+import os
 
 
 User = get_user_model()
@@ -77,7 +78,17 @@ def index(request):
 
 @login_required(login_url='web:login')
 def account(request):
-    return render(request, 'web/account.html')
+    orders = (
+        Order.objects
+        .filter(user=request.user)
+        .prefetch_related("items", "items__product")
+        .order_by("-created_at")
+    )
+
+    context = {
+        "orders": orders
+    }
+    return render(request, "web/account.html", context)
 
 
 def address(request):
@@ -100,7 +111,8 @@ def blog_single(request):
 
 
 def contact(request):
-    return render(request, 'web/contact.html')
+    contact = ContactPage.objects.first()  
+    return render(request, "web/contact.html", {"contact": contact})
 
 
 def about(request):
@@ -627,6 +639,7 @@ def buy_now(request):
     return redirect("web:checkout")
 
 
+
 def cart(request):
 
     # ---------- LOGGED-IN USER ----------
@@ -641,17 +654,21 @@ def cart(request):
         for item in items:
             product = item.product
 
-            # ✅ Always use latest price (runtime only)
-            item.price = product.offer_price
+            # Use offer_price only if valid, else use original_price
+            if product.offer_price and product.offer_price > 0:
+                item.price = product.offer_price
+            else:
+                item.price = product.original_price
 
-            subtotal += item.subtotal  # uses @property
+            # Subtotal using updated item.price
+            subtotal += item.subtotal
             mrp_total += product.original_price * item.count
 
-            discount += (
-                product.original_price - product.offer_price
-            ) * item.count
+            # discount calculation safe
+            discount += (product.original_price - item.price) * item.count
 
-            item.discount_percent = product.discount_percentage
+            # Discount percent (only show if offer_price exists)
+            item.discount_percent = product.discount_percentage if product.offer_price and product.offer_price > 0 else 0
 
         grand_total = mrp_total - discount
 
@@ -675,8 +692,13 @@ def cart(request):
     for item in session_cart.values():
         product = Product.objects.get(id=item["product_id"])
 
-        current_price = product.offer_price
         original_price = product.original_price
+
+        #  Use offer_price only if valid
+        if product.offer_price and product.offer_price > 0:
+            current_price = product.offer_price
+        else:
+            current_price = original_price
 
         item_subtotal = current_price * item["count"]
 
@@ -694,7 +716,7 @@ def cart(request):
             "price": current_price,
             "subtotal": item_subtotal,
             "original_price": original_price,
-            "discount_percent": product.discount_percentage,
+            "discount_percent": product.discount_percentage if product.offer_price and product.offer_price > 0 else 0,
         })
 
     grand_total = mrp_total - discount
@@ -797,22 +819,36 @@ def remove_cart_item(request):
     })
 
 
+
 @login_required(login_url="web:login")
 def checkout(request):
     cart = Cart.objects.filter(user=request.user).first()
-    items = cart.items.all() if cart else []
+    items = cart.items.select_related("product") if cart else []
 
     if not items:
         return redirect("web:cart")
 
     subtotal = Decimal("0.00")
     mrp_total = Decimal("0.00")
-    total_items = 0  # ✅ ADD THIS
+    total_items = 0
 
     for item in items:
+        product = item.product
+
+        # ✅ Fix price: if offer_price not available, use original_price
+        if product.offer_price and product.offer_price > 0:
+            item.price = product.offer_price
+        else:
+            item.price = product.original_price
+
+        # ✅ Use subtotal property (no need to set)
         subtotal += item.subtotal
-        mrp_total += item.product.original_price * item.count
-        total_items += item.count  # ✅ SUM QUANTITY
+
+        mrp_total += product.original_price * item.count
+        total_items += item.count
+
+        # ✅ send discount percent to template
+        item.discount_percent = product.discount_percentage
 
     discount = mrp_total - subtotal
     shipping_charge = Decimal("0.00")
@@ -820,14 +856,14 @@ def checkout(request):
 
     if request.method == "POST":
         order = Order.objects.create(
-        user=request.user,
-        order_id=f"KM-{uuid.uuid4().hex[:10].upper()}",
-        subtotal=subtotal,
-        discount=discount,
-        shipping_charge=shipping_charge,
-        total_amount=payable_total,
-        status="created"
-    )
+            user=request.user,
+            order_id=f"KM-{uuid.uuid4().hex[:10].upper()}",
+            subtotal=subtotal,
+            discount=discount,
+            shipping_charge=shipping_charge,
+            total_amount=payable_total,
+            status="created"
+        )
 
         for item in items:
             OrderItem.objects.create(
@@ -835,21 +871,21 @@ def checkout(request):
                 product=item.product,
                 quantity_variant=item.quantity,
                 count=item.count,
-                price=item.price,
+                price=item.price,  # ✅ correct now
                 original_price=item.product.original_price,
             )
 
         ShippingAddress.objects.create(
-        order=order,
-        full_name=request.POST.get("full_name"),
-        phone=request.POST.get("phone"),
-        address=request.POST.get("address"),
-        city=request.POST.get("city"),
-        state=request.POST.get("state"),
-        pincode=request.POST.get("pincode"),
-        country=request.POST.get("country", "India"),
-        notes=request.POST.get("notes"),
-    )
+            order=order,
+            full_name=request.POST.get("full_name"),
+            phone=request.POST.get("phone"),
+            address=request.POST.get("address"),
+            city=request.POST.get("city"),
+            state=request.POST.get("state"),
+            pincode=request.POST.get("pincode"),
+            country=request.POST.get("country", "India"),
+            notes=request.POST.get("notes"),
+        )
 
         return redirect("web:payment", order_id=order.id)
 
@@ -859,27 +895,81 @@ def checkout(request):
         "mrp_total": mrp_total,
         "discount": discount,
         "payable_total": payable_total,
-        "total_items": total_items,  # ✅ PASS TO TEMPLATE
+        "total_items": total_items,
     })
+
+
+
+
+# @login_required
+# def payment(request, order_id):
+#     order = Order.objects.get(id=order_id, user=request.user)
+
+#     client = razorpay.Client(
+#         auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
+#     )
+
+#     # ✅ ROUND TO NEAREST RUPEE FIRST
+#     rounded_amount = order.total_amount.quantize(
+#         Decimal("1"),
+#         rounding=ROUND_HALF_UP
+#     )
+
+#     # ✅ CONVERT TO PAISE (INTEGER)
+#     razorpay_amount = int(rounded_amount * 100)
+
+#     razorpay_order = client.order.create({
+#         "amount": razorpay_amount,
+#         "currency": "INR",
+#         "payment_capture": 1
+#     })
+
+#     # ✅ SAVE ROUNDING-CONSISTENT VALUE
+#     order.total_amount = rounded_amount
+#     order.razorpay_order_id = razorpay_order["id"]
+#     order.save()
+
+#     return render(request, "web/payment.html", {
+#         "order": order,
+#         "razorpay_key": settings.RAZORPAY_KEY_ID,
+#         "razorpay_order_id": razorpay_order["id"],
+#         "razorpay_amount": razorpay_amount,
+#     })
 
 
 
 @login_required
 def payment(request, order_id):
-    order = Order.objects.get(id=order_id, user=request.user)
+    order = get_object_or_404(Order, id=order_id, user=request.user)
 
-    client = razorpay.Client(
-        auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET)
-    )
+    # order items
+    order_items = order.items.select_related("product").all()
 
-    # ✅ ROUND TO NEAREST RUPEE FIRST
-    rounded_amount = order.total_amount.quantize(
-        Decimal("1"),
-        rounding=ROUND_HALF_UP
-    )
+    # calculate totals dynamically
+    subtotal = Decimal("0.00")
+    mrp_total = Decimal("0.00")
+    total_items = 0
 
-    # ✅ CONVERT TO PAISE (INTEGER)
+    for item in order_items:
+        subtotal += Decimal(item.price) * item.count
+        mrp_total += Decimal(item.original_price) * item.count
+        total_items += item.count
+
+    discount = mrp_total - subtotal
+
+    # you can set fixed / dynamic shipping
+    delivery = Decimal("0.00")
+
+    total_payable = subtotal + delivery
+
+    # ROUND TO NEAREST RUPEE FIRST
+    rounded_amount = total_payable.quantize(Decimal("1"), rounding=ROUND_HALF_UP)
+
+    # Razorpay expects paise integer
     razorpay_amount = int(rounded_amount * 100)
+
+    # Razorpay order create
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
     razorpay_order = client.order.create({
         "amount": razorpay_amount,
@@ -887,18 +977,28 @@ def payment(request, order_id):
         "payment_capture": 1
     })
 
-    # ✅ SAVE ROUNDING-CONSISTENT VALUE
+    # save values in DB
+    order.subtotal = subtotal
+    order.discount = discount
+    order.shipping_charge = delivery
     order.total_amount = rounded_amount
     order.razorpay_order_id = razorpay_order["id"]
     order.save()
 
     return render(request, "web/payment.html", {
         "order": order,
+        "order_items": order_items,
+        "total_items": total_items,
+        "subtotal": subtotal,
+        "mrp_total": mrp_total,
+        "discount": discount,
+        "delivery": delivery,
+        "total_payable": rounded_amount,
+
         "razorpay_key": settings.RAZORPAY_KEY_ID,
         "razorpay_order_id": razorpay_order["id"],
         "razorpay_amount": razorpay_amount,
     })
-
 
 @login_required
 def payment_success(request):
@@ -1559,195 +1659,275 @@ def admin_delete_user(request, user_id):
 #Cms Management----------------
 
 
+def cms_context():
+    return {
+        "sliders": HomeSlider.objects.all().order_by("-id"),
+        "center_banner": HomeCenterBanner.objects.first(),
+        "end_banners": HomeEndBanner.objects.all().order_by("-id"),
+        "flash_news": HomeFlashNews.objects.all().order_by("-id"),
+        "home_video": HomeVideo.objects.first(),  # ✅ THIS LINE
+    }
+
+
+def cms_home(request):
+    return render(request, "adminpanel/cms_home.html", cms_context())
+
+def add_slider(request):
+    if request.method == "POST":
+        image = request.FILES.get("slider_image")
+        if image:
+            HomeSlider.objects.create(image=image)
+
+    return redirect(f"{reverse('web:cms_home')}?tab=pills-sliders")
+
+
+def edit_slider(request, pk):
+    slider = get_object_or_404(HomeSlider, pk=pk)
+
+    if request.method == "POST":
+        image = request.FILES.get("slider_image")
+        if image:
+            slider.image.delete(save=False)
+            slider.image = image
+            slider.save()
+
+        return redirect(f"{reverse('web:cms_home')}?tab=pills-sliders")
+
+    context = cms_context()
+    context["edit_slider"] = slider
+    return render(request, "adminpanel/cms_home.html", context)
+
+
+def delete_slider(request, pk):
+    slider = get_object_or_404(HomeSlider, pk=pk)
+    slider.image.delete(save=False)
+    slider.delete()
+
+    return redirect(f"{reverse('web:cms_home')}?tab=pills-sliders")
+
+
+def center_banner(request):
+    banner, _ = HomeCenterBanner.objects.get_or_create(id=1)
+
+    if request.method == "POST":
+        if request.FILES.get("banner1"):
+            if banner.banner1:
+                banner.banner1.delete(save=False)
+            banner.banner1 = request.FILES.get("banner1")
+
+        if request.FILES.get("banner2"):
+            if banner.banner2:
+                banner.banner2.delete(save=False)
+            banner.banner2 = request.FILES.get("banner2")
+
+        if request.FILES.get("banner3"):
+            if banner.banner3:
+                banner.banner3.delete(save=False)
+            banner.banner3 = request.FILES.get("banner3")
+
+        banner.save()
+        return redirect(f"{reverse('web:cms_home')}?tab=banner")
+    
+
+def delete_center_banner(request, field):
+    banner = HomeCenterBanner.objects.first()
+    if not banner:
+        return redirect(reverse("web:cms_home"))
+
+    if field == "banner1" and banner.banner1:
+        banner.banner1.delete(save=False)
+        banner.banner1 = None
+
+    elif field == "banner2" and banner.banner2:
+        banner.banner2.delete(save=False)
+        banner.banner2 = None
+
+    elif field == "banner3" and banner.banner3:
+        banner.banner3.delete(save=False)
+        banner.banner3 = None
+
+    banner.save()
+    return redirect(f"{reverse('web:cms_home')}?tab=banner")
+
+def home_video(request):
+    HomeVideo.objects.exclude(id=1).delete()
+    video, _ = HomeVideo.objects.get_or_create(id=1)
+
+    if request.method == "POST":
+        if request.FILES.get("thumbnail"):
+            if video.thumbnail:
+                video.thumbnail.delete(save=False)
+            video.thumbnail = request.FILES.get("thumbnail")
+
+        if request.FILES.get("video_file"):
+            if video.video_file:
+                video.video_file.delete(save=False)
+            video.video_file = request.FILES.get("video_file")
+
+        video.save()
+        return redirect(f"{reverse('web:cms_home')}?tab=video")
+
+    context = cms_context()
+    context["home_video"] = video
+    return render(request, "adminpanel/cms_home.html", context)
+
+def delete_home_video_file(request, file_type):
+    video = get_object_or_404(HomeVideo, id=1)
+
+    if file_type == "video" and video.video_file:
+        video.video_file.delete(save=True)
+
+    if file_type == "thumbnail" and video.thumbnail:
+        video.thumbnail.delete(save=True)
+
+    return redirect(f"{reverse('web:cms_home')}?tab=video")
+
+def add_end_banner(request):
+    if request.method == "POST":
+        images = request.FILES.getlist("end_banner_images")
+        for img in images:
+            HomeEndBanner.objects.create(image=img)
+
+    return redirect(f"{reverse('web:cms_home')}?tab=endbanner")
+
+def edit_end_banner(request, banner_id):
+    banner = get_object_or_404(HomeEndBanner, id=banner_id)
+
+    if request.method == "POST":
+        if request.FILES.get("end_banner_image"):
+            banner.image.delete(save=False)
+            banner.image = request.FILES.get("end_banner_image")
+            banner.save()
+
+        return redirect(f"{reverse('web:cms_home')}?tab=endbanner")
+
+    context = cms_context()
+    context["edit_end_banner"] = banner
+    return render(request, "adminpanel/cms_home.html", context)
+
+def delete_end_banner(request, banner_id):
+    banner = get_object_or_404(HomeEndBanner, id=banner_id)
+    banner.image.delete(save=False)
+    banner.delete()
+
+    return redirect(f"{reverse('web:cms_home')}?tab=endbanner")
+
+def add_edit_flash_news(request, news_id=None):
+    edit_news = None
+
+    if news_id:
+        edit_news = get_object_or_404(HomeFlashNews, id=news_id)
+
+    if request.method == "POST":
+        news_list = request.POST.getlist("flash_news[]")
+
+        if edit_news:
+            if news_list and news_list[0].strip():
+                edit_news.text = news_list[0].strip()
+                edit_news.save()
+        else:
+            for text in news_list:
+                text = text.strip()
+                if text:
+                    HomeFlashNews.objects.create(text=text)
+
+        return redirect(f"{reverse('web:cms_home')}?tab=flashnews")
+
+    context = cms_context()
+    context["edit_flash_news"] = edit_news
+    return render(request, "adminpanel/cms_home.html", context)
+
+def delete_flash_news(request, news_id):
+    news = get_object_or_404(HomeFlashNews, id=news_id)
+    news.delete()
+
+    return redirect(f"{reverse('web:cms_home')}?tab=flashnews")
+
+
+
+#  Auto add https:// if missing
+def fix_url(url):
+    if url:
+        url = url.strip()
+        if url and not url.startswith(("http://", "https://")):
+            return "https://" + url
+    return url
 
 
 
 
-
-#  Extract youtube ID from URL
-def extract_youtube_id(url):
+def fix_map_embed_url(url):
     """
-    Extract YouTube video id from formats like:
-    - https://youtu.be/VIDEOID?si=xxx
-    - https://www.youtube.com/watch?v=VIDEOID&ab_channel=xxx
-    - https://www.youtube.com/embed/VIDEOID
+    Convert Google map link to iframe-safe embed link.
     """
     if not url:
-        return None
+        return ""
 
-    # youtu.be link
-    if "youtu.be" in url:
-        path = urlparse(url).path
-        return path.strip("/")
+    url = url.strip()
 
-    # youtube.com/watch?v=
-    if "youtube.com" in url and "watch" in url:
-        query = parse_qs(urlparse(url).query)
-        return query.get("v", [None])[0]
+    # if already embed url
+    if "google.com/maps/embed" in url:
+        return url
 
-    # youtube.com/embed/
-    match = re.search(r"youtube\.com/embed/([^?&]+)", url)
-    if match:
-        return match.group(1)
+    # if user pasted normal Google map url
+    if "google.com/maps" in url or "maps.google.com" in url:
+        # create embed search url using query
+        return f"https://www.google.com/maps?q={quote(url)}&output=embed"
 
-    return None
+    # if user pasted just place name like "Ernakulam"
+    return f"https://www.google.com/maps?q={quote(url)}&output=embed"
 
 
 @require_http_methods(["GET", "POST"])
-def cms_home(request):
-    # Create / load single CMS rows
-    center_banner, _ = HomeCenterBanner.objects.get_or_create(id=1)
-    home_video, _ = HomeVideo.objects.get_or_create(id=1)
+def cms_contact(request):
+    contact, _ = ContactPage.objects.get_or_create(id=1)
 
     if request.method == "POST":
         form_type = request.POST.get("form_type")
 
-        # Sliders
-        if form_type == "sliders":
-            slider_files = request.FILES.getlist("sliders")
+        if form_type == "basic":
+            # Banner
+            banner = request.FILES.get("banner")
+            if banner:
+                contact.banner = banner
 
-            if not slider_files:
-                messages.error(request, "Please upload at least one slider image.")
-                return redirect("web:cms_home")
+            # Text fields
+            contact.banner_heading = request.POST.get("banner_heading", "").strip()
+            contact.banner_paragraph = request.POST.get("banner_paragraph", "").strip()
+            contact.office_address = request.POST.get("office_address", "").strip()
 
-            for img in slider_files:
-                HomeSlider.objects.create(image=img)
+            # ✅ Phone numbers (FIXED)
+            contact.phone1 = request.POST.get("phone1", "").strip()
+            contact.phone2 = request.POST.get("phone2", "").strip()
 
-            messages.success(request, "Sliders uploaded successfully!")
-            return redirect("web:cms_home")
+            contact.email1 = request.POST.get("email1", "").strip()
+            contact.email2 = request.POST.get("email2", "").strip()
 
-        # Center banner
-        elif form_type == "center_banner":
-            banner1 = request.FILES.get("banner1")
-            banner2 = request.FILES.get("banner2")
-            banner3 = request.FILES.get("banner3")
+            contact.location_map_link = fix_map_embed_url(request.POST.get("location_map_link"))
 
-            if not (banner1 or banner2 or banner3):
-                messages.error(request, "Please upload at least one center banner image.")
-                return redirect("web:cms_home")
+            contact.save()
+            messages.success(request, "Contact basic info updated successfully!")
+            return redirect("web:cms_contact")
 
-            if banner1:
-                center_banner.banner1 = banner1
-            if banner2:
-                center_banner.banner2 = banner2
-            if banner3:
-                center_banner.banner3 = banner3
+        elif form_type == "social":
+            contact.instagram = fix_url(request.POST.get("instagram"))
+            contact.facebook = fix_url(request.POST.get("facebook"))
+            contact.linkedin = fix_url(request.POST.get("linkedin"))
+            contact.youtube = fix_url(request.POST.get("youtube"))
+            contact.x = fix_url(request.POST.get("x"))
 
-            center_banner.save()
-            messages.success(request, "Center banners updated successfully!")
-            return redirect("web:cms_home")
-
-        # video
-        elif form_type == "video":
-            video_type = request.POST.get("video_type")  # upload / youtube
-
-            # Thumbnail upload
-            thumbnail = request.FILES.get("video_thumbnail")
-            if thumbnail:
-                home_video.thumbnail = thumbnail
-
-            if video_type not in ["upload", "youtube"]:
-                messages.error(request, "Invalid video type.")
-                return redirect("web:cms_home")
-
-            home_video.video_type = video_type
-
-            # upload video
-            if video_type == "upload":
-                video_file = request.FILES.get("video_file")
-
-                if not video_file:
-                    messages.error(request, "Please upload a video file.")
-                    return redirect("web:cms_home")
-
-                home_video.video_file = video_file
-                home_video.youtube_url = None
-                home_video.youtube_id = None
-
-            # youtube url
-            elif video_type == "youtube":
-                youtube_url = request.POST.get("youtube_url")
-
-                if not youtube_url:
-                    messages.error(request, "Please enter YouTube URL.")
-                    return redirect("web:cms_home")
-
-                video_id = extract_youtube_id(youtube_url)
-                if not video_id:
-                    messages.error(request, "Invalid YouTube URL format.")
-                    return redirect("web:cms_home")
-
-                home_video.youtube_url = youtube_url
-                home_video.youtube_id = video_id
-                home_video.video_file = None
-
-            home_video.save()
-            messages.success(request, "Video updated successfully!")
-            return redirect("web:cms_home")
-
-        # End banners
-        elif form_type == "end_banner":
-            end_files = request.FILES.getlist("end_banners")
-
-            if not end_files:
-                messages.error(request, "Please upload at least one end banner image.")
-                return redirect("web:cms_home")
-
-            for img in end_files:
-                HomeEndBanner.objects.create(image=img)
-
-            messages.success(request, "End banners uploaded successfully!")
-            return redirect("web:cms_home")
-
-  
-        # Flash news
-       
-        elif form_type == "flash_news":
-            flash_news_list = request.POST.getlist("flash_news[]")
-
-            saved = 0
-            for txt in flash_news_list:
-                txt = txt.strip()
-                if txt:
-                    HomeFlashNews.objects.create(text=txt)
-                    saved += 1
-
-            if saved == 0:
-                messages.error(request, "Please add at least one flash news.")
-            else:
-                messages.success(request, "Flash news saved successfully!")
-
-            return redirect("web:cms_home")
+            contact.save()
+            messages.success(request, "Social media links updated successfully!")
+            return redirect("web:cms_contact")
 
         else:
             messages.error(request, "Invalid request.")
-            return redirect("web:cms_home")
+            return redirect("web:cms_contact")
 
-    #  page load
-    context = {
-        "sliders": HomeSlider.objects.all().order_by("-id"),
-        "center_banner": center_banner,
-        "home_video": home_video,
-        "end_banners": HomeEndBanner.objects.all().order_by("-id"),
-        "flash_news": HomeFlashNews.objects.all().order_by("-id"),
-    }
+    return render(request, "adminpanel/cms_contact.html", {"contact": contact})
 
-    return render(request, "adminpanel/cms_home.html", context)
 
-def delete_slider(request, pk):
-    slider = get_object_or_404(HomeSlider, pk=pk)
-    slider.delete()
-    return redirect("web:cms_home")
 
-@require_POST
-def delete_end_banner(request, pk):
-    banner = get_object_or_404(HomeEndBanner, pk=pk)
-    banner.delete()
-    messages.success(request, "End banner deleted successfully!")
-    return redirect("web:cms_home")
-
-def cms_contact(request):
-    return render(request, "adminpanel/cms_contact.html")
 
 def cms_legal(request):
     return render(request, "adminpanel/cms_legal.html")
